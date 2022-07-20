@@ -16,6 +16,7 @@ namespace WordVision.ec.Application.Features.Donacion.Donantes.Queries.GetAllCac
        
         public int EstadoDonante { get; set; }
         public int Categoria { get; set; }
+       
         public int Ciudad { get; set; }
 
         public int Campana { get; set; }
@@ -40,7 +41,7 @@ namespace WordVision.ec.Application.Features.Donacion.Donantes.Queries.GetAllCac
 
             public async Task<Result<List<DonanteResponse>>> Handle(GetAllDonantesQuery request, CancellationToken cancellationToken)
             {
-                var DonanteList = await _donante.GetListAsync(request.EstadoDonante, request.Categoria, request.Campana,request.Ciudad,request.Identificacion);
+                var DonanteList = await _donante.GetListAsync(request.EstadoDonante, request.Categoria, request.Campana, request.Ciudad,request.Identificacion);
                 var mappedDonantes = _mapper.Map<List<DonanteResponse>>(DonanteList);
 
                 return Result<List<DonanteResponse>>.Success(mappedDonantes);

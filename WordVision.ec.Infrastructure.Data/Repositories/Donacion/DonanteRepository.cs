@@ -27,7 +27,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
         private readonly IRepositoryAsync<Ciudad> _repositoryCiudad;
         private readonly IDistributedCache _distributedCache;
 
-        public DonanteRepository(IRepositoryAsync<Ciudad> repositoryCiudad, IRepositoryAsync<DetalleCatalogo> repositoryDetalle,RegistroDbContext db,IRepositoryAsync<Donante> repository, IDistributedCache distributedCache)
+        public DonanteRepository(IRepositoryAsync<Ciudad> repositoryCiudad, IRepositoryAsync<DetalleCatalogo> repositoryDetalle, RegistroDbContext db, IRepositoryAsync<Donante> repository, IDistributedCache distributedCache)
         {
             _repository = repository;
             _distributedCache = distributedCache;
@@ -39,7 +39,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
         }
 
         public IQueryable<Donante> donantes => _repository.Entities;
-        
+
 
         public async Task DeleteAsync(Donante donante)
         {
@@ -52,17 +52,17 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
             return await _repository.Entities.Where(x => x.Id == idDonante).FirstOrDefaultAsync();
         }
 
-        public async Task<List<DonanteResponse>> GetListAsync(int estadoDonante , int categoria , int campana, int ciudad,string identificacion )
+        public async Task<List<DonanteResponse>> GetListAsync(int estadoDonante, int categoria, int campana, int ciudad, string identificacion)
         {
             // return await _repository.Entities.ToListAsync();
-            var resultado1 = _repository.Entities.Where(x =>(x.EstadoDonante == estadoDonante || estadoDonante == 0) && x.Categoria == categoria && ( x.Campana == campana || campana == 0) && (x.Ciudad == ciudad  || ciudad == 0) && (x.RUC == identificacion || identificacion == null))
+            var resultado1 = _repository.Entities.Where(x => (x.EstadoDonante == estadoDonante || estadoDonante == 0) && x.Categoria == categoria && (x.Campana == campana || campana == 0)  && (x.Ciudad == ciudad  || ciudad == 0) && (x.RUC == identificacion || identificacion == null))
                                       .Select(a => new DonanteResponse
                                       {
                                           Id = a.Id,
                                           Campana    = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 26 && c.Secuencia == a.Campana.ToString()).FirstOrDefault().Nombre,
                                           Donante = a.Apellido1 + " " + a.Apellido2 + " " + a.Nombre1 + " " + a.Nombre2,
                                           Cedula = a.RUC,
-                                          Estado = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 27 && c.Secuencia == a.EstadoDonante.ToString()).FirstOrDefault().Nombre,
+                                          Estado = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 27 && c.Secuencia == a.EstadoDonante.ToString()).FirstOrDefault().Nombre,                                         
                                           Ciudad = _repositoryCiudad.Entities.Where(c => c.Codigo == a.Ciudad.ToString()).FirstOrDefault().Nombre,
                                           Cantidad = a.Cantidad,
                                          

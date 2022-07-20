@@ -46,16 +46,19 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             var categoria = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             entidadViewModel.CategoriaList = categoria;
 
-            //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 33, Ninguno = true });
-            //var ciudad = new SelectList(catalogo.Data, "Secuencia", "Nombre");
-            //entidadViewModel.CiudadList = ciudad;
 
+            catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 31, Ninguno = true });
+            var region = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+            entidadViewModel.RegionList = region;
+            
             catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 26, Ninguno = true });
             var campana = new SelectList(catalogo.Data, "Secuencia", "Nombre");
             entidadViewModel.CampanaList = campana;
 
+            
             return View(entidadViewModel);// dirije a la carpeta Views
         }
+
 
         public async Task<IActionResult> LoadAll([FromBody]  DonanteFiltroViewModel filtro)
         {
@@ -129,6 +132,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 var calificaciondonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 71, Ninguno = true });
                 var motivobaja = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 72, Ninguno = true });
+                var estadocurier = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                  
                 //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 60, Ninguno = true });
                 //var quincena = new SelectList(catalogo.Data, "Secuencia", "Nombre");
@@ -162,6 +167,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     entidadViewModel.Vienede = vienede;
                     entidadViewModel.FechaNacimiento = DateTime.Now;
                     entidadViewModel.MotivoBajaList = motivobaja;
+                    entidadViewModel.EstadoCourierList = estadocurier;
                     return PartialView("_CreateOrEdit", entidadViewModel);
                 }
             }
@@ -234,6 +240,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 var calificaciondonante = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 71, Ninguno = true });
                 var motivobaja = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 72, Ninguno = true });
+                var estadocurier = new SelectList(catalogo.Data, "Secuencia", "Nombre");
                 //catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 60, Ninguno = true });
                 //var quincena = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
@@ -260,10 +268,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     entidadViewModel.BancoList = banco;
                     //entidadViewModel.QuincenaList = quincena;
                     entidadViewModel.FechaConversion = DateTime.Now;
-                    entidadViewModel.FechaNacimiento = DateTime.Now;
+                    //entidadViewModel.FechaNacimiento = DateTime.Now;
                     entidadViewModel.CalificacionDonanteList = calificaciondonante;
                     entidadViewModel.PeriodoDonacionList = periodoDonacion;
                     entidadViewModel.MotivoBajaList = motivobaja;
+                    entidadViewModel.EstadoCourierList = estadocurier;
 
                     return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                 }
@@ -298,10 +307,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         entidadViewModel.TipoTarjetaList = tipoTarjeta;
                         entidadViewModel.BancoList = banco;
                         entidadViewModel.FechaConversion = DateTime.Now;
-                        entidadViewModel.FechaNacimiento = DateTime.Now;
+                        //entidadViewModel.FechaNacimiento = DateTime.Now;
                         entidadViewModel.CalificacionDonanteList = calificaciondonante;
                         entidadViewModel.PeriodoDonacionList = periodoDonacion;
                         entidadViewModel.MotivoBajaList = motivobaja;
+                        entidadViewModel.EstadoCourierList = estadocurier;
                         //entidadViewModel.QuincenaList = quincena;
 
                         return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
@@ -329,9 +339,12 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     var updateEntidadCommand = _mapper.Map<UpdateDonanteCommand>(entidad);
                     var result = await _mediator.Send(updateEntidadCommand);
                     if (result.Succeeded) _notify.Information($"Donante con ID {result.Data} Actualizado.");
+
+                    return StatusCode(StatusCodes.Status200OK, new { mensaje = "" });
+
                 }
 
-               
+
 
                 if (ModelState.IsValid)
                 {
@@ -351,6 +364,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         var result = await _mediator.Send(createEntidadCommand);
                         if (result.Succeeded)
                         {
+                             
                             id = result.Data;
                             _notify.Success($"Donante con ID {result.Data} Creado.");
 
@@ -363,13 +377,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         var updateEntidadCommand = _mapper.Map<UpdateDonanteCommand>(entidad);
                         var result = await _mediator.Send(updateEntidadCommand);
                         if (result.Succeeded) _notify.Information($"Donante con ID {result.Data} Actualizado.");
-                        if (entidad.ComentarioActualizacion != null && entidad.ComentarioResolucion != null)
-                        {
-                            if (entidad.ComentarioActualizacion.Length != 0 && entidad.ComentarioResolucion.Length == 0)
+                        //if (entidad.ComentarioActualizacion != null && entidad.ComentarioResolucion != null)
+                        //{
+                            if (entidad.ComentarioActualizacion?.Length != 0 && entidad.ComentarioResolucion == null)
                                 await EnviarMail(result.Data, 2);
-                            else if (entidad.ComentarioResolucion.Length != 0)
+                            else if (entidad.ComentarioResolucion != null)
                                 await EnviarMail(result.Data, 3);
-                        }
+                        //}
                            
                     }
                     if (vienede == 0 )
@@ -461,6 +475,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         {
 
             DateTime fechaEnvio = DateTime.Now;
+            string identificacion = "";
             string primerNombre = "";
             string segundoNombre = "";
             string primerApellido = "";
@@ -478,6 +493,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 var response = await _mediator.Send(new GetDonantesByIdQuery() { Id = idDonante });
                 if (response.Succeeded)
                 {
+                    identificacion = response.Data.RUC; 
                     primerNombre = response.Data.Nombre1;
                     segundoNombre = response.Data.Nombre2;
                     primerApellido = response.Data.Apellido1;
@@ -514,7 +530,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         break;
                     case 3:
                         plantilla = "Donantes\\Realizacion.html";
-                        asunto = "Confirmación de cambios realizados " + primerNombre + " " + primerApellido;
+                        asunto = "Actualización de Información del Donante con Identificación :" + identificacion;   
+                        //asunto = "Confirmación de cambios realizados " + primerNombre + " " + primerApellido;
                         email = _configuration["DestinoDonante"];
                         comentario = comentarioResponsable;
                         break;

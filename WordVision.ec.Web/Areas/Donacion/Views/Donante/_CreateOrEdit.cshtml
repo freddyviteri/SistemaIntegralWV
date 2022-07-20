@@ -8,7 +8,7 @@
 
 
 
-
+        
 
 
     <div class="row">
@@ -44,7 +44,6 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-
 
                 <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Categoria"></label>
@@ -146,6 +145,7 @@
                     <input asp-for="FechaNacimiento" type="text" name="FechaNacimiento" id="FechaNacimiento" class="datepicker3 form-control" readonly required />
                     <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
                 </div>
+
                 <div class="col-md-1">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Edad"></label>
                     <input asp-for="Edad" type="text" name="Edad" id="Edad" class="form-control" readonly />
@@ -170,9 +170,9 @@
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Provincia"></label>
                     @Html.DropDownListFor(x => x.Provincia, (IEnumerable<SelectListItem>)Model.ProvinciaList, new { @class = "form-control",required = "required" })
                     <span asp-validation-for="Provincia" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-3">
+              </div>
+                    
+                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Ciudad"></label>
                     @Html.DropDownListFor(x => x.Ciudad, (IEnumerable<SelectListItem>)Model.CiudadList, new { @class = "form-control",required = "required" })
                     <span asp-validation-for="Ciudad" class="text-danger"></span>
@@ -271,6 +271,7 @@
             </div>
 
             <div class="form-group row">
+
             </div>
             <div class="form-group row">
 
@@ -295,7 +296,7 @@
                             <span asp-validation-for="NumeroGuia" class="text-danger"></span>
                         </div>
 
-                    <div class="col-md-2">
+                        <div class="col-md-2">
                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntrega"></label>
 
                             <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control" />
@@ -305,11 +306,21 @@
                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="CalificacionDonante"></label>
                             @Html.DropDownListFor(x => x.CalificacionDonante, (IEnumerable<SelectListItem>)Model.CalificacionDonanteList, new { @class = "form-control" })
                             <span asp-validation-for="CalificacionDonante" class="text-danger"></span>
+                        </div>                      
+                 }
+            </div>
+           
+            <div class="form-group row">
+                @if (@Model.Vienede == 0)
+                {
+                 <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoCourier"></label>
+                            @Html.DropDownListFor(x => x.EstadoCourier, (IEnumerable<SelectListItem>)Model.EstadoCourierList, new { @class = "form-control" })
+                            <span asp-validation-for="EstadoCourier" class="text-danger"></span>
                         </div>
                 }
             </div>
-
-
+           
         </div>
        
     </div>
@@ -579,7 +590,8 @@
 
         </div>
     </div>
-
+    @if (@Model.Vienede == 0)
+    {
     @if (User.IsInRole("DonantesAdministrador") || @Model.ComentarioActualizacion != null)
     {
         <div class="row">
@@ -610,7 +622,7 @@
         </div>
     }
 
-
+    }
     <br />
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
         @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Donante.Create)).Result.Succeeded)
@@ -1177,13 +1189,36 @@
         }
 
     });
+
+    
+  
     //FIN INGRESO DATOS
+
+    // INICIO ESTADO 
+    
+    $("#EstadoDonante").change(function() {
+         
+        var categoria = $("#Categoria").val();
+        var estado = $("#EstadoDonante").val();
+        
+         if (categoria == 1 & estado == 4 ) {
+         Swal.fire("¡Advertencia!", "No Puede Cambiar a Estado No Aplica a un Donante Recurrente", "warning");
+         $("#EstadoDonante").val(-1);
+         
+         $("#Categoria").val(-1);
+            return false;
+
+        }
+
+    });
+    // FIN DE ESTADO
 
     //INICIO CATEGORIAS
     $("#Categoria").change(function() {
 
         var valor = $("#FrecuenciaDonacion").val();
         var categoria = $("#Categoria").val();
+       var estado = $("#EstadoDonante").val();
 
         $("#FrecuenciaDonacion").prop('disabled', false);
 
@@ -1205,13 +1240,17 @@
             return false;
 
         }
+     
+        if (categoria == 1 & estado == 4 ) {
+         Swal.fire("¡Advertencia!", "No Puede Cambiar a Estado No Aplica a un Donante Recurrente", "warning");
+         $("#EstadoDonante").val(-1);        
+         $("#Categoria").val(-1);
+            return false;
+
+        }
+
 
     });
-
-
-
-
-
 
     // FIN CATEGORIAS
 

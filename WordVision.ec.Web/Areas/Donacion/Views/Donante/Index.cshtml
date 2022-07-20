@@ -64,22 +64,41 @@
 
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta">Identificación</label>
-                   <input type="text" id="identificacion" name="identificacion"  class="form-control form-control-sm "/>
+                   <input type="text" id="identificacion" name="identificacion" maxlength=15 class="form-control form-control-sm "/>
                 </div>
 
-                <div class="col-md-3">
-                    <label class="col-md-12 col-form-label texto-pregunta">Ciudad</label>
-                    <select id="ciudad" name="ciudad" data-width="600px" style="color:#999 !important" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.CiudadList)" data-live-search="true">
-                    </select>
-                </div>
+               
 
-                <div class="col-md-2">
+             @*   <div class="col-md-2">
                             <label class="col-md-12 col-form-label texto-pregunta">Donantes en Mora</label>
                             <input asp-for="DonantesMora" type="checkbox" name="DonantesMora" />
                             <span asp-validation-for="DonantesMora" class="text-danger"></span>
 
-                </div>
-                <div class="col-md-4" style="padding:25px 10px 30px 55px">
+                </div>*@
+              
+            <div class="col-12">
+                <div class="form-group row">
+
+              
+                    <div class="col-md-3">
+                           <label class="col-md-12 col-form-label texto-pregunta" >Region</label>
+                      @Html.DropDownListFor(x => x.Region, (IEnumerable<SelectListItem>)Model.RegionList, new { @class = "form-control  form-control-sm ",required = "required" })
+                      <span asp-validation-for="Region" class="text-danger"></span>
+                  </div>
+                   <div class="col-md-3">
+                           <label class="col-md-12 col-form-label texto-pregunta" >Provincia</label>
+                       <select id="Provincia" name="Provincia" style="width:5%" data-width="500px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.ProvinciaList)" data-live-search="true">
+                     </select>
+                     
+                  </div>
+
+                    <div class="col-md-3">
+                           <label class="col-md-12 col-form-label texto-pregunta" >Ciudad</label>
+                       <select id="Ciudad" name="Ciudad" style="width:5%" data-width="500px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.CiudadList)" data-live-search="true">
+                     </select>
+                      
+                  </div>
+                    <div class="col-md-3" style="padding:25px 10px 30px 55px">
                     <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="buscarDonante()">
                         <span class="btn-label pr-1">
                             <i class="fa fa-search"></i>
@@ -87,6 +106,8 @@
                         Buscar Datos
                     </a>
                 </div>
+                </div>
+            </div>
             </div>
         </div>
        @* <div id="viewAll" class="card-body table-responsive">
@@ -118,10 +139,11 @@
                     <th data-priority="1">Ciudad</th>
                     <th data-priority="1">Cantidad</th>
                 
-                     <th data-priority="2" class="interaccion-th">Fidelización </th>
+                      <th data-priority="2" class="interaccion-th">Fidelización </th>
                     @* <th data-priority="2" class="cobranza-th">Cobranzas </th>
                      <th data-priority="2" class="cobranza-th">Courier </th>*@
                      <th data-priority="2" class="acciones-th">Acciones</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -162,18 +184,21 @@
                     var filtros = new Object();
 
                     var datos = 0;
+                    
                     if ($("#categoria").val() != "") {
                         datos = $("#categoria").val();
                     }
                     filtros.categoria = parseInt(datos);
 
                     datos = 0;
+                     
                     if ($("#campana").val() != "") {
                         datos = $("#campana").val();
                     }
                     filtros.campana = parseInt(datos);
 
-                    datos = 0;
+                    datos = "";
+                    
                     if ($("#identificacion").val() != "") {
                         datos = $("#identificacion").val();
                     }
@@ -181,20 +206,29 @@
 
                 
                     datos = 0;
+                 
                     if ($("#estadoDonante").val() != "") {
                         datos = $("#estadoDonante").val();
                     }
                     filtros.estado = parseInt(datos);
 
-                    
-
                     //datos = 0;
-                    //if ($("#ciudad").val() != "") {
-                    //    datos = $("#ciudad").val();
+                    //if ($("#Region").val() != "") {
+                    //    datos = $("#Region").val();
                     //}
-                    //filtros.ciudad = parseInt(datos);
+                    //filtros.region = parseInt(datos);
 
+                    datos = 0;
+               
+                    var ciudad = parseInt($("#Ciudad").val());
+                
+                    if (!isNaN(ciudad) && ciudad != 0) {
+                         datos = $("#Ciudad").val();
+                    }
                    
+                    filtros.ciudad = parseInt(datos);
+
+                  
                     return JSON.stringify(filtros);
                 }
             },
@@ -209,19 +243,20 @@
                 { width: '10%', filter: 'input', type: 'string', data: 'estado' },
                 { width: '16%', filter: 'input', type: 'string', data: 'ciudad' },
                 { width: '10%', filter: 'input', type: 'num', data: 'cantidad'  },
-                {
-                    width: '4%', filter: 'none', type: 'none', data: null, orderable: false,
-                    render: function (data, type, row) {
-                  
-                            return "<a class='btn btn-success btn-sm-td pt-0 pb-0 w-100' href='#' onclick='editar(" + JSON.stringify(row) + ")'><span><i class='fas fa-edit'></i></span></a>";
-                     
-                    }
-                },
+               
                 {
                     width: '4%', filter: 'none', type: 'none', data: null, orderable: false,
                     render: function (data, type, row) {
                   
                             return "<a class='btn btn-success btn-sm-td pt-0 pb-0 w-100' href='#' onclick='fidelizar(" + JSON.stringify(row) + ")'><span><i class='fa fa-handshake-o'></i></span></a>";
+                     
+                    }
+                }, 
+                {
+                    width: '4%', filter: 'none', type: 'none', data: null, orderable: false,
+                    render: function (data, type, row) {
+                  
+                            return "<a class='btn btn-success btn-sm-td pt-0 pb-0 w-100' href='#' onclick='editar(" + JSON.stringify(row) + ")'><span><i class='fas fa-edit'></i></span></a>";
                      
                     }
                 }
@@ -251,7 +286,7 @@
        }
         function fidelizar(fila) {
 
-          jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?id='+fila.id,'Donante');
+          jQueryModalGet('/Donacion/Interacion/OnGetCreateOrEdit?id='+fila.id,'Fidelización-Verificación de Datos');
        }
 
        function buscarDonante() {
@@ -280,7 +315,74 @@
         function limpiarFormulario() {
             document.getElementById("create-form").reset();
         }
+         //INICIO DIVISION POLITICAS
 
+    $("#Region").change(function() {
+
+        $.get("/Maestro/Pais/GetProvincia", { idRegion: $("#Region").val() }, function(data) {
+            // VACIAMOS EL DropDownList
+            $("#Provincia").empty();
+
+            // $("#descCompetencia").val(data[0].nombreCompetencia);
+            // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+            $("#Provincia").append("<option value>Seleccione</option>")
+            // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+            $.each(data, function(index, row) {
+                $("#Provincia").append("<option value='" + row.id + "'>" + row.nombre + "</option>")
+            });
+        });
+    });
+
+    $("#Provincia").change(function() {
+
+        $.get("/Maestro/Pais/GetCiudad", { idProvincia: $("#Provincia").val() }, function(data) {
+            // VACIAMOS EL DropDownList
+            $("#Ciudad").empty();
+
+            // $("#descCompetencia").val(data[0].nombreCompetencia);
+            // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+            $("#Ciudad").append("<option value>Seleccione</option>")
+            // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+            $.each(data, function(index, row) {
+                $("#Ciudad").append("<option value='" + row.id + "'>" + row.nombre + "</option>")
+            });
+        });
+    });
+
+    $("#Ciudad").change(function() {
+        $.get("/Maestro/Pais/GetCiudad", { idProvincia: $("#Provincia option:selected").val() }, function(data) {
+
+            $("#CodigoArea").empty();
+
+            $.each(data, function(index, row) {
+                $("#CodigoArea").val(row.codigoArea);
+            });
+        });
+
+
+
+    });
+     $('#identificacion').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+
+    });
+
+       $("#identificacion").change(function() {
+
+        var valor = $("#identificacion").val();
+
+        if (valor.length < 10) {
+            $("#identificacion").focus();
+            Swal.fire("¡Advertencia!", "Ingrese un número de Identificación valido", "warning");
+             $("#identificacion").val("");
+
+            return false;
+
+        }
+
+
+    });
+    //FIN DIVISION POLITICAS
         //function buscarDonante() {
         //    startLoading();
 

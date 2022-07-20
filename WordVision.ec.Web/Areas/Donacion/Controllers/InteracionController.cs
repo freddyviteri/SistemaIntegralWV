@@ -28,10 +28,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
 
             try
             {
-                int numCatalogo = 69;
+                int numCatalogo = 67;
+
                 if (vienede == 1)
                 {
-                    numCatalogo = 67;
+                    numCatalogo = 69;
                 }
                 if (vienede == 3)
                 {
