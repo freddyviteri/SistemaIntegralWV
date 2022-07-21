@@ -8,7 +8,7 @@ using WordVision.ec.Application.Features.Indicadores.FaseProgramaArea;
 using WordVision.ec.Application.Features.Indicadores.FaseProgramaArea.Queries.GetAll;
 using WordVision.ec.Application.Features.Indicadores.Planificacion.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.ProgramaArea.Queries.GetAll;
-using WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Queries.GetAll;
+using WordVision.ec.Application.Features.Maestro.ProgramaTecnico.Queries.GetAll;
 using WordVision.ec.Application.Features.Planificacion.ProyectoITT;
 using WordVision.ec.Application.Features.Planificacion.ProyectoITT.Commands.Create;
 using WordVision.ec.Application.Features.Planificacion.ProyectoITT.Commands.Update;
@@ -43,8 +43,20 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
         public async Task<JsonResult> Cargarcombos()
         {
             var response = await _mediator.Send(new GetAllFaseProgramaAreaQuery() { Include = true });
+
+
             var listadistinct = ((List<FaseProgramaAreaResponse>)(response.Data))
-                .Select(x => new { idpt = x.ProyectoTecnico.Id, nombreproyecto = x.ProyectoTecnico.NombreProyecto, idpa = x.ProgramaArea.Id, nombreprograma = x.ProgramaArea.Descripcion, idfase = x.IdFaseProyecto, fase = x.FaseProyecto.Nombre }).ToList();
+                .Select(x => new
+                {
+                    idpa = x.ProyectoTecnico.ProgramaArea.Id,
+                    nombreprograma = x.ProyectoTecnico.ProgramaArea.Descripcion,
+
+                    idpt = x.ProyectoTecnico.Id,
+                    nombreproyecto = x.ProyectoTecnico.NombreProyecto,
+
+                    idfase = x.IdFaseProyecto,
+                    fase = x.FaseProyecto.Nombre
+                }).ToList();
 
             return Json(listadistinct);
         }
@@ -57,7 +69,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             var fpa = new FaseProgramaAreaResponse()
             {
                 IdProyectoTecnico = idpt,
-                IdProgramaArea = idpa
+                //IdProgramaArea = idpa
             };
 
             var response = await _mediator.Send(new GetAllProyectoITTQuery { Include = true, FaseProgramaArea = fpa });
@@ -212,13 +224,20 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
             /*todo: ver el estado activo*/
             var response = await _mediator.Send(new GetAllFaseProgramaAreaQuery() { Include = true });
             var listadistinct = ((List<FaseProgramaAreaResponse>)(response.Data))
-                .Select(x => new { idpt = x.ProyectoTecnico.Id, nombreproyecto = x.ProyectoTecnico.NombreProyecto, idpa = x.ProgramaArea.Id, nombreprograma = x.ProgramaArea.Descripcion, idfase = x.IdFaseProyecto, fase = x.FaseProyecto.Nombre }).ToList();
+                .Select(x => new
+                {
+                    idpt = x.ProyectoTecnico.Id,
+                    nombreproyecto = x.ProyectoTecnico.NombreProyecto,
+                    idpa = x.ProyectoTecnico.ProgramaArea.Id,
+                    nombreprograma = x.ProyectoTecnico.ProgramaArea.Descripcion,
+                    idfase = x.IdFaseProyecto,
+                    fase = x.FaseProyecto.Nombre
+                }).ToList();
 
-            // ViewBag.ListTecnicos = (await _agenciarepository.GetListTecnicos(0, 0)).Select(x => new SelectListItem { Text = x.FullName, Value = x.Id });
-            var distinpy = listadistinct.Select(x => new { x.idpt, x.nombreproyecto }).Distinct().ToList();
+            var distinpa = listadistinct.Select(x => new { x.idpa, x.nombreprograma }).Distinct().ToList();
 
 
-            List<SelectListItem> items = new SelectList(distinpy, "idpt", "nombreproyecto").ToList();
+            List<SelectListItem> items = new SelectList(distinpa, "idpa", "nombreprograma").ToList();
 
             items.Insert(0, (new SelectListItem
             {
@@ -226,15 +245,11 @@ namespace WordVision.ec.Web.Areas.Planificacion.Controllers
                 Value = "0",
                 Selected = true
             }));
-
-
-            entidadViewModel.ProyectoTecnicoList = new SelectList(items, "Value", "Text");
-
+            entidadViewModel.ProgramaAreaList = new SelectList(items, "Value", "Text");
             SelectListItem selListItem = new SelectListItem() { Value = "0", Text = "Seleccionar" };
             List<SelectListItem> newList = new List<SelectListItem>();
             newList.Add(selListItem);
-
-            entidadViewModel.ProgramaAreaList = new SelectList(newList, "Value", "Text"); ;
+            entidadViewModel.ProyectoTecnicoList = new SelectList(newList, "Value", "Text"); ;
         }
     }
 

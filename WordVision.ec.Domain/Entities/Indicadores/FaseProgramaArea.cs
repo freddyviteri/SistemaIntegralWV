@@ -48,13 +48,11 @@ namespace WordVision.ec.Domain.Entities.Indicadores
         [StringLength(10)]
         public string Dip6 { get; set; }
 
-        public int IdProgramaArea { get; set; }
-        [ForeignKey("IdProgramaArea")]
-        public ProgramaArea ProgramaArea { get; set; }
 
-        public int IdProyectoTecnico { get; set; }
+        public int? IdProyectoTecnico { get; set; }
+
         [ForeignKey("IdProyectoTecnico")]
-        public ProyectoTecnico ProyectoTecnico { get; set; }
+        public ProyectoTecnico? ProyectoTecnico { get; set; }
 
         public int IdFaseProyecto { get; set; }
         [ForeignKey("IdFaseProyecto")]

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Maestro.Models.ProgramaTecnicoViewModel>
+
+
+<table id="ProgramaTecnicoTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                Código
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Descripcion
+            </th>
+            <th>
+                Tipo Proyecto
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoProyecto.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>
+            <td>
+                 <div class="btn-group">
+                    <a onclick="jQueryModalGet('/Maestro/ProgramaTecnico/OnGetCreateOrEdit?id=@item.Id','Editar Programa Técnico')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#ProgramaTecnicoTable").DataTable({
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },            
+            responsive: true,          
+            "info": false
+        });
+    });
+</script>

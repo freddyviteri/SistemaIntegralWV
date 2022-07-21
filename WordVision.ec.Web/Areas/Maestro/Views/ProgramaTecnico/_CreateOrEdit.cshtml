@@ -1,0 +1,64 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model WordVision.ec.Web.Areas.Maestro.Models.ProgramaTecnicoViewModel
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="create-form" asp-action="OnPostCreateOrEdit" method="post" asp-controller="ProgramaTecnico" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <input hidden="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Codigo" class="control-label">Código</label>
+                        <input asp-for="Codigo" class="form-control" />
+                        <span asp-validation-for="Codigo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label">Nombre</label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Descripcion" class="control-label">Descripción</label>
+                        <input asp-for="Descripcion" class="form-control" />
+                        <span asp-validation-for="Descripcion" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label asp-for="IdTipoProyecto" class="control-label">Tipo Proyecto</label>
+                        @Html.DropDownList("IdTipoProyecto", (IEnumerable<SelectListItem>)Model.TipoProyectoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                        <span asp-validation-for="IdTipoProyecto" class="text-danger"></span>
+                    </div>
+                    @if (Model.Id != 0)
+                    {
+                        <div class="form-group">
+                            <label asp-for="IdEstado" class="control-label">Estado</label>
+                            @Html.DropDownList("IdEstado", (IEnumerable<SelectListItem>)Model.EstadoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                            <span asp-validation-for="IdEstado" class="text-danger"></span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group justify-content-between group-button-modal">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script type="text/javascript" language=javascript>    
+    $.validator.unobtrusive.parse(document);
+    $('#create-form').disableAutoFill();
+</script>
+

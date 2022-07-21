@@ -32,7 +32,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
 
             if (programaArea.Include)
             {
-                list = list.Include(p => p.ProyectoTecnico).Include(e => e.Estado);
+                list = list.Include(e => e.Estado);
             }
 
             return await list.ToListAsync();

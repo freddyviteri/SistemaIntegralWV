@@ -19,13 +19,17 @@ namespace WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Commands.Cr
     public class CreateProyectoTecnicoCommandHandler : IRequestHandler<CreateProyectoTecnicoCommand, Result<int>>
     {
         private readonly IProyectoTecnicoRepository _repository;
+        private readonly IProgramaAreaRepository _repopa;
+        private readonly IProgramaTecnicoRepository _repopt;
         private readonly IMapper _mapper;
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public CreateProyectoTecnicoCommandHandler(IProyectoTecnicoRepository repository, IUnitOfWork unitOfWork, IMapper mapper)
+        public CreateProyectoTecnicoCommandHandler(IProyectoTecnicoRepository repository, IProgramaAreaRepository repopa, IProgramaTecnicoRepository repopt, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _repository = repository;
+            this._repopa = repopa;
+            this._repopt = repopt;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -33,6 +37,10 @@ namespace WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Commands.Cr
         public async Task<Result<int>> Handle(CreateProyectoTecnicoCommand request, CancellationToken cancellationToken)
         {
             var proyecto = _mapper.Map<Domain.Entities.Maestro.ProyectoTecnico>(request);
+            var pa = await _repopa.GetByIdAsync(request.IdProgramaArea);
+            var pt = await _repopt.GetByIdAsync(request.IdProgramaTecnico);
+            proyecto.NombreProyecto = pa.Descripcion + " " + pt.Nombre;
+
             if (!await ValidateInsert(proyecto))
             {
                 await _repository.InsertAsync(proyecto);
@@ -48,7 +56,8 @@ namespace WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Commands.Cr
         {
             bool exist = false;
             var list = await _repository.GetListAsync(proyectoTecnico);
-            if (list.Count > 0)
+            var count = list.Where(r => r.Codigo == proyectoTecnico.Codigo).Count();
+            if (count > 0)
                 exist = true;
             return exist;
 

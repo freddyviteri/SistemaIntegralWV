@@ -14,7 +14,7 @@ namespace WordVision.ec.Domain.Entities.Planificacion
     {
         public int IdProyectoTecnico { get; set; }
         [ForeignKey("IdProyectoTecnico")]
-        public ProyectoTecnico ProyectoTecnico { get; set; }
+        public ProgramaTecnico ProyectoTecnico { get; set; }
 
         public int IdProgramaArea { get; set; }
         [ForeignKey("IdProgramaArea")]

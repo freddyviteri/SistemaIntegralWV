@@ -2,6 +2,7 @@
 using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Features.Maestro.Catalogos;
 using WordVision.ec.Application.Features.Maestro.IndicadorPR;
+using WordVision.ec.Application.Features.Maestro.ProgramaTecnico;
 using WordVision.ec.Application.Features.Maestro.ProyectoTecnico;
 
 namespace WordVision.ec.Application.Features.Maestro.LogFrame

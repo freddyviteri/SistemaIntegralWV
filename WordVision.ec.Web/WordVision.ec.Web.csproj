@@ -6,28 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Planificacion\Pages\**" />
-    <Compile Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <Compile Remove="Pages1\**" />
-    <Content Remove="Areas\Planificacion\Pages\**" />
-    <Content Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <Content Remove="Pages1\**" />
-    <EmbeddedResource Remove="Areas\Planificacion\Pages\**" />
-    <EmbeddedResource Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <EmbeddedResource Remove="Pages1\**" />
-    <None Remove="Areas\Planificacion\Pages\**" />
-    <None Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <None Remove="Pages1\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Planificacion\Controllers\AnioFiscalController.cs" />
     <Compile Remove="Areas\Registro\Validators\ContactosStepValidator.cs" />
     <Compile Remove="Services\SessionExpireFilterAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Areas\Planificacion\Views\Seguimiento\_CreateOrEditEvidencia.cshtml" />
     <Content Remove="Areas\Registro\Views\Tercero\_CreateOrEdit.cshtml" />
   </ItemGroup>
 
@@ -86,6 +76,13 @@
     <None Include="Areas\Indicadores\Views\FaseProgramaArea\Index.cshtml" />
     <None Include="Areas\Indicadores\Views\FaseProgramaArea\_CreateOrEdit.cshtml" />
     <None Include="Areas\Indicadores\Views\FaseProgramaArea\_ViewAll.cshtml" />
+    <None Include="Areas\Indicadores\Views\ProgramaTecnicoPorProgramaArea\Index.cshtml" />
+    <None Include="Areas\Indicadores\Views\ProgramaTecnicoPorProgramaArea\_ViewAll.cshtml" />
+    <None Include="Areas\Indicadores\Views\ProgramaTecnicoPorProgramaArea\_ViewSelectProgramaTecnico.cshtml" />
+    <None Include="Areas\Indicadores\Views\ProgramaTecnicoPorProgramaArea\_ViewSelectProyectoTecnico.cshtml" />
+    <None Include="Areas\Indicadores\Views\ProyectoTecnicoPorProgramaArea\Index.cshtml" />
+    <None Include="Areas\Indicadores\Views\ProyectoTecnicoPorProgramaArea\_ViewAll.cshtml" />
+    <None Include="Areas\Indicadores\Views\ProyectoTecnicoPorProgramaArea\_ViewSelectPT.cshtml" />
     <None Include="Areas\Indicadores\Views\VinculacionIndicador\Index.cshtml" />
     <None Include="Areas\Indicadores\Views\VinculacionIndicador\_CreateOrEdit.cshtml" />
     <None Include="Areas\Indicadores\Views\VinculacionIndicador\_ViewAll.cshtml" />
@@ -120,6 +117,9 @@
     <None Include="Areas\Maestro\Views\ProgramaArea\Index.cshtml" />
     <None Include="Areas\Maestro\Views\ProgramaArea\_CreateOrEdit.cshtml" />
     <None Include="Areas\Maestro\Views\ProgramaArea\_ViewAll.cshtml" />
+    <None Include="Areas\Maestro\Views\ProgramaTecnico\Index.cshtml" />
+    <None Include="Areas\Maestro\Views\ProgramaTecnico\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Maestro\Views\ProgramaTecnico\_ViewAll.cshtml" />
     <None Include="Areas\Maestro\Views\ProyectoTecnico\Index.cshtml" />
     <None Include="Areas\Maestro\Views\ProyectoTecnico\_CreateOrEdit.cshtml" />
     <None Include="Areas\Maestro\Views\ProyectoTecnico\_ViewAll.cshtml" />
@@ -127,10 +127,82 @@
     <None Include="Areas\Maestro\Views\RCNinoPatrocinado\ViewPrueba.cshtml" />
     <None Include="Areas\Maestro\Views\RCNinoPatrocinado\_CreateOrEdit.cshtml" />
     <None Include="Areas\Maestro\Views\RCNinoPatrocinado\_ViewAll.cshtml" />
+    <None Include="Areas\Maestro\_ViewImports.cshtml" />
+    <None Include="Areas\Maestro\_ViewStart.cshtml" />
+    <None Include="Areas\Planificacion\Pages\_ValidationScriptsPartial.cshtml" />
+    <None Include="Areas\Planificacion\Pages\_ViewImports.cshtml" />
+    <None Include="Areas\Planificacion\Pages\_ViewStart.cshtml" />
+    <None Include="Areas\Planificacion\Views\Actividad\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\Actividad\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\AcuerdoDesempenio\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\AcuerdoDesempenio\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\AcuerdoDesempenio\_CreateOrEditPerfil.cshtml" />
+    <None Include="Areas\Planificacion\Views\AcuerdoDesempenio\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\_CreateOrEditIndicador.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\_CreateOrEditObjetivo.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\_PlanImplementacion.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\DesarrolloPersonal\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\EstrategiaNacional\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\EstrategiaNacional\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\EstrategiaNacional\_CreateOrEditEstrategia.cshtml" />
+    <None Include="Areas\Planificacion\Views\EstrategiaNacional\_CreateOrEditIndicador.cshtml" />
+    <None Include="Areas\Planificacion\Views\EstrategiaNacional\_CreateOrEditNacional.cshtml" />
+    <None Include="Areas\Planificacion\Views\EstrategiaNacional\_CreateOrEditObjetivo.cshtml" />
+    <None Include="Areas\Planificacion\Views\EstrategiaNacional\_PlanImplementacion.cshtml" />
+    <None Include="Areas\Planificacion\Views\EstrategiaNacional\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\FactorCriticoExito\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\FactorCriticoExito\IndexIndicador - Copia.cshtml" />
+    <None Include="Areas\Planificacion\Views\FactorCriticoExito\IndexIndicador.cshtml" />
+    <None Include="Areas\Planificacion\Views\FactorCriticoExito\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\FactorCriticoExito\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\FactorCriticoExito\_ViewAllxActividad.cshtml" />
+    <None Include="Areas\Planificacion\Views\FactorCriticoExito\_ViewAllxIndicador.cshtml" />
+    <None Include="Areas\Planificacion\Views\FactorCriticoExito\_ViewAllxProducto.cshtml" />
+    <None Include="Areas\Planificacion\Views\Gestion\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\Gestion\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\IndicadorCicloEstrategico\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\IndicadorCicloEstrategico\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\IndicadorEstrategico\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\IndicadorEstrategico\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\IndicadorPOA\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\IndicadorPOA\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\IndicadorProductoObjetivo\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\IndicadorProductoObjetivo\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\IndicadorProductoObjetivo\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\Meta\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\Meta\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\ObjetivoEstrategico\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\ObjetivoEstrategico\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\ObjetivoEstrategico\_ViewAllNacional.cshtml" />
+    <None Include="Areas\Planificacion\Views\Perfil\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\Perfil\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\Perfil\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\ProductoObjetivo\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\ProductoObjetivo\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\ProductoObjetivo\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\Producto\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\Producto\IndexIndicador.cshtml" />
+    <None Include="Areas\Planificacion\Views\Producto\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\Producto\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\Producto\_ViewAllxIndicador.cshtml" />
     <None Include="Areas\Planificacion\Views\ProyectoITT\Index.cshtml" />
     <None Include="Areas\Planificacion\Views\ProyectoITT\_CreateOrEdit.cshtml" />
     <None Include="Areas\Planificacion\Views\ProyectoITT\_Insumos.cshtml" />
     <None Include="Areas\Planificacion\Views\ProyectoITT\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\Recurso\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\Recurso\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\Seguimiento\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\Seguimiento\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\Seguimiento\_CreateOrEditEvidencia.cshtml" />
+    <None Include="Areas\Planificacion\Views\Seguimiento\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\TechoPresupuestario\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\TechoPresupuestario\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\TechoPresupuestario\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\_ViewImports.cshtml" />
+    <None Include="Areas\Planificacion\_ViewStart.cshtml" />
     <None Include="Areas\Soporte\Views\Donante\Index.cshtml" />
     <None Include="Areas\Soporte\Views\Donante\_CreateOrEdit.cshtml" />
     <None Include="Areas\Soporte\Views\Donante\_ViewAll.cshtml" />

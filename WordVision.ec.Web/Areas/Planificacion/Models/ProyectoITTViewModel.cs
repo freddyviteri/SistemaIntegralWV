@@ -10,7 +10,7 @@ namespace WordVision.ec.Web.Areas.Planificacion.Models
     {
         public int Id { get; set; }
         public int IdProyectoTecnico { get; set; }
-        public ProyectoTecnicoViewModel ProyectoTecnico { get; set; }
+        public ProgramaTecnicoViewModel ProyectoTecnico { get; set; }
 
         public int IdProgramaArea { get; set; }
         public ProgramaAreaViewModel ProgramaArea { get; set; }

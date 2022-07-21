@@ -7,7 +7,7 @@ using WordVision.ec.Application.Features.Maestro.IndicadorPR;
 using WordVision.ec.Application.Features.Maestro.LogFrame;
 using WordVision.ec.Application.Features.Maestro.OtroIndicador;
 using WordVision.ec.Application.Features.Maestro.ProgramaArea;
-using WordVision.ec.Application.Features.Maestro.ProyectoTecnico;
+using WordVision.ec.Application.Features.Maestro.ProgramaTecnico;
 
 namespace WordVision.ec.Application.Features.Indicadores.DipInsumo
 {

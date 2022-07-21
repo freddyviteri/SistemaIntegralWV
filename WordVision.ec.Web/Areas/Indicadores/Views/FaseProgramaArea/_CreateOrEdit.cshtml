@@ -7,7 +7,7 @@
         <div class="col-md-5">
             <div class="form-group">
                 <label asp-for="IdProgramaArea" class="control-label">Programa Área</label>
-                @Html.DropDownList("IdProgramaArea", (IEnumerable<SelectListItem>)Model.ProgramaAreaList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                @Html.DropDownList("IdProgramaArea", (IEnumerable<SelectListItem>)Model.ProgramaAreaList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;", @onchange="Changepa()" })
                 <span asp-validation-for="IdProgramaArea" class="text-danger"></span>
             </div>
 
@@ -105,9 +105,27 @@
 </form>
 
 <script type="text/javascript">
-
+    var datageneralfa = [];
 
     $(document).ready(function() {
+
+        $.getJSON('../Indicadores/FaseProgramaArea/Cargarcombos?handler',
+            (data) => {
+                if (data === null) {
+                    return;
+                }
+                datageneralfa = data;
+
+            }).done(function(data) {
+                console.log("second success");
+            })
+            .fail(function(jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
 
         var fini = new Date();
         fini.setMinutes(fini.getMinutes() - fini.getTimezoneOffset());
@@ -128,6 +146,21 @@
         onchangeFase();
     });
 
+    function Changepa() {
+        $('#IdProyectoTecnico').empty();
+        $("#IdProyectoTecnico").append('<option value="0">Seleccionar</option>');
+        if (datageneralfa === null) {
+            return;
+        }
+        $.each($.unique(datageneralfa), function(i, value) {
+            if ($("#IdProgramaArea").val() === value.idpa.toString()) {
+                $("#IdProyectoTecnico").append('<option value="'
+                    + value.id + '">'
+                    + value.nombreproyecto + '</option>');
+            }
+        });
+    }
+
     function onchangeFase() {
         var textselectdip6 = $('#IdFaseProyecto option:selected').text();
         let resultdip6 = textselectdip6.includes("CIERRE");
@@ -142,7 +175,7 @@
 
             if (aniocalc === aniocomp) {
                 $(".dip6box").attr('hidden', false);
-            }            
+            }
         }
         else {
             $(".dip6box").attr('hidden', true);
@@ -156,7 +189,7 @@
         var mimdate = new Date(ffin);
         mimdate.setFullYear(mimdate.getFullYear() + 1);
         $("#" + idnameipdate).attr('min', mimdate.toISOString().slice(0, 16));
-       
+
         ffin.setFullYear(ffin.getFullYear() + anio);
         ffin.setDate(ffin.getDate() - 1);
         document.getElementById(idnameipdate).value = ffin.toISOString().slice(0, 16);

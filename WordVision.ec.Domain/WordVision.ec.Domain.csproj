@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Compile Remove="Entities\Identity\UsuariosActiveDirectory.cs" />
-    <Compile Remove="Entities\Planificacion\MetaCicloEstrategico.cs" />
   </ItemGroup>
 
   <ItemGroup>

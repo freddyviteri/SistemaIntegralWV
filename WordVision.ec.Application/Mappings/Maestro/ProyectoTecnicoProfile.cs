@@ -16,6 +16,6 @@ namespace WordVision.ec.Application.Mappings.Maestro
             CreateMap<UpdateProyectoTecnicoCommand, ProyectoTecnico>().ReverseMap();
             CreateMap<GetAllProyectoTecnicoQuery, ProyectoTecnico>().ReverseMap();
         }
-       
+
     }
 }

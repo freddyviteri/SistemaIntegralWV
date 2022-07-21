@@ -13,7 +13,7 @@ using WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR.Commands.De
 using WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.LogFrameIndicadorPR.Queries.GetById;
-using WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Queries.GetAll;
+using WordVision.ec.Application.Features.Maestro.ProgramaTecnico.Queries.GetAll;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Maestro.Models;
 using WordVision.ec.Web.Common;
@@ -60,7 +60,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 }
                 else
                 {
-                    var response = await _mediator.Send(new GetLogFrameIndicadorPRByIdQuery() { Id = id});
+                    var response = await _mediator.Send(new GetLogFrameIndicadorPRByIdQuery() { Id = id });
                     if (response.Succeeded)
                     {
                         entidadViewModel = _mapper.Map<LogFrameIndicadorPRViewModel>(response.Data);
@@ -75,7 +75,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             }
             catch (Exception ex)
             {
-                return _commonMethods.SaveError($"OnGetCreateOrEdit Error al consultar LogFrameIndicadorPR.", ex.Message);                
+                return _commonMethods.SaveError($"OnGetCreateOrEdit Error al consultar LogFrameIndicadorPR.", ex.Message);
             }
         }
 
@@ -86,7 +86,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             if (ModelState.IsValid)
             {
                 if (LogFrameIndicadorPRViewModel.Id == 0)
-                {                    
+                {
                     var createEntidadCommand = _mapper.Map<CreateLogFrameIndicadorPRCommand>(LogFrameIndicadorPRViewModel);
                     createEntidadCommand.IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo;
                     var result = await _mediator.Send(createEntidadCommand);

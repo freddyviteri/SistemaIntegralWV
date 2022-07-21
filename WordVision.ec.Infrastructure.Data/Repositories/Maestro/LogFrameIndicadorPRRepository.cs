@@ -29,14 +29,14 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
             return await list.FirstOrDefaultAsync();
         }
 
-        public async Task<List<LogFrameIndicadorPR>> GetByPtAsync(LogFrameIndicadorPR entity, int idPT)
+        public async Task<List<LogFrameIndicadorPR>> GetByPtAsync(ProyectoTecnico entity)
         {
-            IQueryable<LogFrameIndicadorPR> list = _repository.Entities.Where(p => p.LogFrame.IdProyectoTecnico == idPT);
-            if (entity.Include)
-            {
+            IQueryable<LogFrameIndicadorPR> list = _repository.Entities.Where(p => p.LogFrame.IdProyectoTecnico == entity.Id && p.LogFrame.ProyectoTecnico.IdProgramaArea == entity.IdProgramaArea && p.LogFrame.ProyectoTecnico.IdProgramaTecnico == entity.IdProgramaTecnico);
+
                 list = list.Include(r => r.LogFrame).ThenInclude(p=> p.ProyectoTecnico).Include(i => i.IndicadorPR)
                        .Include(e => e.Estado);
-            }
+            
+            var lista2 = await list.ToListAsync();
             return await list.ToListAsync();
         }
 

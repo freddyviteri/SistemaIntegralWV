@@ -1,6 +1,6 @@
 ﻿using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Features.Maestro.Catalogos;
-using WordVision.ec.Application.Features.Maestro.ProyectoTecnico;
+using WordVision.ec.Application.Features.Maestro.ProgramaTecnico;
 
 namespace WordVision.ec.Application.Features.Maestro.ProgramaArea
 {
@@ -10,9 +10,6 @@ namespace WordVision.ec.Application.Features.Maestro.ProgramaArea
         public string Codigo { get; set; }
 
         public string Descripcion { get; set; }
-
-        public int IdProyectoTecnico { get; set; }
-        public ProyectoTecnicoResponse ProyectoTecnico { get; set; }
 
         public int IdEstado { get; set; }
 

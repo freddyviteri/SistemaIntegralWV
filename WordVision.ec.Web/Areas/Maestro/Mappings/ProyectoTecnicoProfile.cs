@@ -9,11 +9,11 @@ namespace WordVision.ec.Web.Areas.Maestro.Mappings
     internal class ProyectoTecnicoProfile : Profile
     {
         public ProyectoTecnicoProfile()
-        {            
+        {
             CreateMap<ProyectoTecnicoResponse, ProyectoTecnicoViewModel>().ReverseMap();
             CreateMap<CreateProyectoTecnicoCommand, ProyectoTecnicoViewModel>().ReverseMap();
             CreateMap<UpdateProyectoTecnicoCommand, ProyectoTecnicoViewModel>().ReverseMap();
         }
-        
+
     }
 }

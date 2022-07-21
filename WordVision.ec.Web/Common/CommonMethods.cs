@@ -84,22 +84,68 @@ namespace WordVision.ec.Web.Common
             return new SelectList(genericCatalogs, valueField, "Nombre");
         }
 
-        public SelectList SetGenericCatalog(List<ProgramaAreaViewModel> items, string valueField)
+        public SelectList SetGenericCatalog(List<ProgramaAreaViewModel> items, string valueField, bool textselection = false)
         {
             List<GenericCatalog> genericCatalogs = new List<GenericCatalog>();
+            if (textselection == true)
+            {
+                genericCatalogs.Add(new GenericCatalog
+                {
+                    Nombre = "Seleccionar",
+                    IdProgramaArea = 0,
+                });
+            }
             foreach (ProgramaAreaViewModel item in items)
                 genericCatalogs.Add(new GenericCatalog
                 {
                     Nombre = $"{item.Codigo} - {item.Descripcion}",
                     IdProgramaArea = item.Id,
                 });
-
             return new SelectList(genericCatalogs, valueField, "Nombre");
         }
-
         public SelectList SetGenericCatalog(List<ProyectoTecnicoViewModel> items, string valueField)
         {
             List<GenericCatalog> genericCatalogs = new List<GenericCatalog>();
+            foreach (ProyectoTecnicoViewModel item in items)
+                genericCatalogs.Add(new GenericCatalog
+                {
+                    Nombre = $"{item.Codigo} - {item.NombreProyecto}",
+                    IdProyectoTecnico = item.Id,
+                });
+
+            return new SelectList(genericCatalogs, valueField, "Nombre");
+        }
+        public SelectList SetGenericCatalog(List<ProgramaTecnicoViewModel> items, string valueField, bool textselection = false)
+        {
+            List<GenericCatalog> genericCatalogs = new List<GenericCatalog>();
+            if (textselection == true)
+            {
+                genericCatalogs.Add(new GenericCatalog
+                {
+                    Nombre = "Seleccionar",
+                    IdProgramaTecnico = 0,
+                });
+            }
+            foreach (ProgramaTecnicoViewModel item in items)
+                genericCatalogs.Add(new GenericCatalog
+                {
+                    Nombre = $"{item.Codigo} - {item.Nombre}",
+                    IdProgramaTecnico = item.Id,
+                });
+            return new SelectList(genericCatalogs, valueField, "Nombre");
+        }
+
+        public SelectList SetGenericCatalog(List<ProyectoTecnicoViewModel> items, string valueField, bool textselection = false)
+        {
+            List<GenericCatalog> genericCatalogs = new List<GenericCatalog>();
+            if (textselection == true)
+            {
+                genericCatalogs.Add(new GenericCatalog
+                {
+                    Nombre = "Seleccionar",
+                    IdProyectoTecnico = 0,
+                });
+            }
             foreach (ProyectoTecnicoViewModel item in items)
                 genericCatalogs.Add(new GenericCatalog
                 {

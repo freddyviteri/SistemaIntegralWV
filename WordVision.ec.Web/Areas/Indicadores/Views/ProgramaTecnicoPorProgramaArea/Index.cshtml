@@ -1,0 +1,121 @@
+﻿@model WordVision.ec.Web.Areas.Indicadores.Models.ProgramaTecnicoPorProgramaAreaViewModel
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="IdProgramaArea" class="control-label">Programa de Área</label>
+            @Html.DropDownList("IdProgramaArea", (IEnumerable<SelectListItem>)ViewBag.ProgramasAreasSelect,"Seleccione un programa de área", htmlAttributes: new { @class = "form-control ", @style = "width:100%;", @onchange="GetProgramasTecnicos()" })
+            <span for="IdProgramaArea" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group" id="partialProgramaT">
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group" id="partialProyectoTecnico">
+        </div>
+    </div>
+
+
+</div>
+
+
+<br />
+<div class="form-group justify-content-between group-button-modal mb-5 d-none" id="divBuscar">
+    <button type="submit" id="btnBuscar" class="btn btn-success" onclick="GetLF()" disabled>Buscar</button>
+</div>
+
+<div id="listaIndicadores">
+</div>
+
+
+
+@section Scripts
+{
+<script src="~/js/site.js"></script>
+<script>
+    function GetProgramasTecnicos() {
+        emptyTable();
+        $('#partialProyectoTecnico').empty();
+        var idProgramaArea = $("#IdProgramaArea").val();
+
+        $.ajax({
+            url: '@Url.Action("SearchProgramaTecnico", "ProgramaTecnicoPorProgramaArea")',
+            dataType: "html",
+            data: {'idProgramaArea': idProgramaArea},
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $('#partialProgramaT').html(response);
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        });
+    }
+
+    function GetProyectosTecnicos() {
+        emptyTable();
+        var idProgramaArea = $("#IdProgramaArea").val();
+        var idProgramaTecnico = $("#IdProgramaTecnico").val();
+
+        $.ajax({
+            url: '@Url.Action("SearchProyectoTecnico", "ProgramaTecnicoPorProgramaArea")',
+            dataType: "html",
+            data: {'idProgramaArea': idProgramaArea,'idProgramaTecnico': idProgramaTecnico},
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $('#partialProyectoTecnico').html(response);
+                var idProyectoTecnico = $("#IdProyectoTecnico").val();
+                if(!idProyectoTecnico) return;
+                $("#IdProyectoTecnico").trigger('change');
+
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        });
+    }
+
+    function GetLF() {
+        emptyTable();
+         var idProgramaArea = $("#IdProgramaArea").val();
+        var idProgramaTecnico = $("#IdProgramaTecnico").val();
+        var idProyectoTecnico = $("#IdProyectoTecnico").val();
+        if(!idProyectoTecnico) return;
+        $.ajax({
+            url: '@Url.Action("SearchLogFrameIndicadoresPR", "ProgramaTecnicoPorProgramaArea")',
+            dataType: "html",
+            data: {'idProgramaArea':idProgramaArea,'idProgramaTecnico':idProgramaTecnico, 'idProyectoTecnico': idProyectoTecnico},
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $('#listaIndicadores').html(response);
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        });
+    }
+
+    function emptyTable(){
+         $("#listaIndicadores").empty();
+    }
+    function habilitarBusqueda(){
+        var idProyectoTecnico =$('#IdProyectoTecnico').val();
+        console.log(idProyectoTecnico);
+        if(idProyectoTecnico){
+            $('#divBuscar').removeClass('d-none');
+            $('#btnBuscar').removeAttr('disabled');
+        }else{
+            $('#divBuscar').addClass('d-none');
+            $('#btnBuscar').attr('disabled');
+        }
+    }
+</script>
+}
+

@@ -22,7 +22,7 @@
             <th>
                 Estado
             </th>
-            <th></th>
+            @*<th></th>*@
         </tr>
     </thead>
     <tbody>
@@ -41,16 +41,16 @@
                 @Html.DisplayFor(modelItem => item.Financiamiento.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TipoProyecto.Nombre)
+                @Html.DisplayFor(modelItem => item.ProgramaTecnico.TipoProyecto.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Estado.Nombre)
             </td>
-            <td>
+            @*<td>
                  <div class="btn-group">
                     <a onclick="jQueryModalGet('/Maestro/ProyectoTecnico/OnGetCreateOrEdit?id=@item.Id','Editar Proyecto Técnico')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
                 </div>
-            </td>
+            </td>*@
         </tr>
 }
     </tbody>
@@ -58,6 +58,12 @@
 
 <script>
     $(document).ready(function () {
-        $("#proyectoTecnicoTable").DataTable();
+        $("#proyectoTecnicoTable").DataTable({
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },            
+            responsive: true,          
+            "info": false
+        });
     });
 </script>
