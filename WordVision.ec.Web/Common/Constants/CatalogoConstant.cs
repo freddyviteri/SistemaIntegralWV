@@ -18,7 +18,6 @@ namespace WordVision.ec.Web.Common.Constants
         public static int IdCatalogoGrupoEtario = 46;
 
         public static string FieldProgramaArea = "IdProgramaArea";
-        public static string FieldProgramaTecnico = "IdProgramaTecnico";
         public static string FieldProyectoTecnico = "IdProyectoTecnico";
         public static string FieldEtapaModeloProyecto = "IdEtapaModeloProyecto";
         public static string FieldActorParticipante = "IdActorParticipante";

@@ -14,7 +14,7 @@
         public int IdFinanciamiento { get; set; }
         public int IdTipoProyecto { get; set; }
         public int IdGenero { get; set; }
-        public int IdGrupoEtario { get; set; }
+        public int IdGrupoEtario { get; set; }        
         public int IdFrecuencia { get; set; }
         public int IdArea { get; set; }
         public int IdTipoMedida { get; set; }
@@ -28,7 +28,6 @@
         public int IdEstadoAnioFiscal { get; set; }
 
         public int IdProgramaArea { get; set; }
-        public int IdProgramaTecnico { get; set; }
         public int IdProyectoTecnico { get; set; }
         public int IdEtapaModeloProyecto { get; set; }
         public int IdActorParticipante { get; set; }

@@ -6,24 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <Compile Remove="Pages1\**" />
-    <Content Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <Content Remove="Pages1\**" />
-    <EmbeddedResource Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <EmbeddedResource Remove="Pages1\**" />
-    <None Remove="Areas\Planificacion\Views\AnioFiscal\**" />
     <None Remove="Pages1\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Planificacion\Controllers\AnioFiscalController.cs" />
     <Compile Remove="Areas\Registro\Validators\ContactosStepValidator.cs" />
     <Compile Remove="Services\SessionExpireFilterAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Areas\Planificacion\Views\Seguimiento\_CreateOrEditEvidencia.cshtml" />
     <Content Remove="Areas\Registro\Views\Tercero\_CreateOrEdit.cshtml" />
   </ItemGroup>
 
@@ -86,6 +80,9 @@
     <None Include="Areas\Indicadores\Views\ProgramaTecnicoPorProgramaArea\_ViewAll.cshtml" />
     <None Include="Areas\Indicadores\Views\ProgramaTecnicoPorProgramaArea\_ViewSelectProgramaTecnico.cshtml" />
     <None Include="Areas\Indicadores\Views\ProgramaTecnicoPorProgramaArea\_ViewSelectProyectoTecnico.cshtml" />
+    <None Include="Areas\Indicadores\Views\ProyectoTecnicoPorProgramaArea\Index.cshtml" />
+    <None Include="Areas\Indicadores\Views\ProyectoTecnicoPorProgramaArea\_ViewAll.cshtml" />
+    <None Include="Areas\Indicadores\Views\ProyectoTecnicoPorProgramaArea\_ViewSelectPT.cshtml" />
     <None Include="Areas\Indicadores\Views\VinculacionIndicador\Index.cshtml" />
     <None Include="Areas\Indicadores\Views\VinculacionIndicador\_CreateOrEdit.cshtml" />
     <None Include="Areas\Indicadores\Views\VinculacionIndicador\_ViewAll.cshtml" />
@@ -141,6 +138,12 @@
     <None Include="Areas\Planificacion\Views\AcuerdoDesempenio\_CreateOrEdit.cshtml" />
     <None Include="Areas\Planificacion\Views\AcuerdoDesempenio\_CreateOrEditPerfil.cshtml" />
     <None Include="Areas\Planificacion\Views\AcuerdoDesempenio\_ViewAll.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\Index.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\_CreateOrEditIndicador.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\_CreateOrEditObjetivo.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\_PlanImplementacion.cshtml" />
+    <None Include="Areas\Planificacion\Views\AnioFiscal\_ViewAll.cshtml" />
     <None Include="Areas\Planificacion\Views\DesarrolloPersonal\_CreateOrEdit.cshtml" />
     <None Include="Areas\Planificacion\Views\EstrategiaNacional\Index.cshtml" />
     <None Include="Areas\Planificacion\Views\EstrategiaNacional\_CreateOrEdit.cshtml" />
@@ -193,6 +196,7 @@
     <None Include="Areas\Planificacion\Views\Recurso\_ViewAll.cshtml" />
     <None Include="Areas\Planificacion\Views\Seguimiento\Index.cshtml" />
     <None Include="Areas\Planificacion\Views\Seguimiento\_CreateOrEdit.cshtml" />
+    <None Include="Areas\Planificacion\Views\Seguimiento\_CreateOrEditEvidencia.cshtml" />
     <None Include="Areas\Planificacion\Views\Seguimiento\_ViewAll.cshtml" />
     <None Include="Areas\Planificacion\Views\TechoPresupuestario\Index.cshtml" />
     <None Include="Areas\Planificacion\Views\TechoPresupuestario\_CreateOrEdit.cshtml" />
