@@ -11,9 +11,12 @@
                 Descripción
             </th>
             <th>
+                Proyecto Técnico
+            </th>
+            <th>
                 Estado
             </th>
-            @*<th></th>*@
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,13 +29,16 @@
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.ProyectoTecnico.NombreProyecto)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Estado.Nombre)
             </td>
-          @*  <td>
+            <td>
                 <div class="btn-group">
                     <a onclick="jQueryModalGet('/Maestro/ProgramaArea/OnGetCreateOrEdit?id=@item.Id','Editar Programa Área')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
                 </div>
-            </td>*@
+            </td>
         </tr>
     }
     </tbody>
@@ -40,12 +46,6 @@
 
 <script>
     $(document).ready(function () {
-        $("#programaAreaTable").DataTable({
-            "language": {
-                "url": "/lib/datatables/language/Spanish.json"
-            },            
-            responsive: true,          
-            "info": false
-        });
+        $("#programaAreaTable").DataTable();
     });
 </script>

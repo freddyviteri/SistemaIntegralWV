@@ -9,11 +9,11 @@ namespace WordVision.ec.Web.Areas.Maestro.Validators
         public ProgramaAreaViewModelValidator()
         {
             RuleFor(p => p.Codigo)
-           .NotEmpty().WithMessage("{PropertyName} no obligatorio.")
+           .NotEmpty().WithMessage("{PropertyName} no espacio.")
            .NotNull().WithMessage("{PropertyName} no null.");
 
             RuleFor(p => p.Descripcion)
-            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .NotEmpty().WithMessage("{PropertyName} vvvvves obligatoriovvvvvv.")
             .NotNull();
         }
         //public int Id { get; set; }

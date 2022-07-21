@@ -25,14 +25,13 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Indicadores
         {
             IQueryable<FaseProgramaArea> list = _repository.Entities;
 
+            //if (!string.IsNullOrEmpty(FaseProgramaArea.Codigo))
+            //    list = list.Where(c => c.Codigo == FaseProgramaArea.Codigo);
+
             if (entity.Include)
             {
-                list = list.Include(p => p.FaseProyecto)
-                       .Include(p => p.ProyectoTecnico).ThenInclude(x => x.ProgramaArea)
-                       .Include(p => p.ProyectoTecnico).ThenInclude(x => x.ProgramaTecnico).ThenInclude(x => x.TipoProyecto)
-                        .Include(p => p.ProyectoTecnico).ThenInclude(x => x.Financiamiento)
-                         .Include(p => p.ProyectoTecnico).ThenInclude(x => x.Ubicacion)
-                       .Include(e => e.Estado);
+                list = list.Include(p => p.FaseProyecto).Include(p => p.ProgramaArea)
+                       .Include(p=> p.ProyectoTecnico).Include(e => e.Estado);
             }
 
             return await list.ToListAsync();

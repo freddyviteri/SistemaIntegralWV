@@ -10,10 +10,9 @@ using WordVision.ec.Application.Features.Maestro.ProgramaArea.Commands.Create;
 using WordVision.ec.Application.Features.Maestro.ProgramaArea.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.ProgramaArea.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.ProgramaArea.Queries.GetById;
-using WordVision.ec.Application.Features.Maestro.ProgramaTecnico.Queries.GetAll;
+using WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Queries.GetAll;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Maestro.Models;
-using WordVision.ec.Web.Areas.Maestro.Validators;
 using WordVision.ec.Web.Common;
 using WordVision.ec.Web.Common.Constants;
 
@@ -78,29 +77,26 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> OnPostCreateOrEdit(ProgramaAreaViewModel viewmodel)
+        public async Task<JsonResult> OnPostCreateOrEdit(ProgramaAreaViewModel ProgramaAreaViewModel)
         {
             _commonMethods.SetProperties(_notify, _logger);
-            ProgramaAreaViewModelValidator customerValidator = new ProgramaAreaViewModelValidator();
-            var validatorResult = customerValidator.Validate(viewmodel);
-
-            if (validatorResult.IsValid)
+            if (ModelState.IsValid)
             {
-                if (viewmodel.Id == 0)
+                if (ProgramaAreaViewModel.Id == 0)
                 {
-                    var createEntidadCommand = _mapper.Map<CreateProgramaAreaCommand>(viewmodel);
+                    var createEntidadCommand = _mapper.Map<CreateProgramaAreaCommand>(ProgramaAreaViewModel);
                     createEntidadCommand.IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo;
                     var result = await _mediator.Send(createEntidadCommand);
                     if (result.Succeeded)
                     {
-                        viewmodel.Id = result.Data;
+                        ProgramaAreaViewModel.Id = result.Data;
                         _notify.Success($"Programa de Área con Código {createEntidadCommand.Codigo} Creado.");
                     }
                     else return _commonMethods.SaveError(result.Message);
                 }
                 else
                 {
-                    var updateEntidadCommand = _mapper.Map<UpdateProgramaAreaCommand>(viewmodel);
+                    var updateEntidadCommand = _mapper.Map<UpdateProgramaAreaCommand>(ProgramaAreaViewModel);
                     var result = await _mediator.Send(updateEntidadCommand);
                     if (result.Succeeded) _notify.Information($"Programa de Área con Código {result.Data} Actualizado.");
                     else return _commonMethods.SaveError(result.Message);
@@ -118,7 +114,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             }
             else
             {
-                var result = string.Join(',', validatorResult.Errors.SelectMany(v => validatorResult.Errors).Select(a => a.ErrorMessage));
+                var result = string.Join(',', ModelState.Values.SelectMany(v => v.Errors).Select(a => a.ErrorMessage));
                 return _commonMethods.SaveError($"Error al insertar Proyecto Técnico.", result);
             }
         }
@@ -129,15 +125,18 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             if (entidadViewModel.Id != 0)
                 isNew = false;
             var estado = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoEstado });
+            var proyecto = await _mediator.Send(new GetAllProyectoTecnicoQuery());
 
             List<GetListByIdDetalleResponse> estados = estado.Data;
-
+            List<ProyectoTecnicoViewModel> proyectos = _mapper.Map<List<ProyectoTecnicoViewModel>>(proyecto.Data);
             if (isNew)
             {
                 estados = estados.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
+                proyectos = proyectos.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
             }
 
             entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
+            entidadViewModel.ProyectoTecnicoList = _commonMethods.SetGenericCatalog(proyectos, CatalogoConstant.FieldProyectoTecnico);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WordVision.ec.Web.Areas.Maestro.Models;
 
 namespace WordVision.ec.Web.Areas.Maestro.Validators
@@ -19,7 +20,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Validators
         //public int Id { get; set; }
 
         //public string Codigo { get; set; }
-
+       
 
         //public string ActoresParticipantes { get; set; }
 

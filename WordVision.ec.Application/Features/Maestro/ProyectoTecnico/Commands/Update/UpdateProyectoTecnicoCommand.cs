@@ -18,25 +18,18 @@ namespace WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Commands.Up
     public class UpdateProyectoTecnicoCommandHandler : IRequestHandler<UpdateProyectoTecnicoCommand, Result<int>>
     {
         private readonly IProyectoTecnicoRepository _repository;
-        private readonly IProgramaAreaRepository _repopa;
-        private readonly IProgramaTecnicoRepository _repopt;
 
         private IUnitOfWork _unitOfWork { get; set; }
 
-        public UpdateProyectoTecnicoCommandHandler(IProyectoTecnicoRepository repository, IProgramaAreaRepository repopa, IProgramaTecnicoRepository repopt, IUnitOfWork unitOfWork)
+        public UpdateProyectoTecnicoCommandHandler(IProyectoTecnicoRepository repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
-            this._repopa = repopa;
-            this._repopt = repopt;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<Result<int>> Handle(UpdateProyectoTecnicoCommand update, CancellationToken cancellationToken)
         {
             var proyecto = await _repository.GetByIdAsync(update.Id);
-
-            var pa = await _repopa.GetByIdAsync(update.IdProgramaArea);
-            var pt = await _repopt.GetByIdAsync(update.IdProgramaTecnico);
 
             if (proyecto == null)
             {
@@ -49,10 +42,10 @@ namespace WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Commands.Up
                     return Result<int>.Fail($"Proyecto Técnico con Código: {update.Codigo} ya existe.");
 
                 proyecto.Codigo = update.Codigo;
-                proyecto.NombreProyecto = pa.Descripcion + " " + pt.Nombre;
-
+                proyecto.NombreProyecto = update.NombreProyecto;
                 proyecto.IdUbicacion = update.IdUbicacion;
                 proyecto.IdFinanciamiento = update.IdFinanciamiento;
+                proyecto.IdTipoProyecto = update.IdTipoProyecto;
                 proyecto.IdEstado = update.IdEstado;
 
                 await _repository.UpdateAsync(proyecto);

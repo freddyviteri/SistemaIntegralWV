@@ -12,7 +12,7 @@ using WordVision.ec.Application.Features.Maestro.LogFrame.Commands.Delete;
 using WordVision.ec.Application.Features.Maestro.LogFrame.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.LogFrame.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.LogFrame.Queries.GetById;
-using WordVision.ec.Application.Features.Maestro.ProgramaTecnico.Queries.GetAll;
+using WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Queries.GetAll;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Maestro.Models;
 using WordVision.ec.Web.Common;
@@ -74,7 +74,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             }
             catch (Exception ex)
             {
-                return _commonMethods.SaveError($"OnGetCreateOrEdit Error al consultar LogFrame.", ex.Message);
+                return _commonMethods.SaveError($"OnGetCreateOrEdit Error al consultar LogFrame.", ex.Message);                
             }
         }
 
@@ -85,7 +85,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             if (ModelState.IsValid)
             {
                 if (logFrameViewModel.Id == 0)
-                {
+                {                    
                     var createEntidadCommand = _mapper.Map<CreateLogFrameCommand>(logFrameViewModel);
                     createEntidadCommand.IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo;
                     var result = await _mediator.Send(createEntidadCommand);
@@ -95,7 +95,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 }
                 else
                 {
-                    if (logFrameViewModel.IdNivel != CatalogoConstant.IdCatalogoNivelActivity)
+                    if(logFrameViewModel.IdNivel != CatalogoConstant.IdCatalogoNivelActivity)
                     {
                         logFrameViewModel.IdTipoActividad = null;
                         logFrameViewModel.IdSectorProgramatico = null;
@@ -159,7 +159,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             var rubro = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoRubro });
             var sector = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoSectorProgrematico });
             var tipoActividad = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoTipoActividad });
-            var proyecto = await _mediator.Send(new GetAllProgramaTecnicoQuery());
+            var proyecto = await _mediator.Send(new GetAllProyectoTecnicoQuery());
             //var indicador = await _mediator.Send(new GetAllIndicadorPRQuery());
 
             List<GetListByIdDetalleResponse> estados = estado.Data;
@@ -167,7 +167,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             List<GetListByIdDetalleResponse> rubros = rubro.Data;
             List<GetListByIdDetalleResponse> sectores = sector.Data;
             List<GetListByIdDetalleResponse> tipoActividades = tipoActividad.Data;
-            List<ProgramaTecnicoViewModel> proyectos = _mapper.Map<List<ProgramaTecnicoViewModel>>(proyecto.Data);
+            List<ProyectoTecnicoViewModel> proyectos = _mapper.Map<List<ProyectoTecnicoViewModel>>(proyecto.Data);
             //List<IndicadorPRViewModel> indicadores = _mapper.Map<List<IndicadorPRViewModel>>(indicador.Data);
 
             if (isNew)

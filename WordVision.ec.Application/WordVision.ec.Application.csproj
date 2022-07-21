@@ -56,6 +56,7 @@
     <Compile Remove="Interfaces\Contexts\IIdentityDbContext.cs" />
     <Compile Remove="Interfaces\Contexts\IPresupuestoDbContext.cs" />
     <Compile Remove="Interfaces\Repositories\Identity\IIdentityRepository.cs" />
+    <Compile Remove="Interfaces\Repositories\Planificacion\IMetaCicloEstrategicoRepository.cs" />
     <Compile Remove="Interfaces\Repositories\Presupuesto\IRepositoryAsync.cs" />
     <Compile Remove="Interfaces\Repositories\Presupuesto\IUnitOfWork.cs" />
     <Compile Remove="Interfaces\Repositories\Registro\IDocumentoUoW.cs" />

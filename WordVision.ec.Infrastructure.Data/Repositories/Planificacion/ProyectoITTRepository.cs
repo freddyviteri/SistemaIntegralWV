@@ -30,25 +30,25 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
             if (entity.Include)
             {
                 list = list.Include(p => p.FaseProgramaArea)
-                    //.ThenInclude(pt => pt.ProyectoTecnico)
-                    .Include(x => x.FaseProgramaArea);//.ThenInclude(pa => pa.ProgramaArea);
+                    .ThenInclude(pt => pt.ProyectoTecnico)
+                    .Include(x => x.FaseProgramaArea).ThenInclude(pa => pa.ProgramaArea);
 
                 if (entity.FaseProgramaArea != null)
                 {
-                    //if (entity.FaseProgramaArea.IdProyectoTecnico != 0)
-                    //{
-                    //    list.Where(x => x.FaseProgramaArea.IdProyectoTecnico == entity.FaseProgramaArea.IdProyectoTecnico);
-                    //}
+                    if (entity.FaseProgramaArea.IdProyectoTecnico != 0)
+                    {
+                        list.Where(x => x.FaseProgramaArea.IdProyectoTecnico == entity.FaseProgramaArea.IdProyectoTecnico);
+                    }
 
-                    //if (entity.FaseProgramaArea.IdProgramaArea != 0)
-                    //{
-                    //    list.Where(x => x.FaseProgramaArea.IdProgramaArea == entity.FaseProgramaArea.IdProgramaArea);
-                    //}
+                    if (entity.FaseProgramaArea.IdProgramaArea != 0)
+                    {
+                        list.Where(x => x.FaseProgramaArea.IdProgramaArea == entity.FaseProgramaArea.IdProgramaArea);
+                    }
 
                 }
             }
 
-
+            
 
             return await list.ToListAsync();
         }

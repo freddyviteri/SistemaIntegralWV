@@ -22,87 +22,26 @@
     </div>
 
     <div class="col-sm-12" style="padding:10px">
+        <form id="create-form" method="post" asp-controller="EstrategiaNacional" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
 
-                        
-<table id="TableObjetivos" class="table table-bordered " width="100%" cellspacing="0">
-    <thead>
-        <tr>
-                <th style=" width:30%" class="gerencia-th">Objetivo</th>
-                <th style=" width:30%" class="gerencia-th">Factor Crítico de Éxito</th>
-                <th style=" width:20%" class="gerencia-th">Indicador de Resultado</th>
-                 <th style=" width:10%" class="gerencia-th">Metas @ViewBag.DescGestion</th>
+            <div class="container" style="padding: 5px 5px 5px 5px">
+                <div class="row">
+                    <div class="col-md-12 ">
+                       
 
-                @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
-                {
-                    <th class="acciones-th">Metas Trimestrales</th>
-
-                }
-                <th class="acciones-th" style="width:10% !important">Seguimiento</th>
-                 <th class="acciones-th" style="width:30% !important">Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-
-        @foreach (var planificacion in Model.ObjetivoEstrategicos.SelectMany(c=>c.FactorCriticoExitos).SelectMany(i=>i.IndicadorEstrategicos))
-        {
-
-            <tr >
-                 <td>
-                    @planificacion.FactorCriticoExitos.ObjetivoEstrategicos.Descripcion
-                </td>
-                 <td>
-                    @planificacion.FactorCriticoExitos.FactorCritico
-                </td>
-                 <td>
-                    @planificacion.IndicadorResultado
-                </td>
-              
-                 <td>@planificacion.IndicadorAFs.Where(x => x.Anio == Convert.ToString(@Model.AnioGestion)).FirstOrDefault()?.Meta</td>
-                @if (User.Claims.FirstOrDefault(x => x.Type == "Nivel")?.Value.ToString() == "2")
-                {
-                    <td class="acciones-td">
-                        <button type="button" class="btn btn-success  btn-xp" title="Ver" id="btnViewModel1" onclick="jQueryModalGet('/Planificacion/Meta/LoadGestiones?id=@planificacion.Id','Metas Trimestrales Indicadores de Resultados')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-
-                        <button type="button" class="btn btn-primary  btn-xp" title="Agregar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Meta/OnGetCreateOrEdit?id=@planificacion.Id&IdFactorCritico=@planificacion.FactorCriticoExitos.Id&IdEstrategia=0&idGestion=@Model.AnioGestion','Metas Trimestrales Indicadores de Resultados')">
-                            <i class="fas fa-plus-square"></i>
-                        </button>
-                    </td>
-                }
-
-                 <td>
-                    <button type="button" class="btn btn-success  btn-xp" title="Ver Seguimiento" id="btnViewModel1" onclick="jQueryModalGet('/Planificacion/Seguimiento/LoadSeguimiento?idIndicadorEstrategico=@planificacion.Id&tipo=IE','Segumiento Indicadores de Resultados')">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    <button type="button" class="btn btn-primary  btn-xp" title="Agregar Seguimiento" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/Seguimiento/OnGetCreateOrEdit?id=0&IdFactorCritico=@planificacion.FactorCriticoExitos.Id&IdIndicador=@planificacion.Id&idGestion=@Model.AnioGestion&tipo=IE','Segumiento Indicadores de Resultados')">
-                        <i class="fas fa-plus-square"></i>
-                    </button>
-                </td>
-
-                 <td class="acciones-td">
-                               @if (Model.AnioGestion != "0" && Model.AnioGestion != null)
-                                    {
-                                        <a asp-area="planificacion" asp-controller="IndicadorEstrategico" asp-action="GetByIdIndicadores"  asp-route-id="@planificacion.Id" asp-route-idObjetivoEstrategico="@planificacion.FactorCriticoExitos.IdObjetivoEstra" asp-route-idEstrategia="@planificacion.FactorCriticoExitos.ObjetivoEstrategicos.IdEstrategia" asp-route-AnioGestion="@Model.AnioGestion" asp-route-Categoria="1" class="btn btn-info btn-xp" title="Administrar Factores Criticos del Exito"><i class="fas fa-calendar"></i></a>
-
-                                    }
-                              
-                 </td>
-            </tr>
-        }
-
-    </tbody>
-    
-</table>                
-@*
                                         <div id="viewAllNacional" class="card-body table-responsive" style="padding: 0;">
-                                        </div>*@
+                                        </div>
                                       
                                
                             </div>
 
                     </div>
-              
+                </div>
+                        
+        </form>
+
+    </div>
+</div>
 
 <script type="text/javascript" language=javascript>
 
@@ -110,12 +49,12 @@
         loadData();
     });
         function loadData() {
-          //  $('#viewAllNacional').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=1&AnioGestion=@Model.AnioGestion&esCoordinadorEstrategico=@Model.EsCoordinadorEstrategico');
+            $('#viewAllNacional').load('/Planificacion/ObjetivoEstrategico/LoadObjetivo?idEstrategia=@Model.Id&idCategoria=1&AnioGestion=@Model.AnioGestion&esCoordinadorEstrategico=@Model.EsCoordinadorEstrategico');
          }
 
 
  $(document).ready(function () {
-        var table = $("#TableObjetivos").DataTable({
+        var table = $("#nacionalesTable").DataTable({
             aoColumnDefs: [
                 { "aTargets": [0], "bSortable": true },
                 { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
@@ -123,19 +62,178 @@
             "language": {
                 "url": "../lib/datatables/language/Spanish.json"
             },
-            "bFilter": false ,"length":false,
-            "bLengthChange" : false,"bPaginate": false,
+
             responsive: true,
             columnDefs: [
                 { responsivePriority: 1, targets: 0 },
                 { responsivePriority: 2, targets: -1 }
             ],
-            "info": false,
-            'rowsGroup': [0,1,2],
+            "info": false
+            //columnDefs: [
+            //    { responsivePriority: 1, targets: 0 },
+            //    { responsivePriority: 10001, targets: 4 },
+            //    { responsivePriority: 2, targets: -2 }
+            //]
         });
 
 
 
     });
+
+    //$.validator.unobtrusive.parse(document);
+    //$(function () {
+    //    $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+    //    //$("#VigDesde").datepicker({ dateFormat: 'dd-mm-yy' });
+    //    //$("#VigHasta").datepicker({ dateFormat: 'dd-mm-yy' });
+
+    //});
+
+    //$("#BrandId").select2({
+    //    placeholder: "Select a Category",
+    //    theme: "bootstrap4",
+    //    escapeMarkup: function (m) {
+    //        return m;
+    //    }
+    //});
+
+
+    var num = 0;
+    function AddRow(Id) {
+
+        let Anio = document.getElementById("AnioGestion").value;
+        let Descripcion = document.getElementById("DescGestion").value;
+        let Estado = document.getElementById("EstadoGestion").value;
+        let IdEstrategia = document.getElementById("Id").value;
+        var t = document.getElementById("EstadoGestion");
+        var DescEstado = t.options[t.selectedIndex].text;
+
+        if (Descripcion.length == 0) {
+            alert("Ingrese la Gestion.");
+            return;
+        }
+
+
+        //agregamos tabla
+        let Tabla = document.getElementById("gestionTable");
+        let TR = document.createElement("tr");
+        TR.setAttribute('id', "Gest_"+Id);
+        // let TDId = document.createElement("td");
+        let TDAnio = document.createElement("td");
+        let TDDescripcion = document.createElement("td");
+        let TDEstado = document.createElement("td");
+        let TDEliminar = document.createElement("td");
+        TDEliminar.className = "text-right";
+        //let TDTotal = document.createElement("td");
+        // TR.appendChild(TDId);
+        TR.appendChild(TDAnio);
+        TR.appendChild(TDDescripcion);
+        TR.appendChild(TDEstado);
+        TR.appendChild(TDEliminar);
+        //TR.appendChild(TDTotal);
+        // TDId.innerHTML = num;
+        TDAnio.innerHTML = Anio;
+        TDDescripcion.innerHTML = Descripcion;
+        TDEstado.innerHTML = DescEstado;
+        TDEliminar.innerHTML = " <button type='button' onclick='EliminaFila(" + Id + ")' class='btn btn-danger btn-xp'><i class='fas fa-trash-alt'></i> </button>";
+        //TDTotal.innerHTML = parseFloat(Cantidad) * parseFloat(Precio);
+        Tabla.appendChild(TR);
+
+        //agregamos hiddens
+        let DivConceptos = document.getElementById("divGestion");
+        let HiddenIndex = document.createElement("input");
+        let HiddenAnio = document.createElement("input");
+        let HiddenDescripcion = document.createElement("input");
+        let HiddenEstado = document.createElement("input");
+        HiddenIndex.name = "gestion.Index";
+        HiddenIndex.value = num;
+        HiddenIndex.type = "hidden";
+        HiddenAnio.name = "gestion[" + num + "].Anio";
+        HiddenAnio.value = Anio;
+        HiddenAnio.type = "hidden";
+        HiddenDescripcion.name = "gestion[" + num + "].Descripcion";
+        HiddenDescripcion.value = Descripcion;
+        HiddenDescripcion.type = "hidden";
+        HiddenEstado.name = "gestion[" + num + "].Estado";
+        HiddenEstado.value = Estado;
+        HiddenEstado.type = "hidden";
+        DivConceptos.appendChild(HiddenIndex);
+        DivConceptos.appendChild(HiddenAnio);
+        DivConceptos.appendChild(HiddenDescripcion);
+        DivConceptos.appendChild(HiddenEstado);
+
+        document.getElementById("AnioGestion").value = "";
+        document.getElementById("DescGestion").value = "";
+        document.getElementById("EstadoGestion").value = "";
+
+        num++;
+
+
+    }
+
+    function AgregaAF() {
+
+        let Anio = document.getElementById("AnioGestion").value;
+        let Descripcion = document.getElementById("DescGestion").value;
+        let Estado = document.getElementById("EstadoGestion").value;
+        let IdEstrategia = document.getElementById("Id").value;
+
+            var GestionViewModel = {
+                Id:0,
+                Descripcion: Descripcion,
+                Anio: Anio,
+                Estado: Estado,
+                IdEstrategia: IdEstrategia
+
+            };
+
+        $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostCreateOrEdit", "Gestion", new { area = "Planificacion" })',
+            data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (res) {
+                if (res.isValid) {
+                    alert(res.id);
+                    AddRow(res.id);
+                }
+
+            },
+            error: function(xhr) {
+               alert('No Valid Data');
+            }
+        });
+
+        }
+
+    function deleteRow(id) {
+        $("#Gest_" + id).remove();
+    }
+
+    function EliminaFila(id) {
+       if (confirm('¿Estás segura de eliminar este registro?')) {
+       
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "post",
+            url:'@Url.Action("OnPostDelete", "Gestion", new { area = "Planificacion" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+            /*  alert('Validooo');*/
+            $("#Gest_" + id).remove();
+            },
+            error: function(xhr) {
+               // alert('No Valid Data');
+            }
+        });
+         
+        }
+    }
 
 </script>

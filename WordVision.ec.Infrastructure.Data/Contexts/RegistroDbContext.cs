@@ -100,15 +100,10 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 
             builder.Entity<RCNinoPatrocinado>()
             .ToTable("RCNinoPatrocinados", "adm");
-            builder.Entity<ProgramaTecnico>()
-            .ToTable("ProgramaTecnicos", "adm");
-
-            builder.Entity<ProgramaArea>()
-            .ToTable("ProgramaAreas", "adm");
-
             builder.Entity<ProyectoTecnico>()
             .ToTable("ProyectoTecnicos", "adm");
-
+            builder.Entity<ProgramaArea>()
+            .ToTable("ProgramaAreas", "adm");
             builder.Entity<EtapaModeloProyecto>()
             .ToTable("EtapaModeloProyectos", "adm");
             builder.Entity<ModeloProyecto>()
@@ -138,8 +133,8 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             .ToTable("DetalleVinculacionIndicador", "indicador");
             builder.Entity<EstadoPorAnioFiscal>()
             .ToTable("EstadoPorAnioFiscales", "indicador");
-			builder.Entity<ProgramaTecnicoPorProgramaArea>()
-            .ToTable("ProgramaTecnicoPorProgramaArea", "indicador");					
+			builder.Entity<ProyectoTecnicoPorProgramaArea>()
+            .ToTable("ProyectoTecnicoPorProgramaAreas", "indicador");					
 
             builder.Entity<EstrategiaNacional>()
           .ToTable("EstrategiaNacionales", "planifica");

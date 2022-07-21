@@ -17,7 +17,7 @@ namespace WordVision.ec.Domain.Entities.Indicadores
 
         public int IdProyectoTecnico { get; set; }
         [ForeignKey("IdProyectoTecnico")]
-        public ProgramaTecnico ProyectoTecnico { get; set; }
+        public ProyectoTecnico ProyectoTecnico { get; set; }
 
         public string CodigoSupervisor { get; set; }
         public string NombreSupervisor { get; set; }

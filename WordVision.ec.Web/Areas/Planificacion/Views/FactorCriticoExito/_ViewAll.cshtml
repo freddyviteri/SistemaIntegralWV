@@ -44,18 +44,13 @@
             @if ((AuthorizationService.AuthorizeAsync(User, Permissions.FactorCriticoExito.Delete)).Result.Succeeded)
             {
                 <td class="acciones-td">
-                    <div class="row align-content-end">
                     @* <a  asp-area="planificacion" asp-controller="EstrategiaNacional" asp-action="OnGetCreateOrEdit" asp-route-id="@anioFiscal.Id" class="btn btn-info btn-xp"><i class="fas fa-pencil-alt"></i>  Editar</a>*@
-                     <div class="col-md-4">
-                        <button type="button" class="btn btn-warning btn-sm" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=@anioFiscal.Id&idObjetivoEstra=@anioFiscal.IdObjetivoEstra','Factor Critico de Exito')">
-                            <i class="fas fa-pencil-alt"></i>
-                        </button>
-                    </div>
-                     <div class="col-md-1">
+                    @*<button type="button" class="btn btn-warning btn-sm" title="Editar" id="btnViewModel" onclick="jQueryModalGet('/Planificacion/FactorCriticoExito/OnGetCreateOrEdit?id=@anioFiscal.Id&idObjetivoEstra=@anioFiscal.IdObjetivoEstra','Factor Critico de Exito')">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>*@
                     <form id="form_delete_@anioFiscal.Id" asp-area="Planificacion" asp-controller="FactorCriticoExito" method="post" asp-action="OnPostDelete" asp-route-id="@anioFiscal.Id" asp-route-idObjetivo="@anioFiscal.IdObjetivoEstra" onsubmit="return jQueryModalDelete(this)">
                         <a href="javascript:$('#form_delete_@anioFiscal.Id').submit();" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i> </a>
-                    </form> </div>
-                    </div>
+                    </form>
                 </td>
             }
 

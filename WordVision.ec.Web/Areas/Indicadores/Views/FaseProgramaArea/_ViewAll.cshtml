@@ -70,13 +70,13 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProyectoTecnico.ProgramaArea.Descripcion)
+                @Html.DisplayFor(modelItem => item.ProgramaArea.Descripcion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProyectoTecnico.NombreProyecto)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProyectoTecnico.ProgramaTecnico.TipoProyecto.Nombre)
+                @Html.DisplayFor(modelItem => item.ProyectoTecnico.TipoProyecto.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProyectoTecnico.Financiamiento.Nombre)
@@ -136,12 +136,6 @@
 
 <script>
     $(document).ready(function () {
-        $("#faseProgramaAreaTable").DataTable({
-            "language": {
-                "url": "/lib/datatables/language/Spanish.json"
-            },            
-            responsive: true,          
-            "info": false
-        });
+        $("#faseProgramaAreaTable").DataTable();
     });
 </script>

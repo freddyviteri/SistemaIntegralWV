@@ -13,7 +13,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
         Task<List<LogFrameIndicadorPR>> GetListAsync(LogFrameIndicadorPR entity);
         Task<int> InsertAsync(LogFrameIndicadorPR entity);
         Task UpdateAsync(LogFrameIndicadorPR entity);
-        Task<List<LogFrameIndicadorPR>> GetByPtAsync(ProyectoTecnico entity);
+        Task<List<LogFrameIndicadorPR>> GetByPtAsync(LogFrameIndicadorPR entity, int idPT);
 
         //Task DeleteLogFrameIndicadorPRIndicadorPRAsync(List<LogFrameIndicadorPRIndicadorPR> list);
         Task DeleteAsync(LogFrameIndicadorPR entity);

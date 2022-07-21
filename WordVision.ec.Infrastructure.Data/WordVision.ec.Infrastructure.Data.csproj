@@ -13,6 +13,7 @@
     <Compile Remove="Migrations\RegistroDb\20210504040335_InitialMigration.Designer.cs" />
     <Compile Remove="Repositories\Identity\IdentityRepository.cs" />
     <Compile Remove="Repositories\Identity\RepositoryAdAsync.cs" />
+    <Compile Remove="Repositories\Planificacion\MetaCicloEstrategicoRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>

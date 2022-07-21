@@ -2,7 +2,6 @@
 using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Features.Maestro.Catalogos;
 using WordVision.ec.Application.Features.Maestro.ProgramaArea;
-using WordVision.ec.Application.Features.Maestro.ProgramaTecnico;
 using WordVision.ec.Application.Features.Maestro.ProyectoTecnico;
 
 namespace WordVision.ec.Application.Features.Indicadores.FaseProgramaArea
@@ -30,6 +29,9 @@ namespace WordVision.ec.Application.Features.Indicadores.FaseProgramaArea
         public string Dip5 { get; set; }
 
         public string Dip6 { get; set; }
+
+        public int IdProgramaArea { get; set; }
+        public ProgramaAreaResponse ProgramaArea { get; set; }
 
         public int IdProyectoTecnico { get; set; }
         public ProyectoTecnicoResponse ProyectoTecnico { get; set; }
