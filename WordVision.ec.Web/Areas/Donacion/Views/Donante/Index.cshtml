@@ -107,6 +107,24 @@
                      </select>
                       
                   </div>
+                   @if (Model.TipoPantalla == 3 )
+                {
+                <div class="col-md-1">
+                    <label class="col-md-12 col-form-label texto-pregunta">Cuotas</label>
+                   <input type="text" id="Cuotadebe"  maxlength=2 name="Cuotadebe"  class="form-control form-control-sm "/>
+                </div>
+                }
+                  @if (Model.TipoPantalla == 2 )
+                {
+               
+                     <div class="col-md-1">
+                            <label class="col-md-12 col-form-label texto-pregunta">Quitar Validación</label>
+                            <input asp-for=Validacion  type="checkbox" name="Validacion" />
+                            <span asp-validation-for="Validacion" class="text-danger"></span>
+
+                </div>
+
+                }
                    <div class="col-md-2" style="padding:25px 10px 30px 55px">
                     <a class="btn btn-sm btn-labeled btn-success" href="#" onclick="buscarDonante()">
                         <span class="btn-label pr-1">
@@ -115,30 +133,15 @@
                         Buscar Datos
                     </a>
                 </div>
+                  
       @*  <div id="viewAll" class="card-body table-responsive">
         </div>*@
     </div>
     </div>
      <div class="col-12">
                 <div class="form-group row">
-                @if (Model.TipoPantalla == 2 )
-                {
-               
-                     <div class="col-md-2">
-                            <label class="col-md-12 col-form-label texto-pregunta">Quitar Validaciones</label>
-                            <input asp-for=Validacion  type="checkbox" name="Validacion" />
-                            <span asp-validation-for="Validacion" class="text-danger"></span>
-
-                </div>
-
-                }
-                 @if (Model.TipoPantalla == 3 )
-                {
-                <div class="col-md-2">
-                    <label class="col-md-12 col-form-label texto-pregunta">Cuotas sin Pagar</label>
-                   <input type="text" id="Cuotadebe"  maxlength=2 name="Cuotadebe"  class="form-control form-control-sm "/>
-                </div>
-                }
+              
+              
      </div>
         </div>
             
@@ -192,9 +195,6 @@
     <script>
 
  
-
-        
-    });
    let tableMain = null;
         let config = {
             id: "donanteTable",
@@ -266,9 +266,12 @@
                     return JSON.stringify(filtros);
                 }
             },
-            dom: "tipr",
+            dom: "Bfrtip",
             buttons: [
-                { extend: "excel", exportOptions: { columns: ':not(.no-export)' } }
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
             ],
             columns: [
                 { width: '20%', filter: 'input', type: 'string', data: 'campana' },

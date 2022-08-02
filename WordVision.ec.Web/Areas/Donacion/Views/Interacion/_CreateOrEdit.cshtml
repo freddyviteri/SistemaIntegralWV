@@ -36,17 +36,42 @@
                 }
              </div>
          </div>
+          <div class="col-md-12">
+             <div class="form-group row">
+            @if (Model.TipoPantalla == 3)
+             {
+                      <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaBajaCartera"></label>
+
+                        <input type="text" asp-for="FechaBajaCartera" name="FechaBajaCartera" class="datepicker5 form-control"  />
+                        <span asp-validation-for="FechaBajaCartera" class="text-danger" readonly></span>
+                    </div>
+
+                      <div class="col-md-4">
+                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="MotivoBajaCartera"></label>
+                            @Html.DropDownListFor(x => x.MotivoBajaCartera, (IEnumerable<SelectListItem>)Model.MotivoBajaCarteraList, new { @class = "form-control" })
+                            <span asp-validation-for="MotivoBajaCartera" class="text-danger"></span>
+                      </div>
+                     
+                
+                        
+                     
+ 
+                }
+             </div>
+         </div>
+
         <div class="col-md-12">
             
          
             <div class="form-group row">
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Gestion"></label>
                     @Html.DropDownListFor(x => x.Gestion, (IEnumerable<SelectListItem>)Model.interacionesList, new { @class = "form-control",required = "required" })
                     <span asp-validation-for="Gestion" class="text-danger"></span>
                 </div>
-
+          
 
                 @*  <div class="col-md-4">
                 <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tipo"></label>
@@ -98,24 +123,50 @@
                 <td>
                     @d.RespuestaBanco
                 </td>
+
                 <td class="cobrar-td">
                      <div class="col-md-2">
                             
-                            <input asp-for=Cobrar  type="checkbox" name="Cobrar" />
-                            <span asp-validation-for="Cobrar" class="text-danger"></span>
+                          @*<label asp-for="Cobrar" class="control-label col-form-label col-form-label-sm required">Cobrar</label>*@
+                                <select asp-for="Cobrar" class="form-control form-control  data-width="200%" >
+                                    @if (@d.EstadoDebito==3)
+                                                    {
+                                                        <option value=@d.EstadoDebito>CONDONADO</option>
+                                                    }
+                                                    else
+                                                    {
+                                                          <option value=@d.EstadoDebito>POR COBRAR</option>
+                                                    }
+
+                                  
+                                </select>
 
                 </div>
                  </td>
+
+
             </tr>
         }
 
     </tbody>
-     
+          
 </table>
+@* @if (Model.TipoPantalla == 3)
+                {
+                    
+                     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                             <input type="hidden" value="false" name="band" id="band"/>
+                             <button  type="submit" class="btn btn-info" style="background-color:blue !important">Cobrar</button>
+                         </div>
+                }*@
 </div>
 }
+ 
+    
  </div>
+
         </div>
+
     </div>
     <br />
 
@@ -154,7 +205,14 @@
             <th data-priority="1">Observaciones</th>
             <th data-priority="1">Usuario que Creo</th>
             <th data-priority="1">Fecha que Creo</th>
-         @if (Model.TipoPantalla != 2)
+
+        @if (Model.TipoPantalla == 3)
+        {
+            <th data-priority="1">Fecha de Baja</th>
+            <th data-priority="1">Motivo de Baja</th>
+                
+        }
+            @if (Model.TipoPantalla == 1)
         {
             <th data-priority="1">Usuario que Modifico</th>
             <th data-priority="1">Fecha que Modifico</th>
@@ -194,7 +252,18 @@
                     @d.CreatedOn
 
                 </td>
-            @if (Model.TipoPantalla != 2)
+
+             @if (Model.TipoPantalla == 3)
+             {
+                  <td>
+                    @d.FechaBajaCartera
+                </td>
+                <td>
+                    @d.DescMotivoBajaCartera
+                </td>
+                    
+            }
+                @if (Model.TipoPantalla == 1)
             {
                 <td>
                     @d.LastModifiedBy
@@ -252,7 +321,40 @@
 
 
 
+        // INICIO ESTADO 
+    
+    $("#Gestion").change(function() {
+        if (@Model.TipoPantalla == 3) { 
+        
+            if ($("#Gestion").val() == "0") { 
+            
+             $('#FechaBajaCartera').prop('disabled', true);
+            
+            $('#MotivoBajaCartera').prop('disabled', true);
 
+            return false;
+            }
+
+          
+         if ($("#Gestion").val() != "4") {
+           
+            $('#FechaBajaCartera').prop('disabled', true);
+            
+            $('#MotivoBajaCartera').prop('disabled', true);
+
+            return false;
+        }
+
+        if ($("#Gestion").val() == "4") { 
+         
+        $('#FechaBajaCartera').prop('disabled', false);
+            
+            $('#MotivoBajaCartera').prop('disabled', false);
+        }
+        
+        }
+       
+    });
 
 
 </script>

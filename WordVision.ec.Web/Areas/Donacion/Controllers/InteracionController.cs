@@ -49,10 +49,14 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 72, Ninguno = true });
                 var estadokitcourier = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 71, Ninguno = true });
+                var motivobajacartera = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+
                 var entidadViewModel = new InteracionViewModel();
                     entidadViewModel.interacionesList = interacion;
                     entidadViewModel.tipoList = tipointeracion;
                 entidadViewModel.EstadoCourierList = estadokitcourier;
+                entidadViewModel.MotivoBajaCarteraList = motivobajacartera;
 
 
                 var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante , tipo = tipoPantalla});// estadoCourier = estadoKitCourier
@@ -119,8 +123,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         if (result.Succeeded)
                         {
                             id = result.Data;
-                            if (entidad.Gestion == 4)
-                            {
+                            if (entidad.TipoPantalla == 1)// if (entidad.Gestion == 4)
+                                {
                                await _mediator.Send(new UpdateDonanteXEstadoCommand() { Id = entidad.IdDonante, EstadoDonante = 5 });
                              
                             }

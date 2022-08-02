@@ -217,5 +217,15 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
         {
             await _repository.UpdateAsync(debito);
         }
+
+        public async Task UpdateEstadoAsync(int idDonante, int estadoDebito)
+        {
+            Debito entidad = await _repository.Entities.Where(x => x.IdDonante == idDonante).FirstOrDefaultAsync();
+            if (entidad == null) return;
+
+            entidad.Estado = estadoDebito;
+
+            await _repository.UpdateAsync(entidad);
+        }
     }
 }

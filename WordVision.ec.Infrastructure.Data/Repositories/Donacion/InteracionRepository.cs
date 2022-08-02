@@ -42,6 +42,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                              Mes = a.Mes,
                              Cantidad = a.Valor,
                              RespuestaBanco = a.CodigoRespuesta,
+                             EstadoDebito = a.Estado,
                          }
                          ).ToListAsync();
 
@@ -68,7 +69,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                                   EstadoKitCourier = a.EstadoKitCourier,
                                   CreatedBy = a.CreatedBy,
                                   CreatedOn = a.CreatedOn,
-
+                                  DescMotivoBajaCartera = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 71 && c.Secuencia == a.MotivoBajaCartera.ToString()).FirstOrDefault().Nombre,
+                                  MotivoBajaCartera = a.MotivoBajaCartera,
+                                  FechaBajaCartera = a.FechaBajaCartera,
                               }
                               ).ToListAsync();
             return await resultado1;

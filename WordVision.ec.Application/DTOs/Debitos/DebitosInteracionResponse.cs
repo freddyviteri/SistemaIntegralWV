@@ -14,5 +14,7 @@ namespace WordVision.ec.Application.DTOs.Debitos
         public decimal? Cantidad { get; set; }
 
         public string RespuestaBanco { get; set; }
+
+        public int? EstadoDebito { get; set; }
     }
 }

@@ -41,7 +41,16 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
         public string RespuestaBanco { get; set; }
 
+        [Display(Name = "Motivo de Baja")]
+        public int MotivoBajaCartera { get; set; }
+
+        [Display(Name = "Fecha de Baja")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? FechaBajaCartera { get; set; }
+
         public SelectList EstadoCourierList { get; set; }
+
+        public SelectList MotivoBajaCarteraList { get; set; }
 
         public bool Cobrar { get; set; }
         public List<InteracionListaViewModel> ListaInteracciones { get; set; }
@@ -60,6 +69,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public decimal? Cantidad { get; set; }
 
         public string RespuestaBanco { get; set; }
+
+        public int? EstadoDebito { get; set; }
     }
 
     public class InteracionListaViewModel
@@ -88,6 +99,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public DateTime CreatedOn { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime? LastModifiedOn { get; set; }
+
+        public int MotivoBajaCartera { get; set; }
+        public string DescMotivoBajaCartera { get; set; }
+
+        public DateTime? FechaBajaCartera { get; set; }
 
         public int Anio { get; set; }
         public int Mes { get; set; }

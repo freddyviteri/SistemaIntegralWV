@@ -26,6 +26,10 @@ namespace WordVision.ec.Domain.Entities.Donacion
         [StringLength(50)]
         public string NumeroGuiaKit { get; set; }
 
+         public int MotivoBajaCartera { get; set; } 
+
+        public DateTime? FechaBajaCartera { get; set; }
+
         public Donante Donantes { get; set; }
     }
 }

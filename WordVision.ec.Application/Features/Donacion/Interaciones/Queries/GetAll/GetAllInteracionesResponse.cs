@@ -34,6 +34,12 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAl
         public DateTime? LastModifiedOn { get; set; }
 
 
-       
+        public int MotivoBajaCartera { get; set; }
+        public string DescMotivoBajaCartera { get; set; }
+
+        public DateTime? FechaBajaCartera { get; set; }
+
+
+
     }
 }
