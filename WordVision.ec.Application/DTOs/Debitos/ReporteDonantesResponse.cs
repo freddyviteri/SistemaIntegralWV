@@ -11,6 +11,7 @@ namespace WordVision.ec.Application.DTOs.Debitos
         public int Id { get; set; }
         public DateTime FechaCaptacion { get; set; }
         public string Canal { get; set; }
+        public string Campana { get; set; }
         public string Frecuencia { get; set; }
         public string Genero { get; set; }
         public string Provincia { get; set; }

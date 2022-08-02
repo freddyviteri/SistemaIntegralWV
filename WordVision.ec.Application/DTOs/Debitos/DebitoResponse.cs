@@ -20,6 +20,7 @@ namespace WordVision.ec.Application.DTOs.Debitos
         public string CuentaTarjeta { get; set; }
         public decimal Valor { get; set; }
 
+        
         public int TipoId { get; set; }
         public int TipoCuenta { get; set; }
         public DateTime FechaCaducidad { get; set; }

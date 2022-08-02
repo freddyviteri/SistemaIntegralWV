@@ -51,11 +51,7 @@
                             <label class="col-md-12 col-form-label texto-pregunta" asp-for="MotivoBajaCartera"></label>
                             @Html.DropDownListFor(x => x.MotivoBajaCartera, (IEnumerable<SelectListItem>)Model.MotivoBajaCarteraList, new { @class = "form-control" })
                             <span asp-validation-for="MotivoBajaCartera" class="text-danger"></span>
-                      </div>
-                     
-                
-                        
-                     
+                      </div>                  
  
                 }
              </div>
@@ -128,8 +124,8 @@
                      <div class="col-md-2">
                             
                           @*<label asp-for="Cobrar" class="control-label col-form-label col-form-label-sm required">Cobrar</label>*@
-                                <select asp-for="Cobrar" class="form-control form-control  data-width="200%" >
-                                    @if (@d.EstadoDebito==3)
+                                @*<select asp-for="Cobrar" class="form-control form-control  data-width="100%" >*@
+                                    @*@if (@d.EstadoDebito==3)
                                                     {
                                                         <option value=@d.EstadoDebito>CONDONADO</option>
                                                     }
@@ -137,11 +133,11 @@
                                                     {
                                                           <option value=@d.EstadoDebito>POR COBRAR</option>
                                                     }
-
+*@
                                   
-                                </select>
+                                @*</select>*@
 
-                </div>
+                    </div>
                  </td>
 
 

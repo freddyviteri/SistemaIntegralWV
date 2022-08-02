@@ -70,7 +70,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
         public string RespuestaBanco { get; set; }
 
-        public int? EstadoDebito { get; set; }
+        public int EstadoDebito { get; set; }
     }
 
     public class InteracionListaViewModel

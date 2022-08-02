@@ -15,6 +15,6 @@ namespace WordVision.ec.Application.DTOs.Debitos
 
         public string RespuestaBanco { get; set; }
 
-        public int? EstadoDebito { get; set; }
+        public int EstadoDebito { get; set; }
     }
 }
