@@ -33,7 +33,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 int numCatalogo = 67; 
                 if (tipoPantalla == 2) 
                 {
-                    numCatalogo = 70;
+                    numCatalogo = 72;
                 }
                 if (tipoPantalla == 3)
                 {
@@ -122,10 +122,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         var result = await _mediator.Send(createEntidadCommand);
                         if (result.Succeeded)
                         {
+                          
                             id = result.Data;
                             if (entidad.TipoPantalla == 1)// if (entidad.Gestion == 4)
-                                {
-                               await _mediator.Send(new UpdateDonanteXEstadoCommand() { Id = entidad.IdDonante, EstadoDonante = 5 });
+                            {
+                                await _mediator.Send(new UpdateDonanteXEstadoCommand() { Id = entidad.IdDonante, EstadoDonante = 5 });
+                                
+                                
                              
                             }
                             _notify.Success($"Interacción Creada.");

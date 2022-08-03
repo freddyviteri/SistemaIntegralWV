@@ -87,7 +87,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
         public string Observacion { get; set; }
 
-        public DateTime? FechaEntregaKit { get; set; }
+        public DateTime FechaEntregaKit { get; set; }
 
 
         public int EstadoKitCourier { get; set; }

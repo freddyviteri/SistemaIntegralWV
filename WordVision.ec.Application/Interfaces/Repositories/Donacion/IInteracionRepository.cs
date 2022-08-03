@@ -19,7 +19,9 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Donacion
          
         Task<List<GetAllInteracionesResponse>> GetInteracionXDonanteAsync(int idDonante, int tipo  );  //, int estadoCourier
         Task<List<DebitosInteracionResponse>> GetDebitoXDonanteAsync(int idDonante );
-        
+
+
+        Task<int> InteracionXDonanteAsync(int idDonante, int tipo);
 
 
         //Task<List<Interacion>> GetInteracionXDonanteAsync(int idDonante, int tipo);

@@ -52,8 +52,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
 
         public async Task<List<GetAllInteracionesResponse>> GetInteracionXDonanteAsync(int idDonante, int tipo)
         {
-
-
+           
             var resultado1 = _repository.Entities.Where(x => x.IdDonante == idDonante && x.Tipo == tipo) 
                               .Select(a => new GetAllInteracionesResponse
                               {
@@ -96,6 +95,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
             return interacion.Id;
         }
 
-        
+        public Task<int> InteracionXDonanteAsync(int idDonante, int tipo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

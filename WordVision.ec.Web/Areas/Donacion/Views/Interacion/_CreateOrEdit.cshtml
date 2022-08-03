@@ -11,68 +11,48 @@
     <div class="row">
          <div class="col-md-12">
              <div class="form-group row">
-            @if (Model.TipoPantalla == 2)
-             {
-                    <div class="col-md-4">
-              
-                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="NumeroGuiaKit"></label>
-
-                        <input type="text" asp-for="NumeroGuiaKit" name="NumeroGuiaKit" class="form-control" required />
-                        <span asp-validation-for="NumeroGuiaKit" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntregaKit"></label>
-
-                        <input type="text" asp-for="FechaEntregaKit" name="FechaEntregaKit" class="datepicker5 form-control" required />
-                        <span asp-validation-for="FechaEntregaKit" class="text-danger" readonly></span>
-                    </div>
-
-                      <div class="col-md-4">
-                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoKitCourier"></label>
-                            @Html.DropDownListFor(x => x.EstadoKitCourier, (IEnumerable<SelectListItem>)Model.EstadoCourierList, new { @class = "form-control" ,required = "required"})
-                            <span asp-validation-for="EstadoKitCourier" class="text-danger"></span>
-                      </div>
-                }
+             
              </div>
          </div>
-          <div class="col-md-12">
-             <div class="form-group row">
-            @if (Model.TipoPantalla == 3)
-             {
-                      <div class="col-md-4">
-                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaBajaCartera"></label>
-
-                        <input type="text" asp-for="FechaBajaCartera" name="FechaBajaCartera" class="datepicker5 form-control"  />
-                        <span asp-validation-for="FechaBajaCartera" class="text-danger" readonly></span>
-                    </div>
-
-                      <div class="col-md-4">
-                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="MotivoBajaCartera"></label>
-                            @Html.DropDownListFor(x => x.MotivoBajaCartera, (IEnumerable<SelectListItem>)Model.MotivoBajaCarteraList, new { @class = "form-control" })
-                            <span asp-validation-for="MotivoBajaCartera" class="text-danger"></span>
-                      </div>
-                     
-                
-                        
-                     
- 
-                }
-             </div>
-         </div>
+         
 
         <div class="col-md-12">
             
          
             <div class="form-group row">
-
-                <div class="col-md-4">
+                
+                <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Gestion"></label>
                     @Html.DropDownListFor(x => x.Gestion, (IEnumerable<SelectListItem>)Model.interacionesList, new { @class = "form-control",required = "required" })
                     <span asp-validation-for="Gestion" class="text-danger"></span>
                 </div>
           
+                 @if (Model.TipoPantalla == 2 )
+             {
+                 @*<div class="col-md-4">
+                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoKitCourier"></label>
+                            @Html.DropDownListFor(x => x.EstadoKitCourier, (IEnumerable<SelectListItem>)Model.EstadoCourierList, new { @class = "form-control" ,required = "required"})
+                            <span asp-validation-for="EstadoKitCourier" class="text-danger"></span>
+                      </div>
+                   *@
+                        <div class="col-md-3">
 
+                            <label class="col-md-12 col-form-label texto-pregunta" name="lblNumeroGuiaKit" id="lblNumeroGuiaKit" asp-for="NumeroGuiaKit"></label>
+
+                            <input type="text" asp-for="NumeroGuiaKit" name="NumeroGuiaKit" class="form-control"   />
+                            <span asp-validation-for="NumeroGuiaKit" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="col-md-12 col-form-label texto-pregunta"  name="lblFechaEntregaKit" id="lblFechaEntregaKit" asp-for="FechaEntregaKit"></label>
+
+                        <input type="text" asp-for="FechaEntregaKit" name="FechaEntregaKit" class="datepicker5 form-control"  />
+                        <span asp-validation-for="FechaEntregaKit" class="text-danger" readonly></span>
+                    </div>
+                
+              
+                      
+                }
                 @*  <div class="col-md-4">
                 <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tipo"></label>
                 @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.tipoList, new { @class = "form-control",required = "required" })
@@ -128,7 +108,7 @@
                      <div class="col-md-2">
                             
                           @*<label asp-for="Cobrar" class="control-label col-form-label col-form-label-sm required">Cobrar</label>*@
-                                <select asp-for="Cobrar" class="form-control form-control  data-width="200%" >
+                              @*  <select asp-for="Cobrar" class="form-control form-control  data-width="200%" >
                                     @if (@d.EstadoDebito==3)
                                                     {
                                                         <option value=@d.EstadoDebito>CONDONADO</option>
@@ -140,7 +120,7 @@
 
                                   
                                 </select>
-
+*@
                 </div>
                  </td>
 
@@ -166,6 +146,30 @@
  </div>
 
         </div>
+         <div class="col-md-12">
+             <div class="form-group row">
+            @if (Model.TipoPantalla == 3)
+             {
+                      <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaBajaCartera"></label>
+
+                        <input type="text" asp-for="FechaBajaCartera" name="FechaBajaCartera" id="FechaBajaCartera" class="datepicker5 form-control"  />
+                        <span asp-validation-for="FechaBajaCartera" class="text-danger" readonly></span>
+                    </div>
+
+                      <div class="col-md-4">
+                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="MotivoBajaCartera"></label>
+                            @Html.DropDownListFor(x => x.MotivoBajaCartera, (IEnumerable<SelectListItem>)Model.MotivoBajaCarteraList, new { @class = "form-control" })
+                            <span asp-validation-for="MotivoBajaCartera" class="text-danger"></span>
+                      </div>
+                     
+                
+                        
+                     
+ 
+                }
+             </div>
+         </div>
 
     </div>
     <br />
@@ -200,7 +204,7 @@
         {
             <th data-priority="1">Numero de Guía</th>
             <th data-priority="1">Fecha de Entrega</th>
-            <th data-priority="1">Estado Courier</th>
+            
         }
             <th data-priority="1">Observaciones</th>
             <th data-priority="1">Usuario que Creo</th>
@@ -237,9 +241,7 @@
                 <td>
                     @d.FechaEntregaKit
                 </td>
-                <td>
-                    @d.DescEstadoKitCourier
-                </td>
+                
             }
             <td>
                     @d.Observacion
@@ -284,6 +286,12 @@
 <script>
 
     $(document).ready(function() {
+         $("#NumeroGuiaKit").hide();
+         $("#FechaEntregaKit").hide();         
+         $("#lblNumeroGuiaKit").hide();
+         $("#lblFechaEntregaKit").hide();
+
+
         var table = $("#interaccionesTable").DataTable({
             aoColumnDefs: [
                 { "aTargets": [0], "bSortable": true },
@@ -315,22 +323,66 @@
             minDate: new Date(2005, 0, 1),
             yearRange: '2005:' + String((new Date()).getFullYear() + 1),
             format: "dd-mm-yyyy",
-            startDate: new Date()
-
+            startDate: new Date(),
+             todayHighlight: true
         });
 
+        // INICIO Gestion 
+       
 
+        $("#Gestion").change(function() {
+            
+                if ($("#Gestion").val() == "5") {
+
+                      $("#lblNumeroGuiaKit").show(8000);
+                    $("#NumeroGuiaKit").show(8000);
+                    
+                }else{
+                
+                $("#NumeroGuiaKit").hide();
+                $("#lblNumeroGuiaKit").hide();
+         
+                }
+                 
+            if ($("#Gestion").val() == "3") {
+
+                $("#lblFechaEntregaKit").show(8000);
+                $("#FechaEntregaKit").show(8000);
+                $('#FechaEntregaKit').datepicker({ language: 'es', todayHighlight: true }, { dateFormat: "yy/mm/dd" }).datepicker("setDate", new Date());
+
+            } else {
+
+                 $("#FechaEntregaKit").hide();
+                 $("#lblFechaEntregaKit").hide();
+
+            }
+             });
+
+             
+        // $("#EstadoKitCourier").change(function() {
+
+             
+        //        $("#NumeroGuiaKit").slideDown(400)
+             
+            
+
+        //});
+        //fin estado curier
 
         // INICIO ESTADO 
     
     $("#Gestion").change(function() {
         if (@Model.TipoPantalla == 3) { 
         
-            if ($("#Gestion").val() == "0") { 
+
+
+            if ($("#Gestion").val() == "4") { 
             
-             $('#FechaBajaCartera').prop('disabled', true);
-            
-            $('#MotivoBajaCartera').prop('disabled', true);
+             var fecha = new Date();
+         $('#FechaBajaCartera').datepicker({ language: 'es', todayHighlight: true }, { dateFormat: "yy/mm/dd" }).datepicker("setDate", new Date());
+           
+            $('#FechaBajaCartera').prop('disabled', false);
+            $('#MotivoBajaCartera').prop('disabled', false);
 
             return false;
             }
@@ -341,16 +393,18 @@
             $('#FechaBajaCartera').prop('disabled', true);
             
             $('#MotivoBajaCartera').prop('disabled', true);
+             $("#FechaBajaCartera").val("");
+             $("#MotivoBajaCartera").val("");
 
             return false;
         }
 
-        if ($("#Gestion").val() == "4") { 
+        //if ($("#Gestion").val() == "4") { 
          
-        $('#FechaBajaCartera').prop('disabled', false);
+        //$('#FechaBajaCartera').prop('disabled', false);
             
-            $('#MotivoBajaCartera').prop('disabled', false);
-        }
+        //    $('#MotivoBajaCartera').prop('disabled', false);
+        //}
         
         }
        
