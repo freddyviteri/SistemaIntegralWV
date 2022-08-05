@@ -20,6 +20,9 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetBy
         public int idDonante { set; get; }
         public int tipo { set; get; }
 
+        public int gestion { set; get; }
+
+
         public GetInteracionesXDonanteQuery()
         {
         }
@@ -38,9 +41,9 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetBy
 
             public async Task<Result<int>> Handle(GetInteracionesXDonanteQuery query, CancellationToken cancellationToken)
             {
-                var interacionList = await _interacionRepository.InteracionXDonanteAsync(query.idDonante, query.tipo);                
+                var interacionList = await _interacionRepository.InteracionXDonanteAsync(query.idDonante, query.tipo, query.gestion);                
                 await _unitOfWork.Commit(cancellationToken);
-                return Result<int>.Success(query.idDonante);
+                return Result<int>.Success(interacionList);
             }
 
         }

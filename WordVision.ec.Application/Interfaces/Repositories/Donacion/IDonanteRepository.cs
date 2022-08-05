@@ -22,6 +22,6 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Donacion
         Task UpdateAsyncXEstado(int idDonante, int estadoDonante);
 
 
-        Task<List<ReporteDonantesResponse>> GetReporteDonantesAsync(DateTime fechaDesde, DateTime fechaHasta, int tipoDonante, int formaPago, int estadoDonante);
+        Task<List<ReporteDonantesResponse>> GetReporteDonantesAsync(DateTime fechaDesde, DateTime fechaHasta, int tipoDonante, int formaPago, int estadoDonante, int estadoPago);
     }
 }

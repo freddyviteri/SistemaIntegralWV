@@ -62,6 +62,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         {
             if (filtro == null)
                 return Json(new { data = new List<DonanteResponseViewModel>() });
+
             if (filtro.TipoPantalla==3 && filtro.CuotaDebe==0)
                 return Json(new { data = new List<DonanteResponseViewModel>() });
 

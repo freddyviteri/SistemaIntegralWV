@@ -94,7 +94,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         public async Task<JsonResult> GetFormaPago(int idFormaPago)
         {
 
-            var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = idFormaPago == 2 ? 63 : 36, Ninguno = true });
+            var catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = idFormaPago == 2 ? 63 : idFormaPago==4 ? 36 : 37, Ninguno = true });
             var banco = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
             //var entidadModel = await _mediator.Send(new GetProvinciaByIdRegionQuery() { IdRegion = idRegion });
@@ -764,7 +764,14 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             // return RedirectToPage("/Wizard/Index", new { area = "Registro" });
             return null;
         }
+        public async Task<JsonResult> UpdateEstadoDebito(int id, int estadoDebito)
+        {
 
+            var cuenta = await _mediator.Send(new UpdateEstadoDebitoXInteracionCommand() { Id = id, EstadoDebito = estadoDebito });
+
+            return Json(cuenta.Data);
+
+        }
 
     }
 }

@@ -4,182 +4,168 @@
 @model InteracionViewModel
 
 
-<form id="create-form" method="post" asp-controller="Interacion" asp-action="OnPostCreateOrEdit" onsubmit="return jQueryModalPost(this);" asp-route-id="@Model.Id"  enctype="multipart/form-data">
-   
-    <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.TipoPantalla" />
-    <input asp-for="IdDonante" type="hidden" name="IdDonante"  />
-    <div class="row">
-         <div class="col-md-12">
-             <div class="form-group row">
-             
-             </div>
-         </div>
-         
+<form id="create-form" method="post" asp-controller="Interacion" asp-action="OnPostCreateOrEdit" onsubmit="return jQueryModalPost(this);" asp-route-id="@Model.Id" enctype="multipart/form-data">
 
+    <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.TipoPantalla" />
+    <input asp-for="IdDonante" type="hidden" name="IdDonante" />
+    <div class="row">
         <div class="col-md-12">
-            
-         
             <div class="form-group row">
-                
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Gestion"></label>
                     @Html.DropDownListFor(x => x.Gestion, (IEnumerable<SelectListItem>)Model.interacionesList, new { @class = "form-control",required = "required" })
                     <span asp-validation-for="Gestion" class="text-danger"></span>
                 </div>
-          
-                 @if (Model.TipoPantalla == 2 )
-             {
-                 @*<div class="col-md-4">
-                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoKitCourier"></label>
-                            @Html.DropDownListFor(x => x.EstadoKitCourier, (IEnumerable<SelectListItem>)Model.EstadoCourierList, new { @class = "form-control" ,required = "required"})
-                            <span asp-validation-for="EstadoKitCourier" class="text-danger"></span>
-                      </div>
-                   *@
-                        <div class="col-md-3">
 
-                            <label class="col-md-12 col-form-label texto-pregunta" name="lblNumeroGuiaKit" id="lblNumeroGuiaKit" asp-for="NumeroGuiaKit"></label>
+                @if (Model.TipoPantalla == 2)
+                {                   
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta" name="lblNumeroGuiaKit" id="lblNumeroGuiaKit" asp-for="NumeroGuiaKit"></label>
+                        <input type="text" asp-for="NumeroGuiaKit" name="NumeroGuiaKit" class="form-control" />
+                        <span asp-validation-for="NumeroGuiaKit" class="text-danger"></span>
+                    </div>
 
-                            <input type="text" asp-for="NumeroGuiaKit" name="NumeroGuiaKit" class="form-control"   />
-                            <span asp-validation-for="NumeroGuiaKit" class="text-danger"></span>
-                        </div>
-
-                        <div class="col-md-3">
-                            <label class="col-md-12 col-form-label texto-pregunta"  name="lblFechaEntregaKit" id="lblFechaEntregaKit" asp-for="FechaEntregaKit"></label>
-
-                        <input type="text" asp-for="FechaEntregaKit" name="FechaEntregaKit" class="datepicker5 form-control"  />
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta" name="lblFechaEntregaKit" id="lblFechaEntregaKit" asp-for="FechaEntregaKit"></label>
+                        <input type="text" asp-for="FechaEntregaKit" name="FechaEntregaKit" class="datepicker5 form-control" />
                         <span asp-validation-for="FechaEntregaKit" class="text-danger" readonly></span>
                     </div>
-                
-              
-                      
                 }
-                @*  <div class="col-md-4">
-                <label class="col-md-12 col-form-label texto-pregunta" asp-for="Tipo"></label>
-                @Html.DropDownListFor(x => x.Tipo, (IEnumerable<SelectListItem>)Model.tipoList, new { @class = "form-control",required = "required" })
-                <span asp-validation-for="Tipo" class="text-danger"></span>
-                </div>*@
-
-
+              
             </div>
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <label class="col-md-12 col-form-label texto-pregunta" asp-for="Observacion"></label>
-                    <textarea asp-for="Observacion" type="text" name="Observacion" class="form-control" rows="3" required></textarea>
-                    <span asp-validation-for="Observacion" class="text-danger"></span>
-                </div>
-           
-            
-
-@if(Model.TipoPantalla == 3)
-{
-    <div class="col-md-6">
- <table align="right" id="CondonadosTable"  class="table table-striped  " asp-route-id="@Model.Id"  width="100%" cellspacing="0">
-     <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.TipoPantalla" />
-    <input asp-for="IdDonante" type="hidden" name="IdDonante"/>
-     <thead>
-        <tr>
-            <th data-priority="1">Año</th>
-            <th data-priority="1">Mes</th>
-            <th data-priority="1">Cantidad</th>
-            <th data-priority="1">Respuesta Banco</th>
-            <th data-priority="2" class="cobrar-th">Cobrar</th>
-        </tr>
-    </thead>
-     <tbody>
-        @foreach (var d in Model.ListaDebitos)
-        {
-            <tr>
-
-                <td>
-                    @d.Anio
-
-                </td>         
-                <td>
-                    @d.Mes
-                </td>
-                <td>
-                    @d.Cantidad
-                </td>
-                <td>
-                    @d.RespuestaBanco
-                </td>
-
-                <td class="cobrar-td">
-                     <div class="col-md-2">
-                            
-                          @*<label asp-for="Cobrar" class="control-label col-form-label col-form-label-sm required">Cobrar</label>*@
-                              @*  <select asp-for="Cobrar" class="form-control form-control  data-width="200%" >
-                                    @if (@d.EstadoDebito==3)
-                                                    {
-                                                        <option value=@d.EstadoDebito>CONDONADO</option>
-                                                    }
-                                                    else
-                                                    {
-                                                          <option value=@d.EstadoDebito>POR COBRAR</option>
-                                                    }
-
-                                  
-                                </select>
-*@
-                </div>
-                 </td>
+         </div>
+    </div>
+      <div class="row">
+        <div class="col-md-12">
+              <div class="form-group row">
+                    <div class="col-md-6">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="Observacion"></label>
+                        <textarea asp-for="Observacion" type="text" name="Observacion" class="form-control" rows="3" required></textarea>
+                        <span asp-validation-for="Observacion" class="text-danger"></span>
+                    </div>
 
 
-            </tr>
-        }
 
-    </tbody>
-          
-</table>
-@* @if (Model.TipoPantalla == 3)
+                @if (Model.TipoPantalla == 3)
                 {
-                    
-                     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
-                             <input type="hidden" value="false" name="band" id="band"/>
-                             <button  type="submit" class="btn btn-info" style="background-color:blue !important">Cobrar</button>
-                         </div>
-                }*@
-</div>
-}
- 
-    
- </div>
+                    <div class="col-md-6">
+                        <label class="col-md-12 col-form-label texto-pregunta"><font style="font-weight: bold;">Cuotas Faltantes de Abonar</font> </label>
+                        <table align="right" id="CondonadosTable" class="table table-striped  " asp-route-id="@Model.Id" width="100%" cellspacing="0">
+                            <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.TipoPantalla" />
+                            <input asp-for="IdDonante" type="hidden" name="IdDonante" />
+                            <thead>
+                                <tr>
+                                    <th data-priority="1">Año</th>
+                                    <th data-priority="1">Mes</th>
+                                    <th data-priority="1">Cantidad</th>
+                                    <th data-priority="1">Respuesta Banco</th>
+                                    <th data-priority="2" class="cobrar-th">Estado Debito</th>
 
-        </div>
-         <div class="col-md-12">
-             <div class="form-group row">
-            @if (Model.TipoPantalla == 3)
-             {
-                      <div class="col-md-4">
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 @{int i=0;}
+                                @foreach (var d in Model.ListaDebitos)
+                                {
+                                    <tr>
+                                        <td>
+                                            @d.Anio
+                                        </td>
+                                        <td>
+                                            @d.Mes
+                                        </td>
+                                        <td>
+                                            @d.Cantidad
+                                        </td>
+                                        <td>
+                                            @d.RespuestaBanco
+                                        </td>
+
+                                        <td class="cobrar-td">
+                                            <div class="col-md-2">
+                                                <label class="col-md-12 col-form-label texto-pregunta" >EstadoDebito</label>
+                                                <select onchange="ActualizaEstadoDebito(@i,@d.Id)" id=@("EstadoDebito"+i) name=@("EstadoDebito"+i) style="width:5%" data-width="500px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.EstadoDebitoList)" data-live-search="true">
+                                                </select>
+
+                                            </div>
+                                            @*<div class="col-md-3">
+                                                <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoDebito"></label>
+                                                @Html.DropDownListFor(x => x.EstadoDebito, (IEnumerable<SelectListItem>)Model.EstadoDebitoList, new { @class = "form-control" })
+                                                    <span asp-validation-for="EstadoDebito" class="text-danger"></span>
+                                            </div>*@
+
+                                            @*<label asp-for="Cobrar" class="control-label col-form-label col-form-label-sm required">Cobrar</label>*@
+                                            @*  <select asp-for="Cobrar" class="form-control form-control  data-width="200%" >
+                                        @if (@d.EstadoDebito==3)
+                                        {
+                                        <option value=@d.EstadoDebito>CONDONADO</option>
+                                        }
+                                        else
+                                        {
+                                        <option value=@d.EstadoDebito>POR COBRAR</option>
+                                        }
+
+
+                                        </select>*@
+
+
+                                        </td>
+                                    </tr>
+                                   
+                                        i= i + 1;
+                                   
+                                }
+                            </tbody>                           
+                                <tfoot>
+                                    <tr>
+                                        <th>Total Faltante Abono</th>
+                                    </tr>
+                                </tfoot>
+                        </table>
+                         @if (Model.TipoPantalla == 3)
+                    {
+
+                    <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
+                    <input type="hidden" value="false" name="band" id="band"/>
+                    <button  type="submit" class="btn btn-info" style="background-color:blue !important">Cobrar</button>
+                    </div>
+                    }
+                    </div>
+                }
+
+             </div>
+          </div>
+      </div>
+        <div class="row">
+        <div class="col-md-8">
+            <div class="form-group row">
+                @if (Model.TipoPantalla == 3)
+                {
+                    <div class="col-md-4">
                         <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaBajaCartera"></label>
 
-                        <input type="text" asp-for="FechaBajaCartera" name="FechaBajaCartera" id="FechaBajaCartera" class="datepicker5 form-control"  />
+                        <input type="text" asp-for="FechaBajaCartera" name="FechaBajaCartera" id="FechaBajaCartera" class="datepicker5 form-control" />
                         <span asp-validation-for="FechaBajaCartera" class="text-danger" readonly></span>
                     </div>
 
-                      <div class="col-md-4">
-                            <label class="col-md-12 col-form-label texto-pregunta" asp-for="MotivoBajaCartera"></label>
-                            @Html.DropDownListFor(x => x.MotivoBajaCartera, (IEnumerable<SelectListItem>)Model.MotivoBajaCarteraList, new { @class = "form-control" })
-                            <span asp-validation-for="MotivoBajaCartera" class="text-danger"></span>
-                      </div>
-                     
-                
-                        
-                     
- 
+                    <div class="col-md-4">
+                        <label class="col-md-12 col-form-label texto-pregunta" asp-for="MotivoBajaCartera"></label>
+                        @Html.DropDownListFor(x => x.MotivoBajaCartera, (IEnumerable<SelectListItem>)Model.MotivoBajaCarteraList, new { @class = "form-control" })
+                        <span asp-validation-for="MotivoBajaCartera" class="text-danger"></span>
+                    </div>
                 }
-             </div>
-         </div>
-
-    </div>
+            </div>
+        </div>
+        </div>
+    
     <br />
 
 
     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
 
 
-        <input type="hidden" value="false" name="band" id="band"/>
-        <button type="submit" class="btn btn-info" style="background-color:blue !important">Guardar</button>
+        <input type="hidden" value="false" name="band" id="band" />
+        <button name="btnguardar" id="btnguardar" type="submit" class="btn btn-info" style="background-color:blue !important">Guardar</button>
 
         <button type="submit" id="btnCancelar" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
     </div>
@@ -190,41 +176,41 @@
 <hr />
 
 
-<table id="interaccionesTable" class="table table-striped " asp-route-id="@Model.Id"  width="100%" cellspacing="0">
+<table id="interaccionesTable" class="table table-striped " asp-route-id="@Model.Id" width="100%" cellspacing="0">
 
     <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.TipoPantalla" />
-    <input asp-for="IdDonante" type="hidden" name="IdDonante"  />
+    <input asp-for="IdDonante" type="hidden" name="IdDonante" />
 
-    
+
     <thead>
         <tr>
 
             <th data-priority="1">Gestion</th>
             @if (Model.TipoPantalla == 2)
-        {
-            <th data-priority="1">Numero de Guía</th>
-            <th data-priority="1">Fecha de Entrega</th>
-            
-        }
+            {
+                <th data-priority="1">Numero de Guía</th>
+                <th data-priority="1">Fecha de Entrega</th>
+
+            }
             <th data-priority="1">Observaciones</th>
             <th data-priority="1">Usuario que Creo</th>
             <th data-priority="1">Fecha que Creo</th>
 
-        @if (Model.TipoPantalla == 3)
-        {
-            <th data-priority="1">Fecha de Baja</th>
-            <th data-priority="1">Motivo de Baja</th>
-                
-        }
-            @if (Model.TipoPantalla == 1)
-        {
-            <th data-priority="1">Usuario que Modifico</th>
-            <th data-priority="1">Fecha que Modifico</th>
+            @if (Model.TipoPantalla == 3)
+            {
+                <th data-priority="1">Fecha de Baja</th>
+                <th data-priority="1">Motivo de Baja</th>
 
-        }
+            }
+            @if (Model.TipoPantalla == 1)
+            {
+                <th data-priority="1">Usuario que Modifico</th>
+                <th data-priority="1">Fecha que Modifico</th>
+
+            }
         </tr>
     </thead>
-     <tbody>
+    <tbody>
         @foreach (var d in Model.ListaInteracciones)
         {
             <tr>
@@ -233,17 +219,17 @@
                     @Model.interacionesList.Where(x => x.Value == @d.Gestion.ToString()).FirstOrDefault().Text
 
                 </td>
-               @if (Model.TipoPantalla == 2)
-            {
+                @if (Model.TipoPantalla == 2)
+                {
+                    <td>
+                        @d.NumeroGuiaKit
+                    </td>
+                    <td>
+                        @d.FechaEntregaKit
+                    </td>
+
+                }
                 <td>
-                    @d.NumeroGuiaKit
-                </td>
-                <td>
-                    @d.FechaEntregaKit
-                </td>
-                
-            }
-            <td>
                     @d.Observacion
                 </td>
 
@@ -255,25 +241,25 @@
 
                 </td>
 
-             @if (Model.TipoPantalla == 3)
-             {
-                  <td>
-                    @d.FechaBajaCartera
-                </td>
-                <td>
-                    @d.DescMotivoBajaCartera
-                </td>
-                    
-            }
+                @if (Model.TipoPantalla == 3)
+                {
+                    <td>
+                        @d.FechaBajaCartera
+                    </td>
+                    <td>
+                        @d.DescMotivoBajaCartera
+                    </td>
+
+                }
                 @if (Model.TipoPantalla == 1)
-            {
-                <td>
-                    @d.LastModifiedBy
-                </td>
-                <td>
-                    @d.LastModifiedOn
-                </td>
-            }
+                {
+                    <td>
+                        @d.LastModifiedBy
+                    </td>
+                    <td>
+                        @d.LastModifiedOn
+                    </td>
+                }
 
             </tr>
         }
@@ -283,15 +269,14 @@
 </table>
 
 
+
 <script>
 
     $(document).ready(function() {
-         $("#NumeroGuiaKit").hide();
-         $("#FechaEntregaKit").hide();         
-         $("#lblNumeroGuiaKit").hide();
-         $("#lblFechaEntregaKit").hide();
-
-
+        $("#NumeroGuiaKit").hide();
+        $("#FechaEntregaKit").hide();
+        $("#lblNumeroGuiaKit").hide();
+        $("#lblFechaEntregaKit").hide();
         var table = $("#interaccionesTable").DataTable({
             aoColumnDefs: [
                 { "aTargets": [0], "bSortable": true },
@@ -306,110 +291,121 @@
                 "url": "/lib/datatables/language/Spanish.json"
             }
         });
-
-
     });
 
-  
-   
+
+
 
 
     $(".datepicker5").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            autoclose: true,
-            todayBtn: true,
-            firstDay: 1,
-            minDate: new Date(2005, 0, 1),
-            yearRange: '2005:' + String((new Date()).getFullYear() + 1),
-            format: "dd-mm-yyyy",
-            startDate: new Date(),
-             todayHighlight: true
-        });
+        changeMonth: true,
+        changeYear: true,
+        autoclose: true,
+        todayBtn: true,
+        firstDay: 1,
+        minDate: new Date(2005, 0, 1),
+        yearRange: '2005:' + String((new Date()).getFullYear() + 1),
+        format: "dd-mm-yyyy",
+        startDate: new Date(),
+        todayHighlight: true
+    });
 
-        // INICIO Gestion 
-       
+    // INICIO Gestion
 
-        $("#Gestion").change(function() {
-            
-                if ($("#Gestion").val() == "5") {
 
-                      $("#lblNumeroGuiaKit").show(8000);
-                    $("#NumeroGuiaKit").show(8000);
-                    
-                }else{
-                
-                $("#NumeroGuiaKit").hide();
-                $("#lblNumeroGuiaKit").hide();
-         
-                }
-                 
-            if ($("#Gestion").val() == "3") {
-
-                $("#lblFechaEntregaKit").show(8000);
-                $("#FechaEntregaKit").show(8000);
-                $('#FechaEntregaKit').datepicker({ language: 'es', todayHighlight: true }, { dateFormat: "yy/mm/dd" }).datepicker("setDate", new Date());
-
-            } else {
-
-                 $("#FechaEntregaKit").hide();
-                 $("#lblFechaEntregaKit").hide();
-
-            }
-             });
-
-             
-        // $("#EstadoKitCourier").change(function() {
-
-             
-        //        $("#NumeroGuiaKit").slideDown(400)
-             
-            
-
-        //});
-        //fin estado curier
-
-        // INICIO ESTADO 
-    
     $("#Gestion").change(function() {
-        if (@Model.TipoPantalla == 3) { 
-        
 
+        if ($("#Gestion").val() == "5") {
 
-            if ($("#Gestion").val() == "4") { 
-            
-             var fecha = new Date();
-         $('#FechaBajaCartera').datepicker({ language: 'es', todayHighlight: true }, { dateFormat: "yy/mm/dd" }).datepicker("setDate", new Date());
-           
-            $('#FechaBajaCartera').prop('disabled', false);
-            $('#MotivoBajaCartera').prop('disabled', false);
+            $("#lblNumeroGuiaKit").show();
+            $("#NumeroGuiaKit").show();
 
-            return false;
+        } else {
+
+            $("#NumeroGuiaKit").hide();
+            $("#lblNumeroGuiaKit").hide();
+
+        }
+
+        if ($("#Gestion").val() == "3") {
+
+            $("#lblFechaEntregaKit").show();
+            $("#FechaEntregaKit").show();
+            $('#FechaEntregaKit').datepicker({ language: 'es', todayHighlight: true }, { dateFormat: "yy/mm/dd" }).datepicker("setDate", new Date());
+
+        } else {
+
+            $("#FechaEntregaKit").hide();
+            $("#lblFechaEntregaKit").hide();
+
+        }
+    });
+
+    $("#Gestion").change(function() {
+
+        $.get("/Donacion/Interacion/GetInteracion", { idDonante: @Model.IdDonante , gestion: $("#Gestion").val(), tipo: 2 }, function(data) {
+
+            if (data > 0) {
+
+                Swal.fire("¡Advertencia!", "No Puede Repetirse La Gestion ", "warning");
+                $('#btnguardar').prop('disabled', true);
+            }
+            else {
+
+                $('#btnguardar').prop('disabled', false);
             }
 
-          
-         if ($("#Gestion").val() != "4") {
-           
-            $('#FechaBajaCartera').prop('disabled', true);
-            
-            $('#MotivoBajaCartera').prop('disabled', true);
-             $("#FechaBajaCartera").val("");
-             $("#MotivoBajaCartera").val("");
-
-            return false;
-        }
-
-        //if ($("#Gestion").val() == "4") { 
-         
-        //$('#FechaBajaCartera').prop('disabled', false);
-            
-        //    $('#MotivoBajaCartera').prop('disabled', false);
-        //}
-        
-        }
-       
+        });
     });
 
 
+    // INICIO ESTADO
+
+    $("#Gestion").change(function() {
+        if (@Model.TipoPantalla == 3) {
+
+
+
+            if ($("#Gestion").val() == "4") {
+
+                var fecha = new Date();
+                $('#FechaBajaCartera').datepicker({ language: 'es', todayHighlight: true }, { dateFormat: "yy/mm/dd" }).datepicker("setDate", new Date());
+
+                $('#FechaBajaCartera').prop('disabled', false);
+                $('#MotivoBajaCartera').prop('disabled', false);
+
+                return false;
+            }
+
+
+            if ($("#Gestion").val() != "4") {
+
+                $('#FechaBajaCartera').prop('disabled', true);
+
+                $('#MotivoBajaCartera').prop('disabled', true);
+                $("#FechaBajaCartera").val("");
+                $("#MotivoBajaCartera").val("");
+
+                return false;
+            }
+        }
+
+    });
+
+   function ActualizaEstadoDebito( i, id)                                                    
+   {
+         alert($("#EstadoDebito"+i).val());
+
+         alert(id);
+
+          $.get("/Donacion/Debito/UpdateEstadoDebito", { Id: id , idEstado: $("#EstadoDebito"+i).val() }, function(data) {
+ 
+               Swal.fire("¡Advertencia!", "No Puede Repetirse La Gestion ", "warning");   
+            });
+
+    };                                                  
+           
+
 </script>
+
 

@@ -12,6 +12,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public int Id { get; set; }
         public DateTime FechaCaptacion { get; set; }
         public string Canal { get; set; }
+        public string Campana { get; set; }
         public string Frecuencia { get; set; }
         public string Genero { get; set; }
         public string Provincia { get; set; }
@@ -49,7 +50,11 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
         public int TipoDonante { get; set; }
         public int FormaPago { get; set; }
-        public int EstadoDonante { get; set; } 
+        public int EstadoDonante { get; set; }
+
+        public int EstadoPago { get; set; }
+
+        public SelectList EstadoPagoList { get; set; }
         public SelectList FormaPagoList { get; set; }
         public SelectList TipoDonanteList { get; set; }
         public SelectList EstadoDonanteList { get; set; }

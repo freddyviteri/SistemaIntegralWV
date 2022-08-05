@@ -52,6 +52,12 @@
                                         </div>
                                         <select id="selectFormaPago" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.FormaPagoList)" data-live-search="true">
                                         </select>
+
+                                         <div class="input-group-prepend input-group-sm">
+                                            <div class="input-group-text input-group-sm"  style="height: 31px !important;">Estado Pago</div>
+                                        </div>
+                                        <select id="selectFormaPago" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.EstadoPagoList)" data-live-search="true">
+                                        </select>
                                     
                                     &nbsp;&nbsp;&nbsp;
                                     <a class="btn btn-sm btn-labeled btn-success"  style="height: 31px !important;" href="#" onclick="filtrarReporte()">
@@ -86,22 +92,36 @@
                                     Canal
                                 </th>
                                 <th>
+                                    Campaña
+                                </th>
+                                <th>
                                     Frecuencia
                                 </th>
                                 <th>
                                     Género
                                 </th>
-                               
-                                <th>
-                                    Identificación
+                               <th>
+                                    Provincia
                                 </th>
                                 <th>
                                     Nombres
                                 </th>
                                 <th>
-                                    Apellidos
+                                    Nombre1
                                 </th>
-                              
+                                <th>
+                                    Nombre2
+                                </th>
+                                <th>
+                                    Apellido1
+                                </th>
+                                <th>
+                                    Apellido2
+                                </th>
+                                <th>
+                                    Identificación
+                                </th>
+
                                 <th>
                                     Forma Pago
                                 </th>
@@ -118,6 +138,15 @@
                                 <th class="text-right">
                                     Valor
                                 </th>
+                                <th>
+                                   Codigo
+                                </th>
+                                <th>
+                                   Categoria
+                                </th>
+                                <th>
+                                   Tipo Donante
+                                </th>
                  
                             </tr>
                         </thead>
@@ -128,13 +157,24 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                  <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th class="text-right">Totales: </th>
+                                <th></th>
+                                
                                 <th></th>
                               <th></th>
-                                <th class="text-right">Totales: </th>
+                                
                                  <th></th>
                                 <th class="text-right"> </th>
                                
@@ -206,14 +246,16 @@
             columns: [
                 { width: '10%', filter: 'input', type: 'string', data: 'fechaCaptacion' },
                 { width: '10%', filter: 'input', type: 'string', data: 'canal' },
+                { width: '10%', filter: 'input', type: 'string', data: 'campana' },
                 { width: '10%', filter: 'input', type: 'string', data: 'frecuencia' },
                 { width: '10%', filter: 'input', type: 'string', data: 'genero' },
-                { width: '10%', filter: 'input', type: 'string', data: 'identificacion' },
-                { width: '15%', filter: 'input', type: 'string', data: 'nombres' },
-                { width: '15%', filter: 'input', type: 'string', data: 'apellidos' },
-                //{ width: '15%', filter: 'input', type: 'string', data: 'nombre2' },
-                //{ width: '15%', filter: 'input', type: 'string', data: 'apellido1' },
-                //{ width: '15%', filter: 'input', type: 'string', data: 'apellido2' },
+                { width: '10%', filter: 'input', type: 'string', data: 'provincia' },
+                { width: '10%', filter: 'input', type: 'string', data: 'nombreDonante' },
+                { width: '10%', filter: 'input', type: 'string', data: 'nombre1' },
+                { width: '10%', filter: 'input', type: 'string', data: 'nombre2' },
+                { width: '15%', filter: 'input', type: 'string', data: 'apellido1' },
+                { width: '15%', filter: 'input', type: 'string', data: 'apellido2' },
+                { width: '10%', filter: 'input', type: 'string', data: 'identificacion' },                                
                 { width: '15%', filter: 'input', type: 'string', data: 'formaPago' },
                 { width: '15%', filter: 'input', type: 'string', data: 'entidadBancaria' },
                 { width: '10%', filter: 'input', type: 'string', data: 'tipoCuenta' },
@@ -224,6 +266,9 @@
                         return $.fn.dataTable.render.number('', '.', 2, '').display(data);
                     }
                 },
+                { width: '10%', filter: 'input', type: 'date', data: 'codigoSCI' },
+                { width: '10%', filter: 'input', type: 'date', data: 'categoria' },
+                { width: '10%', filter: 'input', type: 'date', data: 'tipoDonante' },
                 //{
                 //    width: '25%', filter: 'input', type: 'num', data: 'costoRecurso', className: 'text-right', operation: "sum",
                 //    render: function (data, type, row) {

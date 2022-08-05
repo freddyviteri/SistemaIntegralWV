@@ -38,6 +38,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
             var resultado1 = _repositoryDebito.Entities.Where(x => x.IdDonante == idDonante && x.CodigoRespuesta != "PROCESO OK")
                          .Select(a => new DebitosInteracionResponse
                          {
+                             Id = a.Id,
                              Anio = a.Anio,
                              Mes = a.Mes,
                              Cantidad = a.Valor,
@@ -71,6 +72,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                                   DescMotivoBajaCartera = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 71 && c.Secuencia == a.MotivoBajaCartera.ToString()).FirstOrDefault().Nombre,
                                   MotivoBajaCartera = a.MotivoBajaCartera,
                                   FechaBajaCartera = a.FechaBajaCartera,
+                                  
                               }
                               ).ToListAsync();
             return await resultado1;
@@ -91,13 +93,17 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
 
         public async Task<int> InsertAsync(Interacion interacion)
         {
+            string numguia = _repository.Entities.Where(x => x.IdDonante == interacion.IdDonante && x.Tipo == interacion.Tipo && x.NumeroGuiaKit != null)?.FirstOrDefault()?.NumeroGuiaKit;
+            if (numguia != null)
+                interacion.NumeroGuiaKit = numguia;
+
             await _repository.AddAsync(interacion);
             return interacion.Id;
         }
 
-        public Task<int> InteracionXDonanteAsync(int idDonante, int tipo)
+        public async Task<int> InteracionXDonanteAsync(int idDonante, int tipo, int gestion)
         {
-            throw new NotImplementedException();
+            return await _repository.Entities.Where(d => d.IdDonante == idDonante && d.Tipo == tipo && d.Gestion == gestion).CountAsync();
         }
     }
 }

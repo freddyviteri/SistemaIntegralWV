@@ -8,6 +8,7 @@ namespace WordVision.ec.Application.DTOs.Debitos
 {
     public class DebitosInteracionResponse
     {
+        public int Id { get; set; }
         public int Anio { get; set; }
         public int Mes { get; set; }
 

@@ -52,6 +52,9 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
         public SelectList MotivoBajaCarteraList { get; set; }
 
+        public int? EstadoDebito { get; set; }
+
+        public SelectList EstadoDebitoList { get; set; }
         public bool Cobrar { get; set; }
         public List<InteracionListaViewModel> ListaInteracciones { get; set; }
 
@@ -63,6 +66,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
 
     public class ListaDebitoInteracionResponseViewModel
     {
+        public int Id { get; set; }
         public int Anio { get; set; }
         public int Mes { get; set; }
 
@@ -71,6 +75,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public string RespuestaBanco { get; set; }
 
         public int? EstadoDebito { get; set; }
+
+
     }
 
     public class InteracionListaViewModel
@@ -111,6 +117,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Models
         public decimal Cantidad { get; set;}
 
         public string RespuestaBanco { get; set; }
+
+        
     }
 
 
