@@ -35,7 +35,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
 
         public async Task<List<DebitosInteracionResponse>> GetDebitoXDonanteAsync(int idDonante)
         {
-            var resultado1 = _repositoryDebito.Entities.Where(x => x.IdDonante == idDonante && x.CodigoRespuesta != "PROCESO OK")
+            var resultado1 = _repositoryDebito.Entities.Where(x => x.IdDonante == idDonante && x.CodigoRespuesta != "PROCESO OK" && x.Estado < 3)
                          .Select(a => new DebitosInteracionResponse
                          {
                              Id = a.Id,

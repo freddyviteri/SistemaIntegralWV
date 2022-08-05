@@ -349,6 +349,12 @@
        function buscarDonante() {
         
             var categoria = parseInt($("#categoria").val());
+           var estadodonante = parseInt($("#estadoDonante").val());
+           //var validacion = parseInt($("#Validacion").val());
+         //  var validacion = $('input[name=Validacion]:checked').val();
+           
+           var Cuotadebe = ($("#Cuotadebe").val());
+
             //var tipoDonante = parseInt($("#selectTipoDonante").val());
             //var estadoDonante = parseInt($("#estadoDonante").val());
            if (@Model.TipoPantalla == 1) { 
@@ -358,16 +364,36 @@
                 }
 
            }
+            if (@Model.TipoPantalla == 2) { 
+               
+                if ($("#Validacion").prop('checked')) {
 
-           if (@Model.TipoPantalla == 2) { 
+                } else {
+                   Swal.fire("¡Advertencia!", "No Tiene Ninguna Validacion", "warning");
+                }
+            }
+             if (@Model.TipoPantalla == 2) { 
                 if (isNaN(categoria) || categoria==0){
                      Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la Categoría", "warning");
                     return false;
                 }
+              }
+              if (@Model.TipoPantalla == 2) { 
+                  
+                if (isNaN(estadodonante) || estadodonante==0){
+                    
+                     Swal.fire("¡Advertencia!", "Es obligatorio seleccionar la Estado", "warning");
+                    return false;
+                }
+              }
+           
 
-                
-
-           }
+              if (@Model.TipoPantalla == 3) { 
+                if (isNaN(Cuotadebe) || Cuotadebe==0){
+                     Swal.fire("¡Advertencia!", "Es obligatorio Poner el Número de Cuotas", "warning");
+                    return false;
+                }
+              }
             
 
             //   if (isNaN(estadoDonante) ){

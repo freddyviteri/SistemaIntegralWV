@@ -123,7 +123,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                 case 3:
                     
                     var resultado3 = _repository.Entities.Where(x => x.Categoria == 1  && (x.Campana == campana || campana == 0) && (x.Ciudad == ciudad || ciudad == 0) && (x.RUC == identificacion || identificacion == "") && ((x.Apellido1 + " " + x.Apellido2).Contains(nombresdonante) || nombresdonante == "") && (x.EstadoDonante == 1)
-                         && (_repositoryDebito.Entities.Where (d => d.CodigoRespuesta != "PROCESO OK" && d.IdDonante == x.Id).Count() == cuotaDebe))
+                         && (_repositoryDebito.Entities.Where (d => d.CodigoRespuesta != "PROCESO OK" && d.Estado < 3 && d.IdDonante == x.Id).Count() == cuotaDebe))
                          
                                                    .Select(a => new DonanteResponse
                                                    {

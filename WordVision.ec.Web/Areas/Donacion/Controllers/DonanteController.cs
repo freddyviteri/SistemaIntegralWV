@@ -61,6 +61,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         public async Task<IActionResult> LoadAll([FromBody]  DonanteFiltroViewModel filtro)
         {
             if (filtro == null)
+            
                 return Json(new { data = new List<DonanteResponseViewModel>() });
 
             if (filtro.TipoPantalla==3 && filtro.CuotaDebe==0)
@@ -629,7 +630,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             // return RedirectToPage("/Wizard/Index", new { area = "Registro" });
             return null;
         }
-
+        
 
     }
 }

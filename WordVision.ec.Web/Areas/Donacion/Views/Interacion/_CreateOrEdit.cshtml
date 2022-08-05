@@ -27,8 +27,8 @@
 
                     <div class="col-md-4">
                         <label class="col-md-12 col-form-label texto-pregunta" name="lblFechaEntregaKit" id="lblFechaEntregaKit" asp-for="FechaEntregaKit"></label>
-                        <input type="text" asp-for="FechaEntregaKit" name="FechaEntregaKit" class="datepicker5 form-control" />
-                        <span asp-validation-for="FechaEntregaKit" class="text-danger" readonly></span>
+                        <input type="text" asp-for="FechaEntregaKit" name="FechaEntregaKit" class="datepicker5 form-control" readonly/>
+                        <span asp-validation-for="FechaEntregaKit" class="text-danger" ></span>
                     </div>
                 }
               
@@ -59,14 +59,16 @@
                                     <th data-priority="1">Mes</th>
                                     <th data-priority="1">Cantidad</th>
                                     <th data-priority="1">Respuesta Banco</th>
-                                    <th data-priority="2" class="cobrar-th">Estado Debito</th>
+                                    <th>Estado Debito</th>
 
                                 </tr>
                             </thead>
                             <tbody>
+                                 @{decimal total=0;}
                                  @{int i=0;}
                                 @foreach (var d in Model.ListaDebitos)
                                 {
+                                    total += @d.Cantidad;
                                     <tr>
                                         <td>
                                             @d.Anio
@@ -81,35 +83,15 @@
                                             @d.RespuestaBanco
                                         </td>
 
-                                        <td class="cobrar-td">
+                                        <td >
                                             <div class="col-md-2">
                                                 <label class="col-md-12 col-form-label texto-pregunta" >EstadoDebito</label>
-                                                <select onchange="ActualizaEstadoDebito(@i,@d.Id)" id=@("EstadoDebito"+i) name=@("EstadoDebito"+i) style="width:5%" data-width="500px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.EstadoDebitoList)" data-live-search="true">
+                                                <select onchange="ActualizaEstadoDebito(@i,@d.Id)" id=@("EstadoDebito"+i) name=@("EstadoDebito"+i) style="width:5%" data-width="0px" title="Seleccionar..." class="form-control form-control-sm " asp-items="@((IEnumerable<SelectListItem>)Model.EstadoDebitoList)" data-live-search="true">
                                                 </select>
 
                                             </div>
-                                            @*<div class="col-md-3">
-                                                <label class="col-md-12 col-form-label texto-pregunta" asp-for="EstadoDebito"></label>
-                                                @Html.DropDownListFor(x => x.EstadoDebito, (IEnumerable<SelectListItem>)Model.EstadoDebitoList, new { @class = "form-control" })
-                                                    <span asp-validation-for="EstadoDebito" class="text-danger"></span>
-                                            </div>*@
-
-                                            @*<label asp-for="Cobrar" class="control-label col-form-label col-form-label-sm required">Cobrar</label>*@
-                                            @*  <select asp-for="Cobrar" class="form-control form-control  data-width="200%" >
-                                        @if (@d.EstadoDebito==3)
-                                        {
-                                        <option value=@d.EstadoDebito>CONDONADO</option>
-                                        }
-                                        else
-                                        {
-                                        <option value=@d.EstadoDebito>POR COBRAR</option>
-                                        }
-
-
-                                        </select>*@
-
-
                                         </td>
+                                        
                                     </tr>
                                    
                                         i= i + 1;
@@ -118,18 +100,18 @@
                             </tbody>                           
                                 <tfoot>
                                     <tr>
-                                        <th>Total Faltante Abono</th>
+                                        <th>Total Faltante Abono es: @total</th>
                                     </tr>
                                 </tfoot>
                         </table>
-                         @if (Model.TipoPantalla == 3)
+                     @*    @if (Model.TipoPantalla == 3)
                     {
 
                     <div class="form-group justify-content-between" style="margin-bottom: 0px !important">
                     <input type="hidden" value="false" name="band" id="band"/>
                     <button  type="submit" class="btn btn-info" style="background-color:blue !important">Cobrar</button>
                     </div>
-                    }
+                    }*@
                     </div>
                 }
 
@@ -144,7 +126,7 @@
                     <div class="col-md-4">
                         <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaBajaCartera"></label>
 
-                        <input type="text" asp-for="FechaBajaCartera" name="FechaBajaCartera" id="FechaBajaCartera" class="datepicker5 form-control" />
+                        <input type="text" asp-for="FechaBajaCartera" name="FechaBajaCartera" id="FechaBajaCartera" class="datepicker5 form-control" readonly/>
                         <span asp-validation-for="FechaBajaCartera" class="text-danger" readonly></span>
                     </div>
 
@@ -394,13 +376,12 @@
 
    function ActualizaEstadoDebito( i, id)                                                    
    {
-         alert($("#EstadoDebito"+i).val());
+         
 
-         alert(id);
-
-          $.get("/Donacion/Debito/UpdateEstadoDebito", { Id: id , idEstado: $("#EstadoDebito"+i).val() }, function(data) {
+          $.get("/Donacion/Debito/UpdateEstadoDebito", { id : id , estadoDebito : $("#EstadoDebito"+i).val() }, function(data) {
  
-               Swal.fire("¡Advertencia!", "No Puede Repetirse La Gestion ", "warning");   
+              Swal.fire("¡Advertencia!", "Cambio de Estado del Debito", "warning");   
+
             });
 
     };                                                  

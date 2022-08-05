@@ -52,7 +52,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 71, Ninguno = true });
                 var motivobajacartera = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
-                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 64, Ninguno = true });
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 74, Ninguno = true });
                 var estadodebito = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
                 var entidadViewModel = new InteracionViewModel();
@@ -134,7 +134,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         {
                                 
                             id = result.Data;    
-                            if (entidad.TipoPantalla == 1)// if (entidad.Gestion == 4)
+                            if (entidad.Gestion == 4 && entidad.Tipo == 1)// if (entidad.Gestion == 4)
                             {
                                 await _mediator.Send(new UpdateDonanteXEstadoCommand() { Id = entidad.IdDonante, EstadoDonante = 5 });
 

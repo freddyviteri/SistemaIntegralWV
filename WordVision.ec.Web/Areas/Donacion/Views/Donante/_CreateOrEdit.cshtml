@@ -107,7 +107,7 @@
     </div>
 
     <hr />
-    <div class="row">
+    <div class="row"> 
         <div class="col-md-12">
             <div class="form-group row">
                 <div class="col-md-3">
@@ -175,8 +175,6 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-
-
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Region"></label>
                     @Html.DropDownListFor(x => x.Region, (IEnumerable<SelectListItem>)Model.RegionList, new { @class = "form-control",required = "required" })
@@ -276,7 +274,7 @@
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="MesInicialDebito"></label>
 
-                    <input type="text" asp-for="MesInicialDebito" name="MesInicialDebito" class="datepicker2 form-control" required/>
+                    <input type="text" asp-for="MesInicialDebito" name="MesInicialDebito" class="datepicker2 form-control" readonly required/>
                     <span asp-validation-for="MesInicialDebito" class="text-danger"></span>
                 </div>
                 @* <div class="col-md-2">
@@ -320,8 +318,8 @@
                     <div class="col-md-2">
                         <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntrega"></label>
 
-                        <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control" />
-                        <span asp-validation-for="FechaEntrega" class="text-danger" readonly></span>
+                        <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control" readonly />
+                        <span asp-validation-for="FechaEntrega" class="text-danger" ></span>
                     </div>
                     <div class="col-md-3">
                         <label class="col-md-12 col-form-label texto-pregunta" asp-for="CalificacionDonante"></label>
@@ -599,7 +597,7 @@
 
                                 <div class="col-md-4">
                                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaCaducidad"></label>
-                                    <input asp-for="FechaCaducidad" type="text" name="FechaCaducidad" class="datepicker4 form-control" />
+                                    <input asp-for="FechaCaducidad" type="text" name="FechaCaducidad" class="datepicker4 form-control" readonly />
                                     <span asp-validation-for="FechaCaducidad" class="text-danger"></span>
                                 </div>
                             </div>
@@ -844,12 +842,14 @@
             todayBtn: true
         });
 
-        $("#MesInicialDebito .datepicker").datepicker({
-            format: "dd-mm-yyyy",
-            autoclose: true,
-            todayBtn: true,
-            startDate: "06/07/2022"
-        });
+     
+
+        //$("#MesInicialDebito .datepicker").datepicker({
+        //    format: "dd-mm-yyyy",
+        //    autoclose: true,
+        //    todayBtn: true,
+        //    startDate: "06/07/2022"
+        //});
 
 
         /*   $("#MesInicialDebito.datepicker").datepicker({
@@ -1262,7 +1262,81 @@
     });
     // FIN DE ESTADO
 
-   
+   //inicio tipo anonimo
+
+    $("#Tipo").change(function() {
+        if ($("#Tipo").val() == "3") {
+            $("#Genero").val(3);
+            $('#Genero').prop('disabled', true);
+            $("#Nombre1").val("Anónimo");
+            $('#Nombre1').prop('disabled', true);
+            $("#Nombre2").val("Anónimo");
+            $('#Nombre2').prop('disabled', true);
+            $("#Apellido1").val("Anónimo");
+            $('#Apellido1').prop('disabled', true);
+            $("#Apellido2").val("Anónimo");
+            $('#Apellido2').prop('disabled', true);
+            $("#Cedula").val(2);
+            $('#Cedula').prop('disabled', true);
+            $("#RUC").val(0);
+            $('#RUC').prop('disabled', true);
+            $("#Region").val(1);
+            $('#Region').prop('disabled', true);
+            $("#Provincia").val(1);
+            $('#Provincia').prop('disabled', true);
+            $("#Direccion").val("Aninimo");
+            $('#Direccion').prop('disabled', true);
+            $("#CodigoArea").val("0");
+            $('#CodigoArea').prop('disabled', true);
+            $('#TelefonoConvencional').prop('disabled', true);
+            $("#TelefonoCelular").val("0");
+            $('#TelefonoCelular').prop('disabled', true);            
+            $('#WhatsApp').prop('disabled', true);
+            $("#Email").val("N/An@anonimo.com");
+            $('#Email').prop('disabled', true); 
+            $("#Hubspot").val("N/A");
+            $('#Hubspot').prop('disabled', true); 
+            $("#Formulario").val("N/A");
+            $('#Formulario').prop('disabled', true); 
+            return false;
+        } else { 
+         $("#Genero").val("");
+         $('#Genero').prop('disabled', false);
+         $("#Nombre1").val("");
+         $('#Nombre1').prop('disabled', false);
+         $("#Nombre2").val("");
+         $('#Nombre2').prop('disabled', false);
+         $("#Apellido1").val("");
+         $('#Apellido1').prop('disabled', false);
+         $("#Apellido2").val("");
+         $('#Apellido2').prop('disabled', false);
+         $("#Cedula").val("");
+         $('#Cedula').prop('disabled', false);
+         $("#RUC").val("");
+         $('#RUC').prop('disabled', false);
+         $("#Region").val("");
+         $('#Region').prop('disabled', false);
+         $("#Provincia").val("");
+         $('#Provincia').prop('disabled', false);
+         $("#Direccion").val("");
+         $('#Direccion').prop('disabled', false);
+         $("#CodigoArea").val("");
+         $('#CodigoArea').prop('disabled', false);
+         $('#TelefonoConvencional').prop('disabled', false);
+         $("#TelefonoCelular").val("");
+         $('#TelefonoCelular').prop('disabled', false);
+         $('#WhatsApp').prop('disabled', false);
+         $("#Email").val("");
+         $('#Email').prop('disabled', false);
+         $("#Hubspot").val("");
+         $('#Hubspot').prop('disabled', false); 
+         $("#Formulario").val("");
+         $('#Formulario').prop('disabled', false);
+        }
+
+     });
+
+   // fin tipo anonimo
     //INICIO CATEGORIAS
     $("#Categoria").change(function() {
 
@@ -1302,7 +1376,7 @@
 
 
 
-
+  
 
 
     // FIN CATEGORIAS
