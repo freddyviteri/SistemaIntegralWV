@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Encuesta.Models.EIndicadorViewModel>
+
+@{ ViewBag.Title = "Marco Lógico";}
+
+<div style="border:solid; border-width:1px; padding:5px;">
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Ingreso del Marco Lógico</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta">Permite ingresar el marco lógico para cada indicador.</label>
+        </div>
+    </div>
+</div>
+
+<br />
+
+
+<div class="card">
+    <div class="col-sm-12 card-button-padding">
+        <a onclick="jQueryModalGet('/Encuesta/EIndicador/OnGetCreateOrEdit','Crear')" class="btn bg-success">
+            <i class="fa fa-plus-square"></i> Crear
+        </a>
+
+    </div>
+</div>
+        <div id="viewAll" class="card-body card-body-card table-responsive">
+        </div>
+     
+@section Scripts
+{
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+                loadData();
+        });
+        function loadData() {
+            $('#viewAll').load('/Encuesta/EIndicador/LoadAll');
+        }
+    </script>
+}
