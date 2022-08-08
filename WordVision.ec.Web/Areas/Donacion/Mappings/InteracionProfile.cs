@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WordVision.ec.Application.DTOs.Debitos;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Create;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Update;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAll;
@@ -18,8 +19,10 @@ namespace WordVision.ec.Web.Areas.Donacion.Mappings
             CreateMap<UpdateInteracionCommand, InteracionViewModel>().ReverseMap();
             CreateMap<GetInteracionesByIdResponse, InteracionViewModel>().ReverseMap();
             CreateMap<Interacion, InteracionViewModel>().ReverseMap();
-           
+
             CreateMap<GetAllInteracionesResponse, InteracionListaViewModel>().ReverseMap();
+
+            CreateMap<DebitosInteracionResponse, ListaDebitoInteracionResponseViewModel>().ReverseMap();
         }
 
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAll
+namespace WordVision.ec.Application.DTOs.Donantes
 {
-    public class GetAllInteracionesResponse
+    public class InteracionResponse
     {
         public int Gestion { get; set; }
 
@@ -34,12 +34,11 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAl
         public DateTime? LastModifiedOn { get; set; }
 
 
-        public int MotivoBajaCartera { get; set; }
-        public string DescMotivoBajaCartera { get; set; }
+        public int Anio { get; set; }
+        public int Mes { get; set; }
 
-        public DateTime? FechaBajaCartera { get; set; }
+        public decimal? Cantidad { get; set; }
 
-
-
+        public string RespuestaBanco { get; set; }
     }
 }

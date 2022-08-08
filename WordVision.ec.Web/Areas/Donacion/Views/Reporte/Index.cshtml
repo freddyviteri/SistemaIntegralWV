@@ -86,22 +86,35 @@
                                     Canal
                                 </th>
                                 <th>
+                                    Campaña
+                                </th>
+                                 <th>
                                     Frecuencia
                                 </th>
                                 <th>
                                     Género
                                 </th>
-                               
-                                <th>
-                                    Identificación
+                               <th>
+                                    Provincia
                                 </th>
                                 <th>
                                     Nombres
                                 </th>
                                 <th>
-                                    Apellidos
+                                    Nombre1
                                 </th>
-                              
+                                <th>
+                                    Nombre2
+                                </th>
+                              <th>
+                                    Apellido1
+                                </th>
+                                <th>
+                                    Apellido2
+                                </th>
+                                <th>
+                                    Identificación
+                                </th>
                                 <th>
                                     Forma Pago
                                 </th>
@@ -118,6 +131,12 @@
                                 <th class="text-right">
                                     Valor
                                 </th>
+                                @*<th>
+                                   Mes
+                                </th>
+                                <th>
+                                   Año
+                                </th>*@
                  
                             </tr>
                         </thead>
@@ -128,7 +147,14 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                  <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th> 
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -204,20 +230,24 @@
                 { extend: "excel", exportOptions: { columns: ':not(.no-export)' } }
             ],
             columns: [
-                { width: '10%', filter: 'input', type: 'string', data: 'fechaCaptacion' },
-                { width: '10%', filter: 'input', type: 'string', data: 'canal' },
-                { width: '10%', filter: 'input', type: 'string', data: 'frecuencia' },
+                { width: '5%', filter: 'input', type: 'string', data: 'fechaCaptacion' },
+                { width: '5%', filter: 'input', type: 'string', data: 'canal' },               
+                { width: '5%', filter: 'input', type: 'string', data: 'campana' },
+                { width: '5%', filter: 'input', type: 'string', data: 'frecuencia' },
                 { width: '10%', filter: 'input', type: 'string', data: 'genero' },
+                { width: '10%', filter: 'input', type: 'string', data: 'provincia' },               
+                { width: '15%', filter: 'input', type: 'string', data: 'nombreDonante' },
+                { width: '5%', filter: 'input', type: 'string', data: 'nombre1' },
+                { width: '5%', filter: 'input', type: 'string', data: 'nombre2' },
+                { width: '5%', filter: 'input', type: 'string', data: 'apellido1' },
+                { width: '5%', filter: 'input', type: 'string', data: 'apellido2' },
                 { width: '10%', filter: 'input', type: 'string', data: 'identificacion' },
-                { width: '15%', filter: 'input', type: 'string', data: 'nombres' },
-                { width: '15%', filter: 'input', type: 'string', data: 'apellidos' },
-                //{ width: '15%', filter: 'input', type: 'string', data: 'nombre2' },
-                //{ width: '15%', filter: 'input', type: 'string', data: 'apellido1' },
-                //{ width: '15%', filter: 'input', type: 'string', data: 'apellido2' },
                 { width: '15%', filter: 'input', type: 'string', data: 'formaPago' },
                 { width: '15%', filter: 'input', type: 'string', data: 'entidadBancaria' },
                 { width: '10%', filter: 'input', type: 'string', data: 'tipoCuenta' },
                 { width: '10%', filter: 'input', type: 'date', data: 'cuenta' },
+                //{ width: '10%', filter: 'input', type: 'date', data: 'mes' },
+                //{ width: '10%', filter: 'input', type: 'date', data: 'anio' },
                 {
                     width: '10%', filter: 'input', type: 'num', data: 'valor', className: 'text-right', operation: "sum", prefix: 'none',
                     render: function (data, type, row) {

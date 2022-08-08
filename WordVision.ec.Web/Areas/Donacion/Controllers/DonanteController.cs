@@ -62,8 +62,10 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         {
             if (filtro == null)
                 return Json(new { data = new List<DonanteResponseViewModel>() });
+            if (filtro.TipoPantalla==3 && filtro.CuotaDebe==0)
+                return Json(new { data = new List<DonanteResponseViewModel>() });
 
-            var response = await _mediator.Send(new GetAllDonantesQuery() { EstadoDonante = filtro.Estado , Categoria = filtro.Categoria, Campana = filtro.Campana , Ciudad = filtro.Ciudad, Identificacion = filtro.Identificacion , NombresDonante=filtro.NombreDonante, TipoPantalla=filtro.TipoPantalla} );
+            var response = await _mediator.Send(new GetAllDonantesQuery() { EstadoDonante = filtro.Estado , Categoria = filtro.Categoria, Campana = filtro.Campana , Ciudad = filtro.Ciudad, Identificacion = filtro.Identificacion , NombresDonante=filtro.NombreDonante, TipoPantalla=filtro.TipoPantalla , Validacion =filtro.Validacion , CuotaDebe=filtro.CuotaDebe} );
             if (response.Succeeded)
             {
                 //DonanteViewModelView entidad = new DonanteViewModelView();

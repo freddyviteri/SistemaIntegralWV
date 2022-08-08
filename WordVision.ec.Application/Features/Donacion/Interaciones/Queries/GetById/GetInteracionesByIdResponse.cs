@@ -16,5 +16,15 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetBy
         public string Observacion { get; set; }
 
         public int IdDonante { get; set; }
+
+        //public int EstadoKitCourier { get; set; }
+
+        //public DateTime? FechaEntregaKit { get; set; }
+
+        //public string NumeroGuiaKit { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string LastModifiedBy { get; set; }
+        public DateTime? LastModifiedOn { get; set; }
     }
 }

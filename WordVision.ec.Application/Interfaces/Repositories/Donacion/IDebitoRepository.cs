@@ -25,5 +25,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Donacion
         Task<int> GetByExisteCargaRespuestaAsync(int formaPago, int bancoTarjeta, int anio, int mes);
         Task<int> GetByPersonaAsync(int formaPago, int bancoTarjeta, int anio, int mes , string contrapartida);
 
+        Task UpdateEstadoAsync(int idDonante, int estadoDebito);
+
     }
 }

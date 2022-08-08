@@ -27,7 +27,7 @@ namespace WordVision.ec.Domain.Entities.Donacion
         [Required]
         public decimal? Valor { get; set; }
         public string CodigoRespuesta { get; set; }
-        public int? Estado { get; set; }
+        public int Estado { get; set; }
 
         public int IdDonante { get; set; }
         [Required]

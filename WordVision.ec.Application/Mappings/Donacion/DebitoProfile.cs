@@ -18,7 +18,7 @@ namespace WordVision.ec.Application.Mappings.Donacion
             CreateMap<GetAllDebitosResponse, Debito>().ReverseMap();
             CreateMap<GetDebitosByIdResponse, Debito>().ReverseMap();
             CreateMap<DebitoResponse, Debito>().ReverseMap();
-
+            CreateMap<DebitosInteracionResponse, Debito>().ReverseMap();
         }
     }
 

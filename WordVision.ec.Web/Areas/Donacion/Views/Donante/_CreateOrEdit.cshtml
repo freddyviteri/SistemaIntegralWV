@@ -17,7 +17,7 @@
     </div>
 
     </div>*@
-       <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.Vienede" />
+      @* <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.Vienede" />*@
 
 
 
@@ -88,7 +88,7 @@
 
         <div class="col-md-12">
             <div class="form-group row">
-                @if (@Model.Vienede == 3)
+                @if (@Model.TipoPantalla == 3)
                 {
                
                     <div class="col-md-4">
@@ -1004,11 +1004,8 @@
     $('#TelefonoConvencional').on('input', function() {
         this.value = this.value.replace(/[^0-9]/g, '');
 
-
-
-
     });
-
+  
     $("#Nombre1").keypress(function(key) {
         window.console.log(key.charCode)
         if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
@@ -1245,10 +1242,27 @@
                 $("#EstadoDonante").val(-1);
             }
         }
+     
 
+        if ($("#EstadoDonante").val() != "2") {
+           
+            $('#FechaBaja').prop('disabled', true);
+            
+            $('#MotivosBaja').prop('disabled', true);
 
+            return false;
+        }
+
+        if ($("#EstadoDonante").val() == "2") { 
+         
+        $('#FechaBaja').prop('disabled', false);
+            
+            $('#MotivosBaja').prop('disabled', false);
+        }
     });
     // FIN DE ESTADO
+
+   
     //INICIO CATEGORIAS
     $("#Categoria").change(function() {
 

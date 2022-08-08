@@ -79,13 +79,11 @@ namespace WordVision.ec.Domain.Entities.Donacion
 
         public DateTime? FechaEntrega { get; set; }
 
-        public string EstadoCourier { get; set; }
+        public int? EstadoCourier { get; set; }
 
-        public string MotivosBaja { get; set; }
+        public string MotivosBaja { get; set; } // agregar
 
-        public DateTime? FechaBaja { get; set; } 
-
-  
+        public DateTime? FechaBaja { get; set; } // agregar campo 
 
 
         [ForeignKey("IdDonante")]

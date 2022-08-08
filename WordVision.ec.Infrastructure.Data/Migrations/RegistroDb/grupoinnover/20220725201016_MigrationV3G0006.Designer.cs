@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WordVision.ec.Infrastructure.Data.Contexts;
 
-namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
+namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.grupoinnover
 {
     [DbContext(typeof(RegistroDbContext))]
-    partial class RegistroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220725201016_MigrationV3G0006")]
+    partial class MigrationV3G0006
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,7 +186,7 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EstadoCourier")
+                    b.Property<int>("EstadoCourier")
                         .HasColumnType("int");
 
                     b.Property<int>("EstadoDonante")
@@ -331,9 +333,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
                     b.Property<int>("EstadoKitCourier")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("FechaBajaCartera")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("FechaEntregaKit")
                         .HasColumnType("datetime2");
 
@@ -348,9 +347,6 @@ namespace WordVision.ec.Infrastructure.Data.Migrations.RegistroDb.releasev2
 
                     b.Property<DateTime?>("LastModifiedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("MotivoBajaCartera")
-                        .HasColumnType("int");
 
                     b.Property<string>("NumeroGuiaKit")
                         .HasMaxLength(50)

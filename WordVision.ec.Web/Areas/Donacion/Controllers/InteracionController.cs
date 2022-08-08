@@ -13,6 +13,7 @@ using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Create;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Commands.Update;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAll;
 using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAllCached;
+using WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Donacion.Models;
@@ -24,13 +25,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
     [Authorize]//Sirve para dar permiso cuando esta logeado
     public class InteracionController : BaseController<InteracionController>
     {
-        public async Task<JsonResult> OnGetCreateOrEdit(int idDonante, int tipoPantalla = 0)
-        {
+        public async Task<JsonResult> OnGetCreateOrEdit(int idDonante, int tipoPantalla = 0 )                      
+       {
 
             try
             {
-                int numCatalogo = 67;
-                if (tipoPantalla == 2)
+                int numCatalogo = 67; 
+                if (tipoPantalla == 2) 
                 {
                     numCatalogo = 70;
                 }
@@ -45,22 +46,44 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                     catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 68, Ninguno = true });
                     var tipointeracion = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
-                    var entidadViewModel = new InteracionViewModel();
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 72, Ninguno = true });
+                var estadokitcourier = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 71, Ninguno = true });
+                var motivobajacartera = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+
+                var entidadViewModel = new InteracionViewModel();
                     entidadViewModel.interacionesList = interacion;
                     entidadViewModel.tipoList = tipointeracion;
+                entidadViewModel.EstadoCourierList = estadokitcourier;
+                entidadViewModel.MotivoBajaCarteraList = motivobajacartera;
 
 
-                    var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante , tipo = tipoPantalla });
-                    if (viewModel.Succeeded)
+                var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante , tipo = tipoPantalla});// estadoCourier = estadoKitCourier
+                    
+                if (viewModel.Succeeded)
+                    {
+                        entidadViewModel.ListaInteracciones = _mapper.Map<List<InteracionListaViewModel>>(viewModel.Data);//para hacer lista y poder visualizar
+
+
+                    var viewModelDebitos = await _mediator.Send(new GetDebitosXDonanteQuery() { idDonante = idDonante });
+                    if (viewModelDebitos.Succeeded)
                     {
 
-                        entidadViewModel.ListaInteracciones = _mapper.Map<List<InteracionListaViewModel>>(viewModel.Data);//para hacer lista y poder visualizar
+                        entidadViewModel.ListaDebitos = _mapper.Map<List<ListaDebitoInteracionResponseViewModel>>(viewModelDebitos.Data);//para hacer lista y poder visualizar
                     }
+
+
+
+
+                }
+              
 
                     entidadViewModel.IdDonante = idDonante;
                     entidadViewModel.TipoPantalla = tipoPantalla;
+                   //ntidadViewModel.EstadoKitCourier = estadoKitCourier;
 
-                    return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
+                return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
 
 
                
@@ -76,6 +99,13 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
             return null;
 
         }
+
+
+
+       
+
+
+
         [HttpPost]
         public async Task<IActionResult> OnPostCreateOrEdit(int? id, InteracionViewModel entidad)
         {
@@ -93,8 +123,8 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                         if (result.Succeeded)
                         {
                             id = result.Data;
-                            if (entidad.Gestion == 4)
-                            {
+                            if (entidad.TipoPantalla == 1)// if (entidad.Gestion == 4)
+                                {
                                await _mediator.Send(new UpdateDonanteXEstadoCommand() { Id = entidad.IdDonante, EstadoDonante = 5 });
                              
                             }
