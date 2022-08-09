@@ -1,0 +1,117 @@
+﻿@using WordVision.ec.Web.Areas.Encuesta.Models
+@model List<EReporteDAPViewModel>
+
+@{ ViewBag.Title = "Reporte DAP";}
+
+<div style="border:solid; border-width:1px; padding:5px;">
+    <div class="row">
+        <div class="col-md-12">
+                <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Reporte DAP</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta">Reporte que permite: conocer las causas fundamentales de las situaciones de violencia, explotación, maltrato y abuso y otras formas de violencia que afectan a niñas, niños y adolescentes.</label>
+        </div>
+    </div>
+</div>
+
+<br />
+
+
+<form asp-action="Index" method="get">
+    <div >
+        <p style="display:flex;">
+            @Html.DropDownList("EvaluacionID", (IEnumerable <SelectListItem>)ViewData["EEvaluacionesList"])  |
+            <input type="submit" value="Buscar" class="btn btn-sm btn-primary" /> |
+            <a asp-action="Index" class="btn btn-sm btn-primary">Limpiar Filtros</a>
+        </p>
+    </div>
+</form>
+
+<table id="grdDatos" class="table table-sm table-striped table-bordered m-2">
+    <thead>
+        <tr>
+            <th>Cod. Ind.</th>
+            <th>Programa de Área</th>
+            <th>Indicador</th>
+            <th>Tipo Indicador</th>
+
+            <th>Apoyo</th>
+            <th>Empoderamiento</th>
+            <th>Límite</th>
+            <th>Uso Constructivo</th>
+            <th>Compromiso</th>
+            <th>Valores</th>
+            <th>Competencia</th>
+            <th>Identidad</th>
+
+            <th>NumeroTotal</th>
+            <th>Entrevistados</th>
+            <th>Porcentaje</th>
+            <th>Resultado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var fila in Model)
+            {
+                <tr>
+                    <td>@fila.rpt_IndicadorCodigo</td>
+                    <td>@fila.rpt_Programa</td>
+                    <td>@fila.rpt_IndicadorNombre</td>
+                    <td>@fila.rpt_IndicadorTipo</td>
+
+                    <td>@String.Format("{0:0.##}", fila.rpt_Apoyo)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Empoderamiento)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Limite)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_UsoConstructivo)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Compromiso)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Valores)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Competencia)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Identidad)</td>
+
+                    <td>@String.Format("{0:0.##}", fila.rpt_numerador)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_denominador)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_porcentaje)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_resultado)</td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+
+
+<script>
+
+    $(document).ready(function () {
+        var table = $("#grdDatos").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            autoWidth: true,
+            responsive: false,
+            pageLength: 1500,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+        });
+
+
+    });
+</script>

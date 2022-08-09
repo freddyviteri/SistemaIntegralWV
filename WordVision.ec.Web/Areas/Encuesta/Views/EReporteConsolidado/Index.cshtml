@@ -1,0 +1,102 @@
+﻿@using WordVision.ec.Web.Areas.Encuesta.Models
+@model List<EReporteConsolidadoViewModel>
+
+@{ ViewBag.Title = "Reporte Consolidado";}
+
+<div style="border:solid; border-width:1px; padding:5px;">
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Reporte Consolidado</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-form-label texto-pregunta">En este reporte se muestran los resultados previamente calculados de varias mediciones.</label>
+        </div>
+    </div>
+</div>
+
+<br />
+
+
+
+<table id="grdDatos" class="table table-sm table-striped table-bordered m-2">
+    <thead>
+        <tr>
+            <th>Programa Técnico</th>
+            <th>Programa de Área</th>
+            <th>Log Frame Code</th>
+            <th>Summary of objectives</th>
+            <th>Indicator Code</th>
+            <th>Indicator</th>
+            <th>Unit</th>
+            <th>Frecuencia</th>
+            <th>Línea Base AF22</th>
+            <th>48-month target</th>
+            <th>48-month Achievedc</th>
+            <th>60-month target</th>
+            <th>60-month Achieved</th>
+            <th>72-month target</th>
+            <th>72-month Achieved</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var fila in Model)
+            {
+                <tr>
+                    <td>@fila.rpt_Proyecto</td>
+                    <td>@fila.rpt_Programa</td>
+                    <td>@fila.rpt_LogFrame</td>
+                    <td>@fila.rpt_Objetivo</td>
+                    <td>@fila.rpt_IndicadorCodigo</td>
+                    <td>@fila.rpt_IndicadorNombre</td>
+                    <td>@fila.rpt_UnidadMedida</td>
+                    <td>@fila.rpt_Frecuencia</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_LineaBaseResultado)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio4_meta)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio4_ejec)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio5_meta)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio5_ejec)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio6_meta)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio6_ejec)</td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+
+
+<script>
+
+    $(document).ready(function () {
+        var table = $("#grdDatos").DataTable({
+            aoColumnDefs: [
+                { "aTargets": [0], "bSortable": true },
+                { "aTargets": [2], "asSorting": ["asc"], "bSortable": true },
+            ],
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
+            autoWidth: true,
+            responsive: false,
+            pageLength: 1500,
+            columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 }
+            ],
+            "info": false
+        });
+
+
+    });
+</script>
