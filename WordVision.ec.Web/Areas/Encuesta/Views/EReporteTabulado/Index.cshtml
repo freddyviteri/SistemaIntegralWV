@@ -52,10 +52,10 @@
                     <td>@fila.Codigo</td>
                     <td>@fila.PA</td>
                     <td>@fila.Indicador</td>
-                    <td>@fila.NumeroTotal</td>
-                    <td>@fila.EntrevistadosTotal</td>
-                    <td>@fila.Porcentaje</td>
-                    <td>@fila.Resultado</td>
+                    <td>@String.Format("{0:0.##}", fila.NumeroTotal)</td>
+                    <td>@String.Format("{0:0.##}", fila.EntrevistadosTotal)</td>
+                    <td>@String.Format("{0:0.##}", fila.Porcentaje)</td>
+                    <td>@String.Format("{0:0.##}", fila.Resultado)</td>
                 </tr>
             }
 

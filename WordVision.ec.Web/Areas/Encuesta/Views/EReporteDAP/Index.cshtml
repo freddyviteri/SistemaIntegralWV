@@ -1,12 +1,12 @@
 ﻿@using WordVision.ec.Web.Areas.Encuesta.Models
 @model List<EReporteDAPViewModel>
 
-@{ ViewBag.Title = "Reporte ADAPT";}
+@{ ViewBag.Title = "Reporte DAP";}
 
 <div style="border:solid; border-width:1px; padding:5px;">
     <div class="row">
         <div class="col-md-12">
-                <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Reporte ADAPT</label>
+                <label class="col-md-12 col-form-label texto-pregunta" style="color:#EC7D31">Reporte DAP</label>
         </div>
     </div>
     <div class="row">
@@ -63,19 +63,19 @@
                     <td>@fila.rpt_IndicadorNombre</td>
                     <td>@fila.rpt_IndicadorTipo</td>
 
-                    <td>@fila.rpt_Apoyo</td>
-                    <td>@fila.rpt_Empoderamiento</td>
-                    <td>@fila.rpt_Limite</td>
-                    <td>@fila.rpt_UsoConstructivo</td>
-                    <td>@fila.rpt_Compromiso</td>
-                    <td>@fila.rpt_Valores</td>
-                    <td>@fila.rpt_Competencia</td>
-                    <td>@fila.rpt_Identidad</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Apoyo)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Empoderamiento)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Limite)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_UsoConstructivo)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Compromiso)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Valores)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Competencia)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Identidad)</td>
 
-                    <td>@fila.rpt_numerador</td>
-                    <td>@fila.rpt_denominador</td>
-                    <td>@fila.rpt_porcentaje</td>
-                    <td>@fila.rpt_resultado</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_numerador)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_denominador)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_porcentaje)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_resultado)</td>
                 </tr>
             }
 

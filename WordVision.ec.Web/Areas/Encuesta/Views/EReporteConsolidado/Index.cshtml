@@ -54,13 +54,13 @@
                     <td>@fila.rpt_IndicadorNombre</td>
                     <td>@fila.rpt_UnidadMedida</td>
                     <td>@fila.rpt_Frecuencia</td>
-                    <td>@fila.rpt_LineaBaseResultado</td>
-                    <td>@fila.rpt_Anio4_meta</td>
-                    <td>@fila.rpt_Anio4_ejec</td>
-                    <td>@fila.rpt_Anio5_meta</td>
-                    <td>@fila.rpt_Anio5_ejec</td>
-                    <td>@fila.rpt_Anio6_meta</td>
-                    <td>@fila.rpt_Anio6_ejec</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_LineaBaseResultado)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio4_meta)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio4_ejec)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio5_meta)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio5_ejec)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio6_meta)</td>
+                    <td>@String.Format("{0:0.##}", fila.rpt_Anio6_ejec)</td>
                 </tr>
             }
 
