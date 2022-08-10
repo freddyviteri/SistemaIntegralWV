@@ -19,6 +19,7 @@ namespace WordVision.ec.Application.Mappings.Donacion
             CreateMap<GetAllDonantesResponse, Donante>().ReverseMap();
             CreateMap<GetDonantesByIdResponse, Donante>().ReverseMap();
             CreateMap<ReporteDonantesResponse, Donante>().ReverseMap();
+            CreateMap<ReporteDonantesResponse, Debito>().ReverseMap();
 
 
         }

@@ -123,7 +123,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                 case 3:
                     
                     var resultado3 = _repository.Entities.Where(x => x.Categoria == 1  && (x.Campana == campana || campana == 0) && (x.Ciudad == ciudad || ciudad == 0) && (x.RUC == identificacion || identificacion == "") && ((x.Apellido1 + " " + x.Apellido2).Contains(nombresdonante) || nombresdonante == "") && (x.EstadoDonante == 1)
-                         && (_repositoryDebito.Entities.Where(d => d.CodigoRespuesta != "PROCESO OK" && d.IdDonante == x.Id).Count() == cuotaDebe))
+                         && (_repositoryDebito.Entities.Where (d => d.CodigoRespuesta != "PROCESO OK" && d.Estado < 3 && d.IdDonante == x.Id).Count() == cuotaDebe))
                          
                                                    .Select(a => new DonanteResponse
                                                    {
@@ -166,16 +166,18 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
             return await _repository.Entities.Where(x => x.Id == idDonante).FirstOrDefaultAsync();
         }
 
-        public async Task<List<ReporteDonantesResponse>> GetReporteDonantesAsync(DateTime fechaDesde, DateTime fechaHasta, int tipoDonante, int formaPago, int estadoDonante)
+        public async Task<List<ReporteDonantesResponse>> GetReporteDonantesAsync(DateTime fechaDesde, DateTime fechaHasta, int tipoDonante, int formaPago, int estadoDonante, int estadoPago)
         {
             _db.Database.SetCommandTimeout(TimeSpan.FromMinutes(20));
-            var resultado1 = _repository.Entities.Where(c => (c.Tipo==tipoDonante || tipoDonante==0) && (c.FormaPago == formaPago || formaPago == 0) && (c.EstadoDonante == estadoDonante || estadoDonante == 0) && (fechaDesde >=  c.FechaConversion && c.FechaConversion <= fechaHasta ))
+            var resultado1 = _repository.Entities.Where(c => (c.Tipo==tipoDonante || tipoDonante==0) && (c.FormaPago == formaPago || formaPago == 0) && (c.EstadoDonante == estadoDonante || estadoDonante == 0) && (fechaDesde >=  c.FechaConversion && c.FechaConversion <= fechaHasta )
+                                /*&& (_repositoryDebito.Entities.Where(d => d.CodigoRespuesta != "PROCESO OK"))*/)
+
                                     .Select(a => new ReporteDonantesResponse
                                     {
                                         Id =a.Id ,
                                         FechaCaptacion =Convert.ToDateTime( a.FechaConversion) ,
                                         Canal = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 22 && c.Secuencia == a.Canal.ToString()).FirstOrDefault().Nombre,
-                                        Campana = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 26 && c.Secuencia == a.Campana.ToString()).FirstOrDefault().Nombre,
+                                        Campana = _repositoryDetalle.Entities.Where(c =>c.IdCatalogo == 26 && c.Secuencia == a.Campana.ToString()).FirstOrDefault().Nombre,
                                         Frecuencia = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 34 && c.Secuencia == a.FrecuenciaDonacion.ToString()).FirstOrDefault().Nombre,
                                         Genero = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 28 && c.Secuencia == a.Genero.ToString()).FirstOrDefault().Nombre,
                                         Provincia = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 32 && c.Secuencia == a.Provincia.ToString()).FirstOrDefault().Nombre,
@@ -192,7 +194,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                                         Valor =a.Cantidad ,
 
                                         //Mes = ,
-                                        //Anio = a.Anio,
+                                        //Anio = ,
                                         CodigoSCI = Convert.ToInt32(a.Banco),
                                         Categoria = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 25 && c.Secuencia == a.Categoria.ToString()).FirstOrDefault().Nombre,
                                         TipoDonante = _repositoryDetalle.Entities.Where(c => c.IdCatalogo == 24 && c.Secuencia == a.Tipo.ToString()).FirstOrDefault().Nombre,

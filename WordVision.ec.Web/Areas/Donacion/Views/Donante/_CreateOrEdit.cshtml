@@ -17,7 +17,7 @@
     </div>
 
     </div>*@
-      @* <input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.Vienede" />*@
+       @*<input asp-for="Tipo" type="hidden" name="Tipo" value="@Model.Vienede" />*@
 
 
 
@@ -107,7 +107,7 @@
     </div>
 
     <hr />
-    <div class="row">
+    <div class="row"> 
         <div class="col-md-12">
             <div class="form-group row">
                 <div class="col-md-3">
@@ -175,8 +175,6 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group row">
-
-
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="Region"></label>
                     @Html.DropDownListFor(x => x.Region, (IEnumerable<SelectListItem>)Model.RegionList, new { @class = "form-control",required = "required" })
@@ -276,7 +274,7 @@
                 <div class="col-md-3">
                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="MesInicialDebito"></label>
 
-                    <input type="text" asp-for="MesInicialDebito" name="MesInicialDebito" class="datepicker2 form-control" required/>
+                    <input type="text" asp-for="MesInicialDebito" name="MesInicialDebito" class="datepicker2 form-control" readonly required/>
                     <span asp-validation-for="MesInicialDebito" class="text-danger"></span>
                 </div>
                 @* <div class="col-md-2">
@@ -320,8 +318,8 @@
                     <div class="col-md-2">
                         <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaEntrega"></label>
 
-                        <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control" />
-                        <span asp-validation-for="FechaEntrega" class="text-danger" readonly></span>
+                        <input type="text" asp-for="FechaEntrega" name="FechaEntrega" class="datepicker5 form-control" readonly />
+                        <span asp-validation-for="FechaEntrega" class="text-danger" ></span>
                     </div>
                     <div class="col-md-3">
                         <label class="col-md-12 col-form-label texto-pregunta" asp-for="CalificacionDonante"></label>
@@ -405,7 +403,7 @@
                         }
                     </label>
                     <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left:0px !important">
-                        <input class="alto" id="input-file-logo" name="input-file-logo" style="height: 38px !important" type="file" class="form-control form-control-sm file" data-msg-placeholder="SELECCIONAR EVIDENCIA..." data-show-preview="false" accept=".png, .jpg, ,jpeg, .gif,.pdf, .xlsx" />
+                        <input class="alto" id="input-file-logo" name="input-file-logo" style="height: 38px !important" type="file" class="form-control form-control-sm file" data-msg-placeholder="SELECCIONAR EVIDENCIA..." data-show-preview="false" accept=".png, .jpg, ,jpeg, .gif,.pdf, .xlsx"  />
 
                     </div>
 
@@ -599,7 +597,7 @@
 
                                 <div class="col-md-4">
                                     <label class="col-md-12 col-form-label texto-pregunta" asp-for="FechaCaducidad"></label>
-                                    <input asp-for="FechaCaducidad" type="text" name="FechaCaducidad" class="datepicker4 form-control" />
+                                    <input asp-for="FechaCaducidad" type="text" name="FechaCaducidad" class="datepicker4 form-control" readonly />
                                     <span asp-validation-for="FechaCaducidad" class="text-danger"></span>
                                 </div>
                             </div>
@@ -844,12 +842,14 @@
             todayBtn: true
         });
 
-        $("#MesInicialDebito .datepicker").datepicker({
-            format: "dd-mm-yyyy",
-            autoclose: true,
-            todayBtn: true,
-            startDate: "06/07/2022"
-        });
+     
+
+        //$("#MesInicialDebito .datepicker").datepicker({
+        //    format: "dd-mm-yyyy",
+        //    autoclose: true,
+        //    todayBtn: true,
+        //    startDate: "06/07/2022"
+        //});
 
 
         /*   $("#MesInicialDebito.datepicker").datepicker({
@@ -987,6 +987,8 @@
 
 
     });
+
+
 
 
 
@@ -1262,7 +1264,117 @@
     });
     // FIN DE ESTADO
 
-   
+   //inicio tipo anonimo
+  
+     $("#Tipo").change(function() {
+
+        if ($("#Tipo").val() == "3") {
+             $("#Region").val(4);
+              $.get("/Maestro/Pais/GetProvincia", { idRegion: $("#Region").val() }, function(data) {
+            // VACIAMOS EL DropDownList
+            $("#Provincia").empty();
+
+            
+            $.each(data, function(index, row) {
+                $("#Provincia").append("<option value='" + row.id + "' >" + row.nombre + "</option>")
+            });
+        });
+
+         $("#Provincia").val(24);
+
+        $.get("/Maestro/Pais/GetCiudad", { idProvincia: 24 }, function(data) {
+            // VACIAMOS EL DropDownList
+            $("#Ciudad").empty();
+
+       
+            $.each(data, function(index, row) {
+                $("#Ciudad").append("<option value='" + row.id + "'>" + row.nombre + "</option>")
+            });
+        });
+
+            $("#Genero").val(3);
+            $('#Genero').prop('readonly', true);
+            $("#Nombre1").val("Anónimo");
+            $('#Nombre1').prop('readonly', true);
+            $("#Nombre2").val("Anónimo");
+            $('#Nombre2').prop('readonly', true);
+            $("#Apellido1").val("Anónimo");
+            $('#Apellido1').prop('readonly', true);
+            $("#Apellido2").val("Anónimo");
+            $('#Apellido2').prop('readonly', true);
+            $("#Cedula").val(4);
+            $('#Cedula').prop('readonly', true);
+            $("#RUC").val(0);
+            $('#RUC').prop('readonly', true);
+           
+            $('#Region').prop('readonly', true);
+           
+            $('#Provincia').prop('readonly', true);
+            $("#Ciudad").val(24);
+            $('#Ciudad').prop('readonly', true);
+            $("#Direccion").val("Aninimo");
+            $('#Direccion').prop('readonly', true);
+            $("#CodigoArea").val("0");
+            $('#CodigoArea').prop('readonly', true);
+            $('#TelefonoConvencional').prop('readonly', true);
+            $("#TelefonoCelular").val("0");
+            $('#TelefonoCelular').prop('readonly', true);            
+            $('#WhatsApp').prop('readonly', true);
+            $("#Email").val("N/An@anonimo.com");
+            $('#Email').prop('readonly', true); 
+            $("#Hubspot").val("N/A");
+            $('#Hubspot').prop('readonly', true); 
+            $("#Formulario").val("N/A");
+            $('#Formulario').prop('readonly', true); 
+            $('#MesInicialDebito').datepicker({ language: 'es', todayHighlight: true }, { dateFormat: "yy/mm/dd" }).datepicker("setDate", new Date());
+            $('#MesInicialDebito').prop('readonly', true);
+            $('#input-file-logo').prop('disabled', true);
+            $('#CalificacionDonante').prop('disabled', true);
+            return false;
+        } else { 
+         $("#Genero").val("");
+         $('#Genero').prop('readonly', false);
+         $("#Nombre1").val("");
+         $('#Nombre1').prop('readonly', false);
+         $("#Nombre2").val("");
+         $('#Nombre2').prop('readonly', false);
+         $("#Apellido1").val("");
+         $('#Apellido1').prop('readonly', false);
+         $("#Apellido2").val("");
+         $('#Apellido2').prop('readonly', false);
+         $("#Cedula").val("");
+         $('#Cedula').prop('readonly', false);
+         $("#RUC").val("");
+         $('#RUC').prop('readonly', false);
+         $("#Region").val("");
+         $('#Region').prop('readonly', false);
+         $("#Provincia").val("");
+         $('#Provincia').prop('readonly', false);
+         $("#Ciudad").val("");
+         $('#Ciudad').prop('readonly', true);
+         $("#Direccion").val("");
+         $('#Direccion').prop('readonly', false);
+         $("#CodigoArea").val("");
+         $('#CodigoArea').prop('dissable', false);
+         $('#TelefonoConvencional').prop('readonly', false);
+         $("#TelefonoCelular").val("");
+         $('#TelefonoCelular').prop('readonly', false);
+         $('#WhatsApp').prop('readonly', false);
+         $("#Email").val("");
+         $('#Email').prop('readonly', false);
+         $("#Hubspot").val("");
+         $('#Hubspot').prop('readonly', false); 
+         $("#Formulario").val("");
+         $('#Formulario').prop('readonly', false); 
+         $('#CalificacionDonante').prop('disabled', true);
+         $('#input-file-logo').prop('disabled', false);
+        }
+
+        });
+     
+   // fin tipo anonimo
+
+
     //INICIO CATEGORIAS
     $("#Categoria").change(function() {
 
@@ -1302,7 +1414,7 @@
 
 
 
-
+  
 
 
     // FIN CATEGORIAS

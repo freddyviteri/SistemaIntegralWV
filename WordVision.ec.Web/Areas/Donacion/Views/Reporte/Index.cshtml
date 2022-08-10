@@ -52,6 +52,12 @@
                                         </div>
                                         <select id="selectFormaPago" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.FormaPagoList)" data-live-search="true">
                                         </select>
+
+                                         <div class="input-group-prepend input-group-sm">
+                                            <div class="input-group-text input-group-sm"  style="height: 31px !important;">Estado Pago</div>
+                                        </div>
+                                        <select id="selectFormaPago" data-width="300px" title="Seleccionar..." class="form-control form-control-sm selectpicker" asp-items="@((IEnumerable<SelectListItem>)Model.EstadoPagoList)" data-live-search="true">
+                                        </select>
                                     
                                     &nbsp;&nbsp;&nbsp;
                                     <a class="btn btn-sm btn-labeled btn-success"  style="height: 31px !important;" href="#" onclick="filtrarReporte()">
@@ -88,7 +94,7 @@
                                 <th>
                                     Campaña
                                 </th>
-                                 <th>
+                                <th>
                                     Frecuencia
                                 </th>
                                 <th>
@@ -106,7 +112,7 @@
                                 <th>
                                     Nombre2
                                 </th>
-                              <th>
+                                <th>
                                     Apellido1
                                 </th>
                                 <th>
@@ -115,6 +121,7 @@
                                 <th>
                                     Identificación
                                 </th>
+
                                 <th>
                                     Forma Pago
                                 </th>
@@ -131,12 +138,15 @@
                                 <th class="text-right">
                                     Valor
                                 </th>
-                                @*<th>
-                                   Mes
+                                <th>
+                                   Codigo
                                 </th>
                                 <th>
-                                   Año
-                                </th>*@
+                                   Categoria
+                                </th>
+                                <th>
+                                   Tipo Donante
+                                </th>
                  
                             </tr>
                         </thead>
@@ -150,7 +160,6 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th></th> 
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -158,9 +167,14 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
+                                <th></th>
+                                <th class="text-right">Totales: </th>
+                                <th></th>
+                                
                                 <th></th>
                               <th></th>
-                                <th class="text-right">Totales: </th>
+                                
                                  <th></th>
                                 <th class="text-right"> </th>
                                
@@ -230,30 +244,31 @@
                 { extend: "excel", exportOptions: { columns: ':not(.no-export)' } }
             ],
             columns: [
-                { width: '5%', filter: 'input', type: 'string', data: 'fechaCaptacion' },
-                { width: '5%', filter: 'input', type: 'string', data: 'canal' },               
-                { width: '5%', filter: 'input', type: 'string', data: 'campana' },
-                { width: '5%', filter: 'input', type: 'string', data: 'frecuencia' },
+                { width: '10%', filter: 'input', type: 'string', data: 'fechaCaptacion' },
+                { width: '10%', filter: 'input', type: 'string', data: 'canal' },
+                { width: '10%', filter: 'input', type: 'string', data: 'campana' },
+                { width: '10%', filter: 'input', type: 'string', data: 'frecuencia' },
                 { width: '10%', filter: 'input', type: 'string', data: 'genero' },
-                { width: '10%', filter: 'input', type: 'string', data: 'provincia' },               
-                { width: '15%', filter: 'input', type: 'string', data: 'nombreDonante' },
-                { width: '5%', filter: 'input', type: 'string', data: 'nombre1' },
-                { width: '5%', filter: 'input', type: 'string', data: 'nombre2' },
-                { width: '5%', filter: 'input', type: 'string', data: 'apellido1' },
-                { width: '5%', filter: 'input', type: 'string', data: 'apellido2' },
-                { width: '10%', filter: 'input', type: 'string', data: 'identificacion' },
+                { width: '10%', filter: 'input', type: 'string', data: 'provincia' },
+                { width: '10%', filter: 'input', type: 'string', data: 'nombreDonante' },
+                { width: '10%', filter: 'input', type: 'string', data: 'nombre1' },
+                { width: '10%', filter: 'input', type: 'string', data: 'nombre2' },
+                { width: '15%', filter: 'input', type: 'string', data: 'apellido1' },
+                { width: '15%', filter: 'input', type: 'string', data: 'apellido2' },
+                { width: '10%', filter: 'input', type: 'string', data: 'identificacion' },                                
                 { width: '15%', filter: 'input', type: 'string', data: 'formaPago' },
                 { width: '15%', filter: 'input', type: 'string', data: 'entidadBancaria' },
                 { width: '10%', filter: 'input', type: 'string', data: 'tipoCuenta' },
                 { width: '10%', filter: 'input', type: 'date', data: 'cuenta' },
-                //{ width: '10%', filter: 'input', type: 'date', data: 'mes' },
-                //{ width: '10%', filter: 'input', type: 'date', data: 'anio' },
                 {
                     width: '10%', filter: 'input', type: 'num', data: 'valor', className: 'text-right', operation: "sum", prefix: 'none',
                     render: function (data, type, row) {
                         return $.fn.dataTable.render.number('', '.', 2, '').display(data);
                     }
                 },
+                { width: '10%', filter: 'input', type: 'date', data: 'codigoSCI' },
+                { width: '10%', filter: 'input', type: 'date', data: 'categoria' },
+                { width: '10%', filter: 'input', type: 'date', data: 'tipoDonante' },
                 //{
                 //    width: '25%', filter: 'input', type: 'num', data: 'costoRecurso', className: 'text-right', operation: "sum",
                 //    render: function (data, type, row) {

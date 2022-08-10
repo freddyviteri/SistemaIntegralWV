@@ -27,5 +27,8 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Donacion
 
         Task UpdateEstadoAsync(int idDonante, int estadoDebito);
 
+
+        Task UpdateEstadoDebitoAsync(int id, int estadoDebito);
+
     }
 }

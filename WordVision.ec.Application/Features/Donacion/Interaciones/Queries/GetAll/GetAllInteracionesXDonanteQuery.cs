@@ -25,6 +25,7 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAl
 
         public string RespuestaBanco { get; set; }
 
+        public int EstadoDebito { get; set; }
         public GetAllInteracionesXDonanteQuery()
         {
         }

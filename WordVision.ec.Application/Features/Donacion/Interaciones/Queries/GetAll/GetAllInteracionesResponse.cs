@@ -39,7 +39,7 @@ namespace WordVision.ec.Application.Features.Donacion.Interaciones.Queries.GetAl
 
         public DateTime? FechaBajaCartera { get; set; }
 
-
+        public int? EstadoDebito { get; set; }
 
     }
 }

@@ -33,7 +33,7 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 int numCatalogo = 67; 
                 if (tipoPantalla == 2) 
                 {
-                    numCatalogo = 70;
+                    numCatalogo = 72;
                 }
                 if (tipoPantalla == 3)
                 {
@@ -52,11 +52,15 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 71, Ninguno = true });
                 var motivobajacartera = new SelectList(catalogo.Data, "Secuencia", "Nombre");
 
+                catalogo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = 74, Ninguno = true });
+                var estadodebito = new SelectList(catalogo.Data, "Secuencia", "Nombre");
+
                 var entidadViewModel = new InteracionViewModel();
                     entidadViewModel.interacionesList = interacion;
                     entidadViewModel.tipoList = tipointeracion;
                 entidadViewModel.EstadoCourierList = estadokitcourier;
                 entidadViewModel.MotivoBajaCarteraList = motivobajacartera;
+                entidadViewModel.EstadoDebitoList = estadodebito;
 
 
                 var viewModel = await _mediator.Send(new GetAllInteracionesXDonanteQuery() { idDonante = idDonante , tipo = tipoPantalla});// estadoCourier = estadoKitCourier
@@ -101,11 +105,6 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
         }
 
 
-
-       
-
-
-
         [HttpPost]
         public async Task<IActionResult> OnPostCreateOrEdit(int? id, InteracionViewModel entidad)
         {
@@ -114,20 +113,33 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 
                 if (ModelState.IsValid)
                 {
-                  
+
+                    if (entidad.Tipo == 2)
+                    {
+                        var cuenta = await _mediator.Send(new GetInteracionesXDonanteQuery() {  idDonante= entidad.IdDonante , tipo =entidad.Tipo , gestion= entidad.Gestion });
+                        if (cuenta.Data > 0)
+                        {
+                            _notify.Success($"Interacción no fue creada la interacion es la misma.");
+                            return StatusCode(StatusCodes.Status200OK, new { mensaje = "Interacción no fue creada la interacion es la misma." });
+                        }
+                        
+                    }
                     if (id == 0)
                     {
                        
                         var createEntidadCommand = _mapper.Map<CreateInteracionCommand>(entidad);
                         var result = await _mediator.Send(createEntidadCommand);
+                        
                         if (result.Succeeded)
                         {
-                            id = result.Data;
-                            if (entidad.TipoPantalla == 1)// if (entidad.Gestion == 4)
-                                {
-                               await _mediator.Send(new UpdateDonanteXEstadoCommand() { Id = entidad.IdDonante, EstadoDonante = 5 });
-                             
+                                
+                            id = result.Data;    
+                            if (entidad.Gestion == 4 && entidad.Tipo == 1)// if (entidad.Gestion == 4)
+                            {
+                                await _mediator.Send(new UpdateDonanteXEstadoCommand() { Id = entidad.IdDonante, EstadoDonante = 5 });
+
                             }
+                            
                             _notify.Success($"Interacción Creada.");
 
                         }
@@ -164,6 +176,14 @@ namespace WordVision.ec.Web.Areas.Donacion.Controllers
                 _notify.Error("Error al insertar el Interacción");
             }
             return null;
+        }
+        public async Task<JsonResult> GetInteracion(int idDonante , int gestion, int tipo)
+        {
+
+            var cuenta = await _mediator.Send(new GetInteracionesXDonanteQuery() { idDonante = idDonante, tipo = tipo, gestion = gestion });
+
+            return Json(cuenta.Data);
+
         }
     }
 }
