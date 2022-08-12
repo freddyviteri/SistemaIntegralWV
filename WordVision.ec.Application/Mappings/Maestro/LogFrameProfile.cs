@@ -13,10 +13,11 @@ namespace WordVision.ec.Application.Mappings.Maestro
         {
             CreateMap<CreateLogFrameCommand, LogFrame>().ReverseMap();
             CreateMap<LogFrameResponse, LogFrame>().ReverseMap();
-            //CreateMap<LogFrameIndicadorPRResponse, LogFrameIndicadorPR>().ReverseMap();
             CreateMap<UpdateLogFrameCommand, LogFrame>().ReverseMap();
             CreateMap<GetAllLogFrameQuery, LogFrame>().ReverseMap();
+            CreateMap<GetListLogFrameFromNivelHandler, LogFrame>().ReverseMap();
+
         }
-       
+
     }
 }

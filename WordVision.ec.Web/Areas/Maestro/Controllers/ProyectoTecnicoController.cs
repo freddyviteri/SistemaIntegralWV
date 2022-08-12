@@ -1,18 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.ProgramaArea.Queries.GetAll;
+using WordVision.ec.Application.Features.Maestro.ProgramaTecnico.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Commands.Create;
 using WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Commands.Update;
 using WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Queries.GetById;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Maestro.Models;
+using WordVision.ec.Web.Areas.Maestro.Validators;
 using WordVision.ec.Web.Common;
 using WordVision.ec.Web.Common.Constants;
 
@@ -31,6 +32,8 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
 
         public IActionResult Index()
         {
+
+
             return View();
         }
 
@@ -38,7 +41,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
         public async Task<IActionResult> LoadAll()
         {
             List<ProyectoTecnicoViewModel> viewModels = new List<ProyectoTecnicoViewModel>();
-            var response = await _mediator.Send(new GetAllProyectoTecnicoQuery { Include = true});
+            var response = await _mediator.Send(new GetAllProyectoTecnicoQuery { Include = true });
             if (response.Succeeded)
                 viewModels = _mapper.Map<List<ProyectoTecnicoViewModel>>(response.Data);
 
@@ -64,7 +67,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                         await SetDropDownList(entidadViewModel);
                         return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                     }
-                    return new JsonResult(new{ isValid = false });
+                    return new JsonResult(new { isValid = false });
                 }
             }
             catch (Exception ex)
@@ -74,13 +77,15 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> OnPostCreateOrEdit(ProyectoTecnicoViewModel ProyectoTecnicoViewModel)
+        public async Task<JsonResult> OnPostCreateOrEdit(ProyectoTecnicoViewModel viewmodel)
         {
+            _commonMethods.SetProperties(_notify, _logger);
+
             if (ModelState.IsValid)
             {
-                if (ProyectoTecnicoViewModel.Id == 0)
+                if (viewmodel.Id == 0)
                 {
-                    var createEntidadCommand = _mapper.Map<CreateProyectoTecnicoCommand>(ProyectoTecnicoViewModel);
+                    var createEntidadCommand = _mapper.Map<CreateProyectoTecnicoCommand>(viewmodel);
                     createEntidadCommand.IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo;
                     var result = await _mediator.Send(createEntidadCommand);
                     if (result.Succeeded)
@@ -89,7 +94,7 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
                 }
                 else
                 {
-                    var updateEntidadCommand = _mapper.Map<UpdateProyectoTecnicoCommand>(ProyectoTecnicoViewModel);
+                    var updateEntidadCommand = _mapper.Map<UpdateProyectoTecnicoCommand>(viewmodel);
                     var result = await _mediator.Send(updateEntidadCommand);
                     if (result.Succeeded) _notify.Information($"Proyecto Técnico con Código {updateEntidadCommand.Codigo} Actualizado.");
                     else return _commonMethods.SaveError(result.Message);
@@ -117,27 +122,36 @@ namespace WordVision.ec.Web.Areas.Maestro.Controllers
             bool isNew = true;
             if (entidadViewModel.Id != 0)
                 isNew = false;
+
+
             var estado = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoEstado });
             var financiamiento = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoFinanciamiento });
             var ubicacion = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoUbicacion });
-            var tipo = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoTipoProyecto });
+            var programaAreas = await _mediator.Send(new GetAllProgramaAreaQuery());
+            var programaTecnicos = await _mediator.Send(new GetAllProgramaTecnicoQuery());
+
 
             List<GetListByIdDetalleResponse> estados = estado.Data;
             List<GetListByIdDetalleResponse> financiamientos = financiamiento.Data;
             List<GetListByIdDetalleResponse> ubicaciones = ubicacion.Data;
-            List<GetListByIdDetalleResponse> tipos = tipo.Data;
+
+            List<ProgramaAreaViewModel> programas = _mapper.Map<List<ProgramaAreaViewModel>>(programaAreas.Data);
+            List<ProgramaTecnicoViewModel> proyectos = _mapper.Map<List<ProgramaTecnicoViewModel>>(programaTecnicos.Data);
+
             if (isNew)
             {
                 estados = estados.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
                 financiamientos = financiamientos.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
                 ubicaciones = ubicaciones.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
-                tipos = tipos.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
+                programas = programas.Where(e => e.IdEstado == CatalogoConstant.EstadoActivo).ToList();
+                proyectos = proyectos.Where(e => e.IdEstado == CatalogoConstant.EstadoActivo).ToList();
             }
 
             entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
             entidadViewModel.FinanciamientoList = _commonMethods.SetGenericCatalog(financiamientos, CatalogoConstant.FieldFinanciamiento);
             entidadViewModel.UbicacionList = _commonMethods.SetGenericCatalog(ubicaciones, CatalogoConstant.FieldUbicacion);
-            entidadViewModel.TipoProyectoList = _commonMethods.SetGenericCatalog(tipos, CatalogoConstant.FieldTipoProyecto);
+            entidadViewModel.ProgramaAreaList = _commonMethods.SetGenericCatalog(programas, CatalogoConstant.FieldProgramaArea, true);
+            entidadViewModel.ProgramaTecnicoList = _commonMethods.SetGenericCatalog(proyectos, CatalogoConstant.FieldProgramaTecnico, true);
         }
     }
 }

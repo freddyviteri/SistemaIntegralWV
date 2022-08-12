@@ -12,10 +12,15 @@ namespace WordVision.ec.Web.Areas.Planificacion.Mappings
     {
         public ProyectoITTProfile()
         {
-            CreateMap<ProyectoITTResponse, ProyectoITTViewModel>().ReverseMap();
             CreateMap<FaseProgramaAreaResponse, FaseProgramaAreaViewModel>().ReverseMap();
+            CreateMap<ProyectoITTResponse, ProyectoITTViewModel>().ReverseMap();
+
+            CreateMap<DetalleProyectoITTResponse, DetalleProyectoITTViewModel>().ReverseMap();
+            CreateMap<DetalleProyectoITTGoulResponse, DetalleProyectoITTGoulViewModel>().ReverseMap();
+
             CreateMap<CreateProyectoITTCommand, ProyectoITTViewModel>().ReverseMap();
             CreateMap<UpdateProyectoITTCommand, ProyectoITTViewModel>().ReverseMap();
+            CreateMap<UpdateProyectoITTCommand, ProyectoITTResponse>().ReverseMap();
         }
     }
 }

@@ -4,6 +4,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.OutCome)
             </th>
             <th>
@@ -17,7 +20,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SumaryObjetives)
-            </th>           
+            </th>
             <th>
                 Cobertura
             </th>
@@ -28,96 +31,101 @@
                 Sector Programatico
             </th>
             <th>
-                Rubro/T2
+                Modelo Proyecto
+            </th>
+            <th>
+                Programa Técnico
             </th>
             @*<th>
-                Indicador
+            Indicador
             </th>*@
             <th>
                 Estado
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr id="@item.Id">
-            <td>
-                @Html.DisplayFor(modelItem => item.OutCome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OutPut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Activity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nivel.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SumaryObjetives)
-            </td>            
-            <td>
-                @Html.DisplayFor(modelItem => item.Cobertura)
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr id="@item.Id">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem => item.OutCome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OutPut)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Activity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nivel.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SumaryObjetives)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cobertura)
+                </td>
+                <td>
                     @{
                         var actividad = item.TipoActividad != null ? @item.TipoActividad.Nombre : "";
                     }
                     @actividad
-                
-            </td>
-            <td>
+
+                </td>
+                <td>
                     @{
                         var sector = item.SectorProgramatico != null ? @item.SectorProgramatico.Nombre : "";
                     }
                     @sector
-                
-            </td>
-            <td>
+
+                </td>
+                <td>
                     @{
-                        var rubro = item.Rubro != null ? @item.Rubro.Nombre : "";
+                        var rubro = item.ModeloProyecto != null ? @item.ModeloProyecto.Descripcion : "";
                     }
                     @rubro
-                
-            </td>
-            @*<td>
+
+                </td>
+                <td>
                     @{
-                        foreach (var ind in item.LogFrameIndicadores)
-                        {
-                            <label class="control-label">
-                                @ind.IndicadorPR.Codigo - @ind.IndicadorPR.Descripcion 
-                            </label>
-                        }
+                        var programaTecnico = item.ProgramaTecnico != null ? @item.ProgramaTecnico.Nombre : "";
                     }
-                
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado.Nombre)
-            </td>
-            <td>
-                <div class="btn-group">
-                    <button onclick="jQueryModalGet('/Maestro/LogFrame/OnGetCreateOrEdit?id=@item.Id','Editar LogFrame')"class="btn btn-warning btn-xp mr-1" type="button"><i class="fas fa-pencil-alt"></i></button> 
-                    <button type="button" onclick="EliminaFila(@item.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
-                </div>
-            </td>
-        </tr>
-}
+                    @programaTecnico
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button onclick="jQueryModalGet('/Maestro/LogFrame/OnGetCreateOrEdit?id=@item.Id','Editar LogFrame')" class="btn btn-warning btn-xp mr-1" type="button"><i class="fas fa-pencil-alt"></i></button>
+                        <button type="button" onclick="EliminaFila(@item.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#logFrameTable").DataTable(
-        {
-            columnDefs: [ {
-                "targets": -1,
-                "orderable": false
-                } ],
-            language: {
-                "url": "../lib/datatables/language/Spanish.json"
-            },
+            {
+                columnDefs: [{
+                    "targets": -1,
+                    "orderable": false
+                }],
+                language: {
+                    "url": "../lib/datatables/language/Spanish.json"
+                },
+                responsive: true,          
+                "info": false
             });
     });
 
@@ -127,14 +135,14 @@
             id: id
         };
 
-         $.ajax({
+        $.ajax({
             type: "delete",
-            url:'@Url.Action("OnPostDelete", "LogFrame", new { area = "maestro" })',
-             data: GestionViewModel,
+            url: '@Url.Action("OnPostDelete", "LogFrame", new { area = "maestro" })',
+            data: GestionViewModel,
             datatype: "json",
             cache: false,
-            success: function (data) {
-                if(data.isValid)
+            success: function(data) {
+                if (data.isValid)
                     $("#" + id).remove();
 
             },

@@ -32,8 +32,6 @@ namespace WordVision.ec.Application.Features.Maestro.LogFrame.Commands.Create
 
         public async Task<Result<int>> Handle(CreateLogFrameCommand request, CancellationToken cancellationToken)
         {
-
-            //request.LogFrameIndicadores = request.LogFrameIndicadores.Where(l => l.Selected).ToList();
             var logFrame = _mapper.Map<Domain.Entities.Maestro.LogFrame>(request);
             await _repository.InsertAsync(logFrame);
             await _unitOfWork.Commit(cancellationToken);

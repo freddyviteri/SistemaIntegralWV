@@ -1,0 +1,220 @@
+﻿@model WordVision.ec.Web.Areas.Indicadores.Models.OtroIndicadorPadreHijoViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="create-form-otrosindicadorespadrehijo" method="post" asp-controller="OtroIndicadorPadreHijo" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input hidden="hidden" asp-for="Id" />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="IdTipoIndicadorPadre" class="control-label">Tipo Indicador</label>
+                        @Html.DropDownList("IdTipoIndicadorPadre", (IEnumerable<SelectListItem>)Model.TipoIndicadorPadreList,"Seleccione tipo de indicador" ,htmlAttributes: new { @class = "form-control ", @style = "width:100%;",@onchange="SearchOtrosIndicadoresPadre()" })
+                        <span asp-validation-for="IdTipoIndicadorPadre" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" id="partialIdPadre">
+                    </div>
+                    <div class="form-group" id="partialTipoIndicadorHijo">
+                    </div>
+                    @if (Model.Id == 0)
+                    {
+                        <div class="form-group d-none" id="partialOtrosIndicadoresHijosDNone">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group" id="partialOtrosIndicadoresHijos">
+                        </div>
+                    }
+
+
+                    @if (Model.Id != 0)
+                    {
+                        <div class="form-group">
+                            <label asp-for="IdEstado" class="control-label">Estado</label>
+                            @Html.DropDownList("IdEstado", (IEnumerable<SelectListItem>)Model.EstadoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                            <span asp-validation-for="IdEstado" class="text-danger"></span>
+                        </div>
+                    }
+                </div>
+                @if (Model.Id == 0)
+                {
+                    <div class="col-md-6" id="partialListaOtrosIndicadores">
+                    </div>
+                }
+            </div>
+            <br />
+            <div class="form-group justify-content-between group-button-modal">
+                <button type="submit" class="btn btn-success d-none" id="btnGuardarOIPH" onclick="loadDataOtrosIndicadoresPadreHijo(true)" >Guardar</button>
+                <button type="button" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" language=javascript>
+
+    $.validator.unobtrusive.parse(document);
+
+    $('#create-form-otrosindicadorespadrehijo').disableAutoFill();
+
+    $('.seleccionBusqueda').select2();
+
+    @{
+        int idTipoIndicadorPadre = Model?.Padre?.IdTipoIndicador ?? 0;
+        int idTipoIndicadorHijo = Model?.Hijo?.IdTipoIndicador ?? 0;
+        int idPadre = Model?.Padre?.Id ?? 0;
+        int idHijo = Model?.Hijo?.Id ?? 0;
+    }
+
+
+
+     SearchOtrosIndicadoresPadre();
+
+    function SearchOtrosIndicadoresPadre() {
+        let idTipoIndicadorPadre = parseInt($("#IdTipoIndicadorPadre").val()) > 0 ? parseInt($("#IdTipoIndicadorPadre").val()) : @idTipoIndicadorPadre;
+        let idPadre = @idPadre;
+    @{
+        if (idTipoIndicadorPadre != 0)
+        {
+            <text>
+                                                $("#IdTipoIndicadorPadre").val(idTipoIndicadorPadre);
+                                                SearchOtrosIndicadoresHijo();
+            </text>
+        }
+    }
+
+        $('#partialIdPadre').empty();
+        $('#partialListaOtrosIndicadores').empty();
+        $('#partialTipoIndicadorHijo').empty();
+        $('#IdOtrosIndicadoresHijos').val([]);
+
+        if(!idTipoIndicadorPadre) return;
+        $.ajax({
+            url: '@Url.Action("SearchOtrosIndicadoresPadre", "OtroIndicadorPadreHijo")',
+            dataType: "html",
+            data: {'idTipoIndicadorPadre': idTipoIndicadorPadre},
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $('#partialIdPadre').html(response);
+                if(idPadre){
+                    $("#IdPadre").val(idPadre);
+                }
+                if(IdTipoIndicadorPadre)SearchTipoIndicadorHijo();
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        });
+    }
+
+    function SearchOtrosIndicadoresHijo() {
+        let idTipoIndicadorHijo = parseInt($("#IdTipoIndicadorHijo").val()) > 0 ? parseInt($("#IdTipoIndicadorHijo").val()) : @idTipoIndicadorHijo;
+        let idHijo = @idHijo;
+        if(!idTipoIndicadorHijo) return;
+        if(idHijo){
+            $.ajax({
+                url: '@Url.Action("SearchOtrosIndicadoresHijo2", "OtroIndicadorPadreHijo")',
+                dataType: "html",
+                data: {'idTipoIndicadorHijo': idTipoIndicadorHijo},
+                type: "GET",
+                contentType: "application/json",
+                success: function (response) {
+                    $('#partialOtrosIndicadoresHijos').html(response);
+                    $('#IdHijo').val(idHijo);
+                    changeSelectOtroIndicadorPadreHijo();
+                },
+                error: function (err) {
+                    alert(err.responseText);
+                }
+            });
+        }else{
+            $.ajax({
+                url: '@Url.Action("SearchOtrosIndicadoresHijo", "OtroIndicadorPadreHijo")',
+                dataType: "html",
+                data: {'idTipoIndicadorHijo': idTipoIndicadorHijo},
+                type: "GET",
+                contentType: "application/json",
+                success: function (response) {
+                    console.log(response);
+                    $('#partialListaOtrosIndicadores').html(response);
+                },
+                error: function (err) {
+                    alert(err.responseText);
+                }});
+            }
+    }
+
+    function SearchTipoIndicadorHijo() {
+
+        let idTipoIndicadorPadre = parseInt($("#IdTipoIndicadorPadre").val()) > 0 ? parseInt($("#IdTipoIndicadorPadre").val()) : @idTipoIndicadorPadre;
+        let idTipoIndicadorHijo = @idTipoIndicadorHijo;
+        let idHijo = @idHijo;
+
+        if(!idTipoIndicadorPadre) return;
+        $.ajax({
+            url: '@Url.Action("SearchTipoIndicadorHijo", "OtroIndicadorPadreHijo")',
+            dataType: "html",
+            data: {'idTipoIndicadorPadre': idTipoIndicadorPadre},
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $('#partialTipoIndicadorHijo').html(response);
+                if(idTipoIndicadorHijo){
+                    $("#IdTipoIndicadorHijo").val(idTipoIndicadorHijo);
+                }
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        });
+    }
+
+    function updateSelectOtroIndicadorPadreHijo(){
+        var valores = $('input:checkbox:checked[class="otroIndicadorHijo"]').map(function() {
+            return $(this).data('idotroindicador');
+        }).get();
+
+        $('#IdOtrosIndicadoresHijos').val(valores);
+        $('#IdOtrosIndicadoresHijos').trigger('change');
+    }
+
+    function changeSelectOtroIndicadorPadreHijo(){
+        var valor = $('#IdOtrosIndicadoresHijos').val();
+        var idPadre = $('#IdPadre').val();
+        var idHijo = $('#IdHijo').val();
+
+        if(((valor?.length??undefined) || idHijo) && idPadre){
+            $('#btnGuardarOIPH').removeClass('d-none');
+        }else{
+            $('#btnGuardarOIPH').addClass('d-none');
+        }
+    }
+</script>
+
+@if (Model.Id == 0)
+{
+    <script>
+
+         SearchTodosOtrosIndicadores();
+
+        function SearchTodosOtrosIndicadores() {
+            if(!IdTipoIndicadorPadre) return;
+             $.ajax({
+                url: '@Url.Action("SearchTodosOtrosIndicadores", "OtroIndicadorPadreHijo")',
+                dataType: "html",
+                type: "GET",
+                contentType: "application/json",
+                success: function (response) {
+                    $('#partialOtrosIndicadoresHijosDNone').html(response);
+                },
+                error: function (err) {
+                    alert(err.responseText);
+                }
+            });
+        }
+
+    </script>
+}

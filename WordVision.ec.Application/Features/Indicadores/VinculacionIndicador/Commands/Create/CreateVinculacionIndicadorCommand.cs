@@ -29,7 +29,6 @@ namespace WordVision.ec.Application.Features.Indicadores.VinculacionIndicador.Co
 
         public async Task<Result<int>> Handle(CreateVinculacionIndicadorCommand request, CancellationToken cancellationToken)
         {
-            request.DetalleVinculacionIndicadores = request.DetalleVinculacionIndicadores.Where(l => l.Selected).ToList();
             var entity = _mapper.Map<Domain.Entities.Indicadores.VinculacionIndicador>(request);
             await _repository.InsertAsync(entity);
             await _unitOfWork.Commit(cancellationToken);

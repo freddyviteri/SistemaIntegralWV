@@ -1,0 +1,17 @@
+﻿<div class="overflow-auto" style="max-height:500px">
+    <ul class="list-group" id="listaOtrosIndicadores" role="group" aria-labelledby="OtrosIndicadoresList">
+        @foreach (var item in ViewBag.OtroIndicadorHijoList)
+        {
+            <li class="list-group-item" data-tipoindicador="@item.TipoIndicador.Id">
+                <input type="checkbox" class="otroIndicadorHijo" data-idotroindicador="@item.Id" onchange="updateSelectOtroIndicadorPadreHijo()" />
+                <label>@item.TipoIndicador.Nombre - @item.Descripcion</label>
+            </li>
+        }
+    </ul>
+</div>
+
+<script>
+       $('#IdOtrosIndicadoresHijos').val().forEach(function(v){
+         $('input:checkbox[class="otroIndicadorHijo"][data-idotroindicador='+v+']').prop( "checked", true );;
+        });
+</script>

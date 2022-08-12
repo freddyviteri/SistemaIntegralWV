@@ -230,28 +230,35 @@
                                     <p>@localizer["Actor/Participante"]</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                           @* <li class="nav-item">
                                 <a is-active-route asp-area="Maestro" asp-controller="EtapaModeloProyecto" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
                                     <p>@localizer["Etapas Modelo Proyecto"]</p>
                                 </a>
+                            </li>*@
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="ModeloProyectoEtapaAccion" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Modelo Proyecto Etapas Acciones"]</p>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a is-active-route asp-area="Maestro" asp-controller="ProgramaArea" class="nav-link">
+                                    <i class="far fa-file-archive nav-icon"></i>
+                                    <p>@localizer["Programa Área"]</p>
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a is-active-route asp-area="Maestro" asp-controller="ModeloProyecto" class="nav-link">
+                                <a is-active-route asp-area="Maestro" asp-controller="ProgramaTecnico" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
-                                    <p>@localizer["Modelo Proyecto"]</p>
+                                    <p>@localizer["Programa Tecnico"]</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a is-active-route asp-area="Maestro" asp-controller="ProyectoTecnico" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
                                     <p>@localizer["Proyecto Técnico"]</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a is-active-route asp-area="Maestro" asp-controller="ProgramaArea" class="nav-link">
-                                    <i class="far fa-file-archive nav-icon"></i>
-                                    <p>@localizer["Programa Área"]</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -267,9 +274,9 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a is-active-route asp-area="Maestro" asp-controller="IndicadorPR" class="nav-link">
+                                <a is-active-route asp-area="Maestro" asp-controller="IndicadorML" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
-                                    <p>@localizer["Indicadores"]</p>
+                                    <p>@localizer["Indicadores ML"]</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -285,7 +292,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a is-active-route asp-area="Maestro" asp-controller="LogFrameIndicadorPR" class="nav-link">
+                                <a is-active-route asp-area="Maestro" asp-controller="MarcoLogico" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
                                     <p>@localizer["Marco Lógico"]</p>
                                 </a>
@@ -326,7 +333,7 @@
                                 </a>
                             </li>
 <li class="nav-item">
-                                <a is-active-route asp-area="Indicadores" asp-controller="ProyectoTecnicoPorProgramaArea" class="nav-link">
+                                <a is-active-route asp-area="Indicadores" asp-controller="MarcoLogicoAsignado" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
                                     <p>@localizer["PT x PA"]</p>
                                 </a>
@@ -371,7 +378,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a is-active-route asp-area="Maestro" asp-controller="IndicadorPR" class="nav-link">
+                                <a is-active-route asp-area="Maestro" asp-controller="IndicadorML" class="nav-link">
                                     <i class="far fa-file-archive nav-icon"></i>
                                     <p>@localizer["Indicacdores"]</p>
                                 </a>

@@ -1,0 +1,23 @@
+﻿<div class="col-md-6">
+    <div class="form-group">
+        <label for="IdProyectoTecnico" class="control-label">Proyecto Técnico</label>
+        @Html.DropDownList("IdProyectoTecnico",ViewBag.ProyectosTecnicosSelect,null,htmlAttributes: new { @class = "form-control ", @style = "width:100%;", @onchange="GetLF()", @disabled="disabled", @readonly="readonly" })
+        <span for="IdProyectoTecnico" class="text-danger"></span>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group" id="partialProgramaTt">
+        <label for="IdSupervisor" class="control-label">Supervisor</label>
+        @Html.DropDownList("IdSupervisor",ViewBag.SupervisoresSelect,"Seleccionar Supervisor",htmlAttributes: new { @class = "form-control ", @style = "width:100%;", @onchange = "isValidInsert()"})
+        <span for="IdSupervisor" class="text-danger"></span>
+    </div>
+</div>
+
+@if (ViewBag.SupervisorHabilitado==true)
+{
+    <script>
+        $('#IdSupervisor').attr('disabled','disabled');
+    </script>
+
+}
+

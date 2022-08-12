@@ -1,0 +1,84 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Maestro.Models.EtapaViewModel>
+
+<table id="etapaTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var ide = "E" + @item.Id.ToString();
+            <tr id="@ide">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button id="btnetapa" onclick="jQueryModalGet('/Maestro/ModeloProyectoEtapaAccion/OnGetEtapaCreateOrEdit?id=@item.Id','Editar Etapa')" class="btn btn-warning btn-xp mr-1" type="button"><i class="fas fa-pencil-alt"></i></button>
+                        <button type="button" onclick="EliminaFilaE(@item.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function() {
+        $("#etapaTable").DataTable({
+            "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },
+            responsive: true,
+            info: true,
+            bSort: true,
+            aaSorting: [[ 0, "desc" ]],
+        });
+    });
+
+    function EliminaFilaE(id) {
+
+        var GestionViewModel = {
+            id: id
+        };
+
+        $.ajax({
+            type: "delete",
+            url: '@Url.Action("OnPostEtapaDelete", "ModeloProyectoEtapaAccion", new { area = "maestro" })',
+            data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function(data) {
+                if (data.isValid)
+                    $("#E" + id).remove();
+
+            },
+            error: function(xhr) {
+
+            }
+        });
+    }
+</script>

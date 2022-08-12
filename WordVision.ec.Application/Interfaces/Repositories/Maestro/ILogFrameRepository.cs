@@ -13,7 +13,8 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
         Task<List<LogFrame>> GetListAsync(LogFrame logFrame);
         Task<int> InsertAsync(LogFrame logFrame);
         Task UpdateAsync(LogFrame logFrame);
-        Task DeleteLogFrameIndicadorPRAsync(List<LogFrameIndicadorPR> list);
+        Task DeleteMarcoLogicoAsync(List<MarcoLogico> list);
         Task DeleteAsync(LogFrame logFrame);
+        Task<List<LogFrame>> ListaLogFrameFromNivel(int idprogramaatecnico, int[] ids);
     }
 }

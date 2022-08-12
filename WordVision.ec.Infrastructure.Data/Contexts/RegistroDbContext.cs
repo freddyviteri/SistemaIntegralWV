@@ -100,26 +100,41 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 
             builder.Entity<RCNinoPatrocinado>()
             .ToTable("RCNinoPatrocinados", "adm");
-            builder.Entity<ProyectoTecnico>()
-            .ToTable("ProyectoTecnicos", "adm");
+
+            builder.Entity<ProgramaTecnico>()
+            .ToTable("ProgramaTecnicos", "adm");
+
             builder.Entity<ProgramaArea>()
             .ToTable("ProgramaAreas", "adm");
-            builder.Entity<EtapaModeloProyecto>()
-            .ToTable("EtapaModeloProyectos", "adm");
+
+            builder.Entity<ProyectoTecnico>()
+            .ToTable("ProyectoTecnicos", "adm");
+
+            builder.Entity<AccionOperativa>()
+            .ToTable("AccionOperativas", "adm");
+            builder.Entity<Etapa>()
+            .ToTable("Etapas", "adm");
             builder.Entity<ModeloProyecto>()
             .ToTable("ModeloProyectos", "adm");
+            builder.Entity<ModeloProyectoEtapaAccion>()
+            .ToTable("ModeloProyectoEtapaAcciones", "adm");
+
+
+            //member is candidate
+
+
             builder.Entity<LogFrame>()
             .ToTable("LogFrames", "adm");
             builder.Entity<ActorParticipante>()
             .ToTable("ActorParticipantes", "adm");
-            builder.Entity<IndicadorPR>()
-            .ToTable("IndicadoresPR", "adm");
+            builder.Entity<IndicadorML>()
+            .ToTable("IndicadoresML", "adm");
             builder.Entity<OtroIndicador>()
             .ToTable("OtrosIndicadores", "adm");
             builder.Entity<PresupuestoProyecto>()
             .ToTable("PresupuestoProyectos", "adm");
-            builder.Entity<LogFrameIndicadorPR>()
-            .ToTable("LogFrameIndicadoresPR", "adm");
+            builder.Entity<MarcoLogico>()
+            .ToTable("MarcoLogico", "adm");
             builder.Entity<CodigoSCI>()
             .ToTable("CodigoSCIs", "adm");
             builder.Entity<BancosCompania>()
@@ -129,13 +144,12 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             .ToTable("FaseProgramaAreas", "indicador");
             builder.Entity<VinculacionIndicador>()
             .ToTable("VinculacionIndicadores", "indicador");
-            builder.Entity<DetalleVinculacionIndicador>()
-            .ToTable("DetalleVinculacionIndicador", "indicador");
             builder.Entity<EstadoPorAnioFiscal>()
             .ToTable("EstadoPorAnioFiscales", "indicador");
-			builder.Entity<ProyectoTecnicoPorProgramaArea>()
-            .ToTable("ProyectoTecnicoPorProgramaAreas", "indicador");					
-
+            builder.Entity<MarcoLogicoAsignado>()
+            .ToTable("MarcoLogicoAsignado", "indicador");
+            builder.Entity<OtroIndicadorPadreHijo>()
+            .ToTable("OtroIndicadorPadreHijo", "indicador");
             builder.Entity<EstrategiaNacional>()
           .ToTable("EstrategiaNacionales", "planifica");
             builder.Entity<Gestion>()
@@ -183,8 +197,7 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
 .ToTable("IndicadorVinculadoPOs", "planifica");
             builder.Entity<IndicadorVinculadoPOA>()
 .ToTable("IndicadorVinculadoPOAs", "planifica");
-            //            builder.Entity<MetaCicloEstrategico>()
-            //.ToTable("MetaCicloEstrategico", "planifica");
+
             builder
        .Entity<Tercero>()
        .HasMany(e => e.FormularioTerceros).WithOne(e => e.Terceros)
@@ -283,8 +296,15 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
             /*carlos cm 29062022*/
             builder.Entity<ProyectoITT>()
           .ToTable("ProyectoITTs", "planifica");
+
             builder.Entity<DetalleProyectoITT>()
-         .ToTable("DetalleProyectoITTs", "planifica");
+          .ToTable("DetalleProyectoITTs", "planifica");
+
+            builder.Entity<DetalleProyectoITTGoul>()
+          .ToTable("DetalleProyectoITTGouls", "planifica");
+
+            /*Fin carlos cm 09082022*/
+
 
             foreach (var property in builder.Model.GetEntityTypes()
             .SelectMany(t => t.GetProperties())
@@ -293,6 +313,14 @@ namespace WordVision.ec.Infrastructure.Data.Contexts
                 property.SetColumnType("decimal(18,2)");
             }
             base.OnModelCreating(builder);
+
+            builder.Entity<VinculacionIndicador>()
+                .HasIndex(b => new { b.IdMarcoLogico, b.IdOtroIndicador })
+                .IsUnique();
+
+            builder.Entity<OtroIndicadorPadreHijo>()
+                .HasIndex(b => new { b.IdPadre, b.IdHijo })
+                .IsUnique();
         }
         public DbSet<Colaborador> Colaboradores { get; set; }
         public DbSet<Documento> Documentos { get; set; }

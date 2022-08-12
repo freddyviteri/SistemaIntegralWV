@@ -1,0 +1,52 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Indicadores.Models.OtroIndicadorPadreHijoViewModel>
+
+<table id="otroIndicadorPadreHijoTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                Otro Indicador Padre
+            </th>
+            <th>
+                Otro Indicador Hijo
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Padre.Descripcion)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hijo.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <a onclick="jQueryModalGet('/Indicadores/OtroIndicadorPadreHijo/OnGetCreateOrEdit?id=@item.Id','Editar Vinculación Indicadores')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#otroIndicadorPadreHijoTable").DataTable();
+    });
+</script>

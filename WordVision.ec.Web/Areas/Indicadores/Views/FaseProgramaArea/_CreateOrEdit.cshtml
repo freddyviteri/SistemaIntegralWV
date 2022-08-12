@@ -5,31 +5,49 @@
     <input hidden="hidden" asp-for="Id" />
     <div class="row">
         <div class="col-md-5">
-            <div class="form-group">
-                <label asp-for="IdProgramaArea" class="control-label">Programa Área</label>
-                @Html.DropDownList("IdProgramaArea", (IEnumerable<SelectListItem>)Model.ProgramaAreaList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
-                <span asp-validation-for="IdProgramaArea" class="text-danger"></span>
-            </div>
+            @if (Model.Id != 0)
+            {
+                <div class="form-group">
+                    <label asp-for="IdProgramaArea" class="control-label">Programa Área</label>
+                    @Html.HiddenFor(m => m.IdProgramaArea)
+                    @Html.TextBoxFor(m => m.ProyectoTecnico.ProgramaArea.Descripcion, new { @class = "form-control", @readonly = "true" })
+                </div>
 
-            <div class="form-group">
-                <label asp-for="IdProyectoTecnico" class="control-label">Proyecto Tecnico</label>
-                @Html.DropDownList("IdProyectoTecnico", (IEnumerable<SelectListItem>)Model.ProyectoTecnicoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
-                <span asp-validation-for="IdProyectoTecnico" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="IdProyectoTecnico" class="control-label">Proyecto Tecnico</label>
+                    @Html.HiddenFor(m => m.IdProyectoTecnico)
+                    @Html.TextBoxFor(m => m.ProyectoTecnico.NombreProyecto, new { @class = "form-control", @readonly = "true" })
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="IdProgramaArea" class="control-label">Programa Área</label>
+                    @Html.DropDownList("IdProgramaArea", (IEnumerable<SelectListItem>)Model.ProgramaAreaList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;", @onchange="Changepa()" })
+                    <span asp-validation-for="IdProgramaArea" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="IdProyectoTecnico" class="control-label">Proyecto Tecnico</label>
+                    @Html.DropDownList("IdProyectoTecnico", (IEnumerable<SelectListItem>)Model.ProyectoTecnicoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                    <span asp-validation-for="IdProyectoTecnico" class="text-danger"></span>
+                </div>
+            }
+
 
             <div class="form-group">
                 <label asp-for="IdFaseProyecto" class="control-label">Fase</label>
-                @Html.DropDownList("IdFaseProyecto", (IEnumerable<SelectListItem>)Model.FaseProyectoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" , @onchange = "onchangeFase()" })
+                @Html.DropDownList("IdFaseProyecto", (IEnumerable<SelectListItem>)Model.FaseProyectoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;"})
                 <span asp-validation-for="IdFaseProyecto" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaInicio" class="control-label boxfi">Fecha Inicio</label>
-                <input asp-for="FechaInicio" class="form-control" onchange="finionchange()" />
+                <input asp-for="FechaInicio" type="text" class="form-control" onchange="finionchange()" />
                 <span asp-validation-for="FechaInicio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaFin" class="control-label">Fecha Fin</label>
-                <input asp-for="FechaFin" class="form-control" onchange="ffinonchange()" />
+                <input asp-for="FechaFin" type="text" class="form-control" onchange="ffinonchange()" />
                 <span asp-validation-for="FechaFin" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,17 +58,17 @@
         <div class="col-md-5">
             <div class="form-group">
                 <label asp-for="FechaDisenio" class="control-label">Fecha Diseño</label>
-                <input asp-for="FechaDisenio" class="form-control" readonly />
+                <input asp-for="FechaDisenio" type="text" class="form-control" readonly />
                 <span asp-validation-for="FechaDisenio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaRedisenio" class="control-label">Fecha Rediseño</label>
-                <input asp-for="FechaRedisenio" class="form-control" readonly />
+                <input asp-for="FechaRedisenio" type="text" class="form-control" readonly />
                 <span asp-validation-for="FechaRedisenio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaTransicion" class="control-label">Fecha Transición</label>
-                <input asp-for="FechaTransicion" class="form-control" readonly />
+                <input asp-for="FechaTransicion" type="text" class="form-control" readonly />
                 <span asp-validation-for="FechaTransicion" class="text-danger"></span>
             </div>
         </div>
@@ -105,65 +123,130 @@
 </form>
 
 <script type="text/javascript">
+    var datageneralfa = [];
 
+    var isnew = "@Model.Id";
 
     $(document).ready(function() {
 
+        $('#FechaInicio').datepicker({
+            format: 'dd/mm/yyyy',
+        });
+        $('#FechaFin').datepicker({
+            format: 'dd/mm/yyyy',
+        });
+
+        $.getJSON('../Indicadores/FaseProgramaArea/Cargarcombos?handler',
+            (data) => {
+                if (data === null) {
+                    return;
+                }
+                datageneralfa = data;
+
+            }).done(function(data) {
+                console.log("second success");
+            })
+            .fail(function(jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+            })
+            .always(function() {
+                console.log("complete");
+            });
+
+        
         var fini = new Date();
         fini.setMinutes(fini.getMinutes() - fini.getTimezoneOffset());
-        document.getElementById('FechaInicio').value = fini.toISOString().slice(0, 16);
+        document.getElementById('FechaInicio').value = fini.getDate() + "/" + ("00" + (fini.getMonth() + 1)).slice(-2) + "/" + fini.getFullYear();  //fini.toISOString().slice(0, 16);
 
-        var ffin = new Date($('#FechaInicio').val());
+        var ffin = new Date(fini);
         addyearinputdate(ffin, "FechaFin", 15);
 
-        var ffin = new Date($('#FechaInicio').val());
-        addyearinputdate(ffin, "FechaDisenio", 5);
-
-        var ffin = new Date($('#FechaInicio').val());
+        var ffin = new Date(fini);
         addyearinputdate(ffin, "FechaRedisenio", 10);
+
+
+        var ffin = new Date(fini);
+        addyearinputdate(ffin, "FechaDisenio", 5);
 
         document.getElementById('FechaTransicion').value = document.getElementById('FechaFin').value;
         $("#FechaTransicion").attr('value', $("#FechaTransicion").val());
 
         onchangeFase();
+
+        var isnew = "@Model.Id";
+        if (isnew > 0) {
+            $('#IdProgramaArea').attr("readonly", true);
+            $('#IdProyectoTecnico').attr("readonly", true);
+            $('#FechaInicio').attr("readonly", true);
+        }
+        else {
+            $('#IdFaseProyecto').attr("readonly", true);
+        }
+
+        $("#FechaDisenio").datepicker("destroy");
+        $("#FechaRedisenio").datepicker("destroy");
+        
+        if (isnew === "1") {
+            $("#FechaInicio").datepicker("destroy");
+        }
     });
+
+    function Changepa() {
+        $('#IdProyectoTecnico').empty();
+        $("#IdProyectoTecnico").append('<option value="0">Seleccionar</option>');
+        if (datageneralfa === null) {
+            return;
+        }
+        $.each($.unique(datageneralfa), function(i, value) {
+            if ($("#IdProgramaArea").val() === value.idpa.toString()) {
+                $("#IdProyectoTecnico").append('<option value="'
+                    + value.id + '">'
+                    + value.nombreproyecto + '</option>');
+            }
+        });
+    }
 
     function onchangeFase() {
         var textselectdip6 = $('#IdFaseProyecto option:selected').text();
-        let resultdip6 = textselectdip6.includes("CIERRE");
-        if (resultdip6 === true) {
+        $(".dip6box").attr('hidden', true);
+        //let resultdip6 = textselectdip6.includes("CIERRE");
+        //if (resultdip6 === true) {
+       
+        var str = $("#FechaInicio").val();
+        var fini = new Date(str.substr(6, 4) , str.substr(3, 2), str.substr(0, 2));
+        fini.setFullYear(fini.getFullYear() + 16);
+        var aniocalc = fini.getFullYear();
 
-            var fini = new Date($('#FechaInicio').val());
-            fini.setFullYear(fini.getFullYear() + 16);
-            var aniocalc = fini.getFullYear();
 
-            var ffin = new Date($('#FechaFin').val());
-            var aniocomp = ffin.getFullYear();
+        var strf = $("#FechaFin").val();
+        var ffin = new Date(strf.substr(6, 4), strf.substr(3, 2), strf.substr(0, 2));
+        var aniocomp = ffin.getFullYear();
 
-            if (aniocalc === aniocomp) {
-                $(".dip6box").attr('hidden', false);
-            }            
+        if (aniocalc === aniocomp) {
+            $(".dip6box").attr('hidden', false);
         }
-        else {
-            $(".dip6box").attr('hidden', true);
-        }
+
+
     }
 
     function addyearinputdate(ffininicio, idnameipdate, anio) {
-
+        
         var ffin = new Date(ffininicio);
 
         var mimdate = new Date(ffin);
         mimdate.setFullYear(mimdate.getFullYear() + 1);
-        $("#" + idnameipdate).attr('min', mimdate.toISOString().slice(0, 16));
-       
+
+        $('#' + idnameipdate).datepicker('option', 'minDate', new Date(mimdate));
+
         ffin.setFullYear(ffin.getFullYear() + anio);
         ffin.setDate(ffin.getDate() - 1);
-        document.getElementById(idnameipdate).value = ffin.toISOString().slice(0, 16);
+
+        document.getElementById(idnameipdate).value = ffin.getDate() + "/" + ("00" + (ffin.getMonth() + 1)).slice(-2) + "/" + ffin.getFullYear(); // ffin.toISOString().slice(0, 16);
         $("#" + idnameipdate).attr('value', $("#" + idnameipdate).val());
 
         ffin.setFullYear(ffin.getFullYear() + 1);
-        $("#" + idnameipdate).attr('max', ffin.toISOString().slice(0, 16));
+        
+        $('#' + idnameipdate).datepicker('option', 'maxDate', new Date(ffin));
 
     }
 

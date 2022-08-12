@@ -1,9 +1,6 @@
 ﻿using AspNetCoreHero.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Maestro;
@@ -43,8 +40,7 @@ namespace WordVision.ec.Application.Features.Maestro.ProgramaArea.Commands.Updat
 
                 programaArea.Codigo = update.Codigo;
                 programaArea.Descripcion = update.Descripcion;
-                programaArea.IdProyectoTecnico = update.IdProyectoTecnico;
-                programaArea.IdEstado = update.IdEstado;              
+                programaArea.IdEstado = update.IdEstado;
 
                 await _repository.UpdateAsync(programaArea);
                 await _unitOfWork.Commit(cancellationToken);

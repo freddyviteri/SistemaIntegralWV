@@ -25,7 +25,7 @@ namespace WordVision.ec.Application.Features.Indicadores.Planificacion.Queries.G
 
         public async Task<Result<ProyectoITTResponse>> Handle(GetProyectoITTByIdQuery query, CancellationToken cancellationToken)
         {
-            var result = await _repository.GetByIdAsync(query.Id);
+            var result = await _repository.GetByIdAsync(query.Id, query.Include);
             var response = _mapper.Map<ProyectoITTResponse>(result);
 
             return Result<ProyectoITTResponse>.Success(response);

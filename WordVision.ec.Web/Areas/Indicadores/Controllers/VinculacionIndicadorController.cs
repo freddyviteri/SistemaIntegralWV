@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,14 @@ using WordVision.ec.Application.Features.Indicadores.VinculacionIndicador.Comman
 using WordVision.ec.Application.Features.Indicadores.VinculacionIndicador.Queries.GetAll;
 using WordVision.ec.Application.Features.Indicadores.VinculacionIndicador.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
-using WordVision.ec.Application.Features.Maestro.IndicadorPR.Queries.GetAll;
+using WordVision.ec.Application.Features.Maestro.IndicadorML.Queries.GetAll;
+using WordVision.ec.Application.Features.Maestro.MarcoLogico.Queries.GetAll;
 using WordVision.ec.Application.Features.Maestro.OtroIndicador.Queries.GetAll;
+using WordVision.ec.Application.Features.Planificacion.TiposIndicadores.Queries.GetAll;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Indicadores.Models;
 using WordVision.ec.Web.Areas.Maestro.Models;
+using WordVision.ec.Web.Areas.Planificacion.Models;
 using WordVision.ec.Web.Common;
 using WordVision.ec.Web.Common.Constants;
 
@@ -51,6 +55,7 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
             try
             {
                 var entidadViewModel = new VinculacionIndicadorViewModel();
+
                 if (id == 0)
                 {
                     await SetDropDownList(entidadViewModel);
@@ -62,6 +67,7 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
                     if (response.Succeeded)
                     {
                         entidadViewModel = _mapper.Map<VinculacionIndicadorViewModel>(response.Data);
+
                         await SetDropDownList(entidadViewModel);
                         return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                     }
@@ -85,12 +91,14 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
             {
                 if (VinculacionIndicadorViewModel.Id == 0)
                 {
-                    var createEntidadCommand = _mapper.Map<CreateVinculacionIndicadorCommand>(VinculacionIndicadorViewModel);
-                    createEntidadCommand.IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo;
+                    var vinculacionCrearMultiple = VinculacionIndicadorViewModel.IdOtrosIndicadores.Select(i => new VinculacionIndicadorViewModel { IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo, IdMarcoLogico = VinculacionIndicadorViewModel.IdMarcoLogico, IdOtroIndicador = i });
+
+                    var createEntidadCommand = _mapper.Map<CreateMultipleVinculacionIndicadoresCommand>(vinculacionCrearMultiple);
                     var result = await _mediator.Send(createEntidadCommand);
-                    if (result.Succeeded)
-                        _notify.Success($"VinculacionIndicador con ID {result.Data} Creado.");
-                    else return _commonMethods.SaveError(result.Message);
+                    var resultsSucceeded = result.Where(r=> r.Succeeded).Count();
+                    if (resultsSucceeded == result.Count)
+                        _notify.Success($"VinculacionIndicador con ID {string.Join(" ,", result.Select(r => r.Data.ToString()))} Creado.");
+                    else return _commonMethods.SaveError(string.Join(" ,", result.Where(r => r.Message != null)));
                 }
                 else
                 {
@@ -124,49 +132,32 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
                 isNew = false;
             var estado = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoEstado });
             //var fase = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoFaseProyecto });
-            var indicadorPR = await _mediator.Send(new GetAllIndicadorPRQuery());
+            var indicadorML = await _mediator.Send(new GetAllIndicadorMLQuery());
             var otroIndicador = await _mediator.Send(new GetAllOtroIndicadorQuery { Include = true});
+            var marcoLogico = await _mediator.Send(new GetAllMarcoLogicoQuery { Include = true });
+            var tipoIndicador = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoTipoIndicador });
 
             List<GetListByIdDetalleResponse> estados = estado.Data;
-            //entidadViewModel.OtrosIndicadores = _mapper.Map<List<OtroIndicadorViewModel>>(otroIndicador.Data);
-            List<OtroIndicadorViewModel> otrosIndicadores  = _mapper.Map<List<OtroIndicadorViewModel>>(otroIndicador.Data);
-            List<IndicadorPRViewModel> indicadorPRs = _mapper.Map<List<IndicadorPRViewModel>>(indicadorPR.Data);
+            List<OtroIndicadorViewModel> otrosIndicadores = _mapper.Map<List<OtroIndicadorViewModel>>(otroIndicador.Data);
+            List<IndicadorMLViewModel> indicadorMLs = _mapper.Map<List<IndicadorMLViewModel>>(indicadorML.Data);
+            List<MarcoLogicoViewModel> marcosLogicos = _mapper.Map<List<MarcoLogicoViewModel>>(marcoLogico.Data);
+            List<GetListByIdDetalleResponse> tipoIndicadores = tipoIndicador.Data;
 
             if (isNew)
             {
                 estados = estados.Where(e => e.Estado == CatalogoConstant.EstadoActivo).ToList();
-                //otroIndicadores = otroIndicadores.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
-                indicadorPRs = indicadorPRs.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
+                otrosIndicadores = otrosIndicadores.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
+                indicadorMLs = indicadorMLs.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
+                marcosLogicos = marcosLogicos.Where(e => e.IdEstado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
+                tipoIndicadores = tipoIndicadores.Where(e => e.Estado == CatalogoConstant.IdDetalleCatalogoEstadoActivo).ToList();
             }
 
+            entidadViewModel.OtrosIndicadores = otrosIndicadores;
             entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
-            //entidadViewModel.OtroIndicadorList = _commonMethods.SetGenericCatalog(otroIndicadores, CatalogoConstant.FieldOtroIndicador);
-            entidadViewModel.IndicadorPRList = _commonMethods.SetGenericCatalog(indicadorPRs, CatalogoConstant.FieldIndicadorPR);
-
-            List<DetalleVinculacionIndicadorViewModel> list = new List<DetalleVinculacionIndicadorViewModel>();
-            foreach (var item in otrosIndicadores)
-            {
-                bool selected = false;
-                //int idDetalle = 0;
-                if (entidadViewModel.DetalleVinculacionIndicadores != null)
-                //{
-                    if (entidadViewModel.DetalleVinculacionIndicadores.Where(l => l.IdOtroIndicador == item.Id).Count() > 0)
-                    //{
-                        selected = true;
-                    //    idDetalle = detalle.Id;
-                    //}
-                //}
-                list.Add(new DetalleVinculacionIndicadorViewModel
-                {
-                    //Id = idDetalle,
-                    IdVinculacionIndicador = entidadViewModel.Id,
-                    //IdIndicadorPR = idIndicador,
-                    IdOtroIndicador = item.Id,
-                    OtroIndicador = item,
-                    Selected = selected,
-                });
-            }
-            entidadViewModel.DetalleVinculacionIndicadores = list;
+            entidadViewModel.OtroIndicadorList = _commonMethods.SetGenericCatalog(otrosIndicadores, CatalogoConstant.FieldOtroIndicador);
+            entidadViewModel.IndicadorMLList = _commonMethods.SetGenericCatalog(indicadorMLs, CatalogoConstant.FieldIndicadorML);
+            entidadViewModel.MarcoLogicoList = _commonMethods.SetGenericCatalog(marcosLogicos, CatalogoConstant.FieldMarcoLogico);
+            entidadViewModel.TipoIndicadorList = _commonMethods.SetGenericCatalogWithoutIdLabel(tipoIndicadores, CatalogoConstant.FieldTipoIndicador);
         }
     }
 }

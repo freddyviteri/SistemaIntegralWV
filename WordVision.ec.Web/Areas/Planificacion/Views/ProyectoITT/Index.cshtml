@@ -1,10 +1,11 @@
 ﻿@model WordVision.ec.Web.Areas.Planificacion.Models.ProyectoITTViewModel
 
 
+
 <div class="card">
     <div class="col-sm-12 card-button-padding">
         <div class="row">
-            <a onclick="jQueryModalGet('/Planificacion/ProyectoITT/OnGetCreateOrEdit','Crear Proyecto ITT')" id="btncrear" class="btn bg-success">
+            <a onclick="jQueryModalFullScreemGet('/Planificacion/ProyectoITT/OnGetCreateOrEdit','Crear Proyecto ITT')" id="btncrear" class="btn bg-success">
                 <i class="fa fa-plus-square"></i> Crear
             </a>
 
@@ -15,18 +16,17 @@
         </div>
         <div class="row">
             <div class="form-group">
-                <label for="idSelectpt" class="control-label">Proyecto Tecnico / Especial</label>
+                <label for="idSelectpa" class="control-label">Programa Área</label>
                 <div class="input-group">
-                    <select id="idSelectpt" name="idSelectpt" class="form-control" onchange="Changept()"></select>
+                    <select id="idSelectpa" name="idSelectpa" class="form-control" onchange="Changepa()"></select>
                 </div>
             </div>
             <div class="form-group">
-                <label for="idSelectpa" class="control-label">Programa Área</label>
+                <label for="idSelectpt" class="control-label">Proyecto Tecnico / Especial</label>
                 <div class="input-group">
-                    <select id="idSelectpa" name="idSelectpa" class="form-control"></select>
+                    <select id="idSelectpt" name="idSelectpt" class="form-control"></select>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -36,115 +36,7 @@
 
 @section Scripts
     {
-    <script src="~/js/site.js"></script>
 
-    <script>
-
-
-
-        var datageneralfa = null;
-        var datapydisthelp = [];
-        var datapadisthelp = [];
-        var datapadisthelpnewup = [];
-
-        $(document).ready(function() {
-
-
-            $('#form-add').on('hidden.bs.modal', function(e) {
-                $("body").addClass("modal-open")
-            });
-
-            $("#idSelectpt").append('<option value="0">Seleccionar</option>');
-            $("#idSelectpa").append('<option value="0">Seleccionar</option>');
-
-            $("#IdProyectoTecnico").append('<option value="0">Seleccionar</option>');
-            $("#IdProgramaArea").append('<option value="0">Seleccionar</option>');
-
-            $.getJSON('../Planificacion/ProyectoITT/Cargarcombos?handler',
-                (data) => {
-
-                    if (data === null) {
-                        return;
-                    }
-                    datageneralfa = data;
-                    $.each(data, function(i, value) {
-                        datapydisthelp.push({ idpt: value.idpt, nombreproyecto: value.nombreproyecto });
-                    });
-
-                    $.each($.unique(datapydisthelp), function(i, value) {
-                        $("#idSelectpt").append('<option value="'
-                            + value.idpt + '">'
-                            + value.nombreproyecto + '</option>');
-                    });
-
-                    $.each($.unique(datapydisthelp), function(i, value) {
-                        $("#IdProyectoTecnico").append('<option value="'
-                            + value.idpt + '">'
-                            + value.nombreproyecto + '</option>');
-                    });
-
-                }).done(function(data) {
-                    console.log("second success");
-                })
-                .fail(function(jqxhr, textStatus, error) {
-                    var err = textStatus + ", " + error;
-                })
-                .always(function() {
-                    console.log("complete");
-                });
-        });
-
-        function Changept() {
-            //$('#viewAll').load('/Planificacion/ProyectoITT/LoadAll');
-            $('#idSelectpa').empty();
-            $("#idSelectpa").append('<option value="0">Seleccionar</option>');
-            if (datageneralfa === null) {
-                return;
-            }
-            datapadisthelp = [];
-            $.each(datageneralfa, function(i, value) {
-                if ($("#idSelectpt").val() === value.idpt.toString()) {
-                    datapadisthelp.push({ idpa: value.idpa, nombreprograma: value.nombreprograma });
-                }
-            });
-
-            $.each($.unique(datapadisthelp), function(i, value) {
-                $("#idSelectpa").append('<option value="'
-                    + value.idpa + '">'
-                    + value.nombreprograma + '</option>');
-            });
-        }
-
-        function loadData() {
-            $('#viewAll').load('/Planificacion/ProyectoITT/LoadAll?idpt=' + $("#idSelectpt").val() + '&idpa=' + $("#idSelectpa").val());
-        }
-
-        function Changeptnewup() {
-            //$('#viewAll').load('/Planificacion/ProyectoITT/LoadAll');
-            $('#IdProgramaArea').empty();
-            $("#IdProgramaArea").append('<option value="0">Seleccionar</option>');
-            if (datageneralfa === null) {
-                return;
-            }
-            datapadisthelpnewup = [];
-            $.each(datageneralfa, function(i, value) {
-                if ($("#IdProyectoTecnico").val() === value.idpt.toString()) {
-                    datapadisthelpnewup.push({ idpa: value.idpa, nombreprograma: value.nombreprograma, idfase: value.idfase, fase: value.fase });
-                }
-            });
-
-            $.each($.unique(datapadisthelpnewup), function(i, value) {
-                $("#IdProgramaArea").append('<option value="'
-                    + value.idpa + '">'
-                    + value.nombreprograma + ' -- ' + value.fase + '</option>');
-            });
-        }
-
-
-
-
-
-
-
-    </script>
+    <script src="~/Pry/Areas/Planificacion/Index.js"></script>
+    
 }

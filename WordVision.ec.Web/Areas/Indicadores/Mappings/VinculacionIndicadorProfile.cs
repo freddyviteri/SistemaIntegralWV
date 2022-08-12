@@ -10,10 +10,10 @@ namespace WordVision.ec.Web.Areas.Indicadores.Mappings
     {
         public VinculacionIndicadorProfile()
         {
+            CreateMap<CreateMultipleVinculacionIndicadoresCommand, VinculacionIndicadorViewModel>().ReverseMap();
             CreateMap<VinculacionIndicadorResponse, VinculacionIndicadorViewModel>().ReverseMap();
             CreateMap<CreateVinculacionIndicadorCommand, VinculacionIndicadorViewModel>().ReverseMap();
             CreateMap<UpdateVinculacionIndicadorCommand, VinculacionIndicadorViewModel>().ReverseMap();
-            CreateMap<DetalleVinculacionIndicadorResponse, DetalleVinculacionIndicadorViewModel>().ReverseMap();
         }
     }
 }

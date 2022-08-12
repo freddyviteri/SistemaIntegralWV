@@ -1,0 +1,161 @@
+﻿@model WordVision.ec.Web.Areas.Indicadores.Models.MarcoLogicoAsignadoViewModel
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="IdProgramaArea" class="control-label">Programa de Área</label>
+            @Html.DropDownList("IdProgramaArea", (IEnumerable<SelectListItem>)ViewBag.ProgramasAreasSelect,"Seleccione un programa de área", htmlAttributes: new { @class = "form-control ", @style = "width:100%;", @onchange="Search()" })
+            <span for="IdProgramaArea" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group" id="partialProgramaTt">
+            <label for="IdProgramaTecnico" class="control-label">Programa Técnico</label>
+            @Html.DropDownList("IdProgramaTecnico",ViewBag.ProgramasTecnicosSelect,"Seleccionar Programa Técnico",htmlAttributes: new { @class = "form-control ", @style = "width:100%;", @onchange = "Search()" })
+            <span for="IdProgramaTecnico" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row" id="partialProyectoTecnico">
+</div>
+
+<br />
+<div class="form-group justify-content-between group-button-modal mb-5 d-none" id="divBuscar">
+    <button type="submit" id="btnBuscar" class="btn btn-success" onclick="GetLF()" disabled>Buscar</button>
+</div>
+
+<div id="listaIndicadores">
+</div>
+
+
+
+@section Scripts
+{
+<script src="~/js/site.js"></script>
+<script>
+    function Search() {
+        emptyTable();
+        var idProgramaArea = $("#IdProgramaArea").val();
+        var idProgramaTecnico = $("#IdProgramaTecnico").val();
+        if(!idProgramaArea || !idProgramaTecnico) return;
+        $.ajax({
+            url: '@Url.Action("SearchProyectoTecnico", "MarcoLogicoAsignado")',
+            dataType: "html",
+            data: {'idProgramaArea': idProgramaArea,'idProgramaTecnico': idProgramaTecnico},
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $('#partialProyectoTecnico').html(response);
+                var idProyectoTecnico = $("#IdProyectoTecnico").val();
+                if(!idProyectoTecnico) return;
+                GetLF();
+                //$("#IdProyectoTecnico").trigger('change');
+
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        });
+    }
+
+    function GetLF() {
+        //emptyTable();
+        var idProgramaArea = $("#IdProgramaArea").val();
+        var idProgramaTecnico = $("#IdProgramaTecnico").val();
+        var idProyectoTecnico = $("#IdProyectoTecnico").val();
+        if(!idProyectoTecnico) return;
+        $.ajax({
+            url: '@Url.Action("SearchMarcoLogico", "MarcoLogicoAsignado")',
+            dataType: "html",
+            data: {'idProgramaArea':idProgramaArea,'idProgramaTecnico':idProgramaTecnico, 'idProyectoTecnico': idProyectoTecnico},
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $('#listaIndicadores').html(response);
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        });
+    }
+
+    function emptyTable(){
+         $("#listaIndicadores").empty();
+         $('#partialProyectoTecnico').empty();
+    }
+
+    function mappedRecords(){
+        var items = $('.mlasignadocheck[data-marcologicoid]');
+        var marcoLogicoAsignadoViewModel = items.map(function(k,v){
+            const idML =$(this).data('marcologicoid');
+            const idPGT =$(this).data('programatecnicoid');
+            const idPYT =$('#IdProyectoTecnico').val();
+            const idSup = $('#IdSupervisor').val();
+            const asignado =$(this).is(':checked');
+            const idResp = $('select[data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').val();
+            const poblacion = $('input[type="number"][data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').val();
+
+            return {
+            Id : null,
+            IdMarcoLogico:idML,
+            IdProyectoTecnico:idPYT,
+            IdResponsable :idResp,
+            IdSupervisor: idSup,
+            Asignado : asignado,
+            Poblacion : poblacion,
+            Nuevo : false
+            }
+        }).get();
+
+        return marcoLogicoAsignadoViewModel;
+    }
+
+    function asisgarResponsablesActividadProducto(select){
+        var valor =select.value;
+        var esActProd = select.getAttribute("data-actprod");
+        if(esActProd === "True") $('select[data-actprod="True"]').val(valor);    
+        isValidInsert();
+    }
+
+    function updateSelectNotAsigned(){
+        var items = $('.mlasignadocheck[data-marcologicoid]');
+        items.each(function(k,v){
+            const idML =$(this).data('marcologicoid');
+            const idPGT =$(this).data('programatecnicoid');
+            const idPYT =$('#IdProyectoTecnico').val();
+            const idSup = $('#IdSupervisor').val();
+            const asignado =$(this).is(':checked');
+            const idResp = $('select[data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').val();
+            const poblacion = parseInt($('input[type="number"][data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').val());
+
+            if(!asignado) {
+                $('select[data-actprod="True"]').val(''); 
+                $('select[data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').val('');
+                $('select[data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').attr('disabled','disabled');
+                $('input[type="number"][data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').val('');
+                $('input[type="number"][data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').attr('disabled','disabled');
+            }else{
+                $('select[data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').removeAttr('disabled');
+                $('input[type="number"][data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').removeAttr('disabled');
+            }
+            //$('select[data-programatecnicoid="'+idPGT+'"][data-marcologicoid="'+idML+'"]').trigger('change');
+        });
+    }
+    function isValidInsert(){
+        const marcoLogicoAsignadoViewModel = mappedRecords();
+        const valido = marcoLogicoAsignadoViewModel.filter(m => ((m.Asignado && m.IdResponsable) || !m.Asignado) && m.IdSupervisor && m.IdMarcoLogico && m.IdProyectoTecnico && m.Poblacion>0).length == marcoLogicoAsignadoViewModel.length;
+        if(valido){
+            $('#btnInsertar').removeAttr('disabled');
+            $('#btnInsertar').removeClass('d-none');
+        }else{
+            $('#btnInsertar').attr('disabled','disabled');
+            $('#btnInsertar').addClass('d-none');
+        }
+        updateSelectNotAsigned();
+        return valido;
+     }
+
+
+</script>
+}
+

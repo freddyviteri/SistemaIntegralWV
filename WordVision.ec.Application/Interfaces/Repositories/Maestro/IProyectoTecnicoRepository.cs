@@ -11,6 +11,10 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Maestro
     {
         Task<ProyectoTecnico> GetByIdAsync(int id);
         Task<List<ProyectoTecnico>> GetListAsync(ProyectoTecnico proyectoTecnico);
+        Task<List<ProgramaArea>> GetAvailableProgramasAreaAsync();
+        Task<List<ProgramaTecnico>> GetAvailableProgramasTecnicosAsync(int idProgramaArea);
+        Task<List<ProyectoTecnico>> GetAvailableProyectosTecnicosAsync(int idProgramaArea, int idProgramaTecnico);
+
         Task<int> InsertAsync(ProyectoTecnico proyectoTecnico);
         Task UpdateAsync(ProyectoTecnico proyectoTecnico);
     }

@@ -1,0 +1,61 @@
+﻿.error {
+    color: #5a5c69;
+    font-size: 1rem !important;
+    position: relative;
+    line-height: 1;
+    width: 12.5rem;
+}
+
+
+wizard .content {
+    min-height: 100px !important;
+}
+
+.wizard .content > .body {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    padding: 5px !important;
+    position: absolute !important;
+}
+
+.wizard .content .body.current {
+    position: relative !important;
+}
+
+
+
+.wizard > .content > .body ul {
+    list-style: none !important;
+}
+
+
+.tablay .thead {
+    background-color: yellow !important;
+}
+
+.tablay thead, .tablay tfoot {
+    background-color: lightgoldenrodyellow !important;
+    color: white !important;
+    text-shadow: 1px 1px 1px white !important;
+    color: black !important;
+}
+
+.tablazul thead, .tablazul tfoot {
+    background-color: deepskyblue !important;
+    color: white !important;
+    text-shadow: 1px 1px 1px white !important;
+    color: black !important;
+}
+
+.acortarcolumna {
+    white-space: nowrap;
+    width: 30px;
+}
+
+
+section.ex3 {
+    width: 100%;
+    height: 100%;
+    overflow: auto !important;
+}

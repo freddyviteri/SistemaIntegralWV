@@ -46,7 +46,7 @@ namespace WordVision.ec.Application.Features.Indicadores.FaseProgramaArea.Comman
                 entity.Dip4 = update.Dip4;
                 entity.Dip5 = update.Dip5;
                 entity.Dip6 = update.Dip6;
-                entity.IdProgramaArea = update.IdProgramaArea;
+                entity.IdProyectoTecnico = update.IdProyectoTecnico;
                 entity.IdFaseProyecto = update.IdFaseProyecto;
                 entity.IdEstado = update.IdEstado;
 

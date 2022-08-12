@@ -1,0 +1,17 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Indicadores.Models.VinculacionIndicadorViewModel>
+
+
+<div class="card">
+    <div class="col-sm-12 card-button-padding">
+        <a onclick="jQueryModalGet('/Indicadores/VinculacionIndicador/OnGetCreateOrEdit','Crear Vinculación Indicadores')" class="btn bg-success">
+            <i class="fa fa-plus-square"></i> Create
+        </a>
+
+        <a id="reload" onclick="loadData()" class="btn btn-primary text-white">
+            <i class="fa fas fa-bolt"></i>
+            Reload
+        </a>
+    </div>
+</div>
+<div id="viewAll" class="card-body card-body-card table-responsive">
+</div>

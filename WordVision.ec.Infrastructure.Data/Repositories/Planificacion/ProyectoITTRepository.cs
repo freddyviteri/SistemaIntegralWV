@@ -18,9 +18,76 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
             _repository = repository;
         }
 
-        public async Task<ProyectoITT> GetByIdAsync(int id)
+        public async Task<ProyectoITT> GetByIdAsync(int id, bool include = true)
         {
-            return await _repository.Entities.Where(p => p.Id == id).FirstOrDefaultAsync();
+            IQueryable<ProyectoITT> model = _repository.Entities.Where(p => p.Id == id);
+
+            if (include == true)
+            {
+                model = model.Include(x => x.FaseProgramaArea)
+                    .ThenInclude(x => x.ProyectoTecnico)
+                        .ThenInclude(x => x.ProgramaArea)
+                .Include(x => x.FaseProgramaArea)
+                    .ThenInclude(x => x.ProyectoTecnico)
+                        .ThenInclude(x => x.ProgramaTecnico)
+                .Include(x => x.FaseProgramaArea)
+                    .ThenInclude(x => x.FaseProyecto)
+                .Include(x => x.DetalleProyectoITTs)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.Supervisor)
+
+                .Include(x => x.DetalleProyectoITTs)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.Responsable)
+                .Include(x => x.DetalleProyectoITTs)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.MarcoLogico)
+                            .ThenInclude(x => x.LogFrame)
+                //.ThenInclude(x => x.ModeloProyecto)
+                .Include(x => x.DetalleProyectoITTs)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.MarcoLogico)
+                            .ThenInclude(x => x.LogFrame)
+                                .ThenInclude(x => x.TipoActividad)
+                .Include(x => x.DetalleProyectoITTs)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.MarcoLogico)
+                            .ThenInclude(x => x.LogFrame)
+                                .ThenInclude(x => x.SectorProgramatico)
+                .Include(x => x.DetalleProyectoITTs)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.MarcoLogico)
+                            .ThenInclude(x => x.IndicadorML)
+                                .ThenInclude(x => x.Target)
+                .Include(x => x.DetalleProyectoITTs)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.MarcoLogico)
+                            .ThenInclude(x => x.IndicadorML)
+                                .ThenInclude(x => x.TipoMedida)
+                .Include(x => x.DetalleProyectoITTs)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.MarcoLogico)
+                            .ThenInclude(x => x.IndicadorML)
+                                .ThenInclude(x => x.Frecuencia)
+                .Include(x => x.DetalleProyectoITTs)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.MarcoLogico)
+                            .ThenInclude(x => x.IndicadorML)
+                                .ThenInclude(x => x.ActorParticipante)
+                .Include(x => x.DetalleProyectoITTGouls)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.MarcoLogico)
+                            .ThenInclude(x => x.LogFrame)
+                .Include(x => x.DetalleProyectoITTGouls)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.Supervisor)
+                .Include(x => x.DetalleProyectoITTGouls)
+                    .ThenInclude(x => x.MarcoLogicoAsignado)
+                        .ThenInclude(x => x.Responsable);
+            }
+
+            var modelo = await model.FirstOrDefaultAsync();
+            return modelo;
         }
 
         public async Task<List<ProyectoITT>> GetListAsync(ProyectoITT entity)
@@ -30,25 +97,21 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Planificacion
             if (entity.Include)
             {
                 list = list.Include(p => p.FaseProgramaArea)
-                    .ThenInclude(pt => pt.ProyectoTecnico)
-                    .Include(x => x.FaseProgramaArea).ThenInclude(pa => pa.ProgramaArea);
+                    .ThenInclude(pt => pt.ProyectoTecnico).ThenInclude(x => x.ProgramaArea)
+                    .Include(x => x.DetalleProyectoITTs)
+                    .Include(x => x.DetalleProyectoITTGouls);
 
                 if (entity.FaseProgramaArea != null)
                 {
-                    if (entity.FaseProgramaArea.IdProyectoTecnico != 0)
+                    if (entity.FaseProgramaArea.IdProyectoTecnico > 0)
                     {
-                        list.Where(x => x.FaseProgramaArea.IdProyectoTecnico == entity.FaseProgramaArea.IdProyectoTecnico);
+                        list = list.Where(x => x.FaseProgramaArea.IdProyectoTecnico == entity.FaseProgramaArea.IdProyectoTecnico);
                     }
-
-                    if (entity.FaseProgramaArea.IdProgramaArea != 0)
-                    {
-                        list.Where(x => x.FaseProgramaArea.IdProgramaArea == entity.FaseProgramaArea.IdProgramaArea);
-                    }
-
                 }
+
             }
 
-            
+
 
             return await list.ToListAsync();
         }

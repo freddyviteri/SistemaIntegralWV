@@ -1,0 +1,360 @@
+﻿@model WordVision.ec.Web.Areas.Maestro.Models.ModeloProyectoEtapaAccionViewModel
+
+<style>
+    /* .scroller {
+                                                                height: 600px;
+                                                                overflow-y: scroll;
+                                                                scroll-snap-type: y mandatory;
+                                                            }
+                                                                .scroller section {
+                                                                    scroll-snap-align: start;
+                                                                }*/
+    /*
+                                        div.ex3 {
+                                            width: 100%;
+                                            height: 100%;
+                                            overflow: auto !important;
+                                        }*/
+    /*
+                                        */
+    #profileForm .content {
+        min-height: 100px;
+    }
+
+        #profileForm .content > .body {
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            position: relative;
+        }
+
+    .tabcontrol > .content {
+        /*position: relative;
+                                display: inline-block;
+                                width: 100%;*/
+        height: 100% !important;
+        /* overflow: hidden;
+                                border-top: 1px solid #bbb;
+                                padding-top: 20px;*/
+    }
+
+
+    /* Círculos de colores numerados */
+    span.red {
+        background: red;
+        border-radius: 0.8em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 0.8em;
+        color: #ffffff;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 1.6em;
+        margin-right: 15px;
+        text-align: center;
+        width: 1.6em;
+    }
+
+    span.grey {
+        background: #cccccc;
+        border-radius: 0.8em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 0.8em;
+        color: #fff;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 1.6em;
+        margin-right: 15px;
+        text-align: center;
+        width: 1.6em;
+    }
+
+    span.green {
+        background: #5EA226;
+        border-radius: 0.8em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 0.8em;
+        color: #ffffff;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 1.6em;
+        margin-right: 15px;
+        text-align: center;
+        width: 1.6em;
+    }
+
+    span.blue {
+        background: #5178D0;
+        border-radius: 0.8em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 0.8em;
+        color: #ffffff;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 1.6em;
+        margin-right: 15px;
+        text-align: center;
+        width: 1.6em;
+    }
+
+    span.pink {
+        background: #EF0BD8;
+        border-radius: 0.8em;
+        -moz-border-radius: 0.8em;
+        -webkit-border-radius: 0.8em;
+        color: #ffffff;
+        display: inline-block;
+        font-weight: bold;
+        line-height: 1.6em;
+        margin-right: 15px;
+        text-align: center;
+        width: 1.6em;
+    }
+</style>
+
+<link href="~/lib/datatablerowgroup/rowGroup.dataTables.css" rel="stylesheet" />
+
+
+
+<div id="profileForm" class="form-horizontal">
+    <h3><span class="grey">1</span> Modelo Proyectos</h3>
+    <section>
+        <div class="card">
+            <div class="card-header">
+                <a onclick="jQueryModalGet('/Maestro/ModeloProyectoEtapaAccion/OnGetModeloProyectoCreateOrEdit','Crear Modelo Proyecto')" class="btn bg-success">
+                    <i class="fa fa-plus-square"></i> Create
+                </a>
+
+                <a id="reloadMP" onclick="loadModeloProyectoData()" class="btn btn-primary text-white">
+                    <i class="fa fas fa-bolt"></i>
+                    Reload
+                </a>
+            </div>
+            <div class="card-body card-body-card table-responsive ">
+                <div id="viewModeloProyectoAll">
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    <h3><span class="green">2</span> Etapas</h3>
+    <section>
+        <div class="card">
+            <div class="card-header">
+                <a onclick="jQueryModalGet('/Maestro/ModeloProyectoEtapaAccion/OnGetEtapaCreateOrEdit','Crear Etapa')" class="btn bg-success">
+                    <i class="fa fa-plus-square"></i> Create
+                </a>
+
+                <a id="reloadE" onclick="loadEtapaData()" class="btn btn-primary text-white">
+                    <i class="fa fas fa-bolt"></i>
+                    Reload
+                </a>
+            </div>
+            <div class="card-body card-body-card table-responsive ">
+                <div id="viewEtapaAll">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <h3><span class="blue">3</span> Acciones Operativas</h3>
+    <section>
+        <div class="card">
+            <div class="card-header">
+                <a onclick="jQueryModalGet('/Maestro/ModeloProyectoEtapaAccion/OnGetAccionOperativaCreateOrEdit','Crear Accion Operativa')" class="btn bg-success">
+                    <i class="fa fa-plus-square"></i> Create
+                </a>
+
+                <a id="reloadAO" onclick="loadAccionOperativaData()" class="btn btn-primary text-white">
+                    <i class="fa fas fa-bolt"></i>
+                    Reload
+                </a>
+            </div>
+            <div class="card-body card-body-card table-responsive ">
+                <div id="viewAccionOperativaAll">
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <h3><span class="pink">4</span> Modelo Proyecto Etapa Acciones</h3>
+    <section>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="form-group">
+                        <label asp-for="IdModeloProyecto" class="control-label">Modelo Proyecto</label>
+                        @Html.DropDownList("IdModeloProyecto", (IEnumerable<SelectListItem>)Model.ModeloProyectoList, htmlAttributes: new { @class = "form-control", @style = "width:100%;" , @id="IdModeloProyectohelp",@name="IdModeloProyectohelp" })
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="IdEtapa" class="control-label">Etapa</label>
+                        @Html.DropDownList("IdEtapa", (IEnumerable<SelectListItem>)Model.EtapaList, htmlAttributes: new { @class = "form-control", @style = "width:100%;", @id="IdEtapahelp", @name="IdEtapahelp" })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <a onclick="jQueryModalGet('/Maestro/ModeloProyectoEtapaAccion/OnGetModeloProyectoEtapaAccionCreateOrEdit','Crear Modelo Proyecto Etapa Accion')" class="btn bg-success">
+                        <i class="fa fa-plus-square"></i> Create
+                    </a>
+
+                    <a id="reloadMPEA" onclick="loadModeloProyectoEtapaAccionData()" class="btn btn-primary text-white">
+                        <i class="fa fas fa-bolt"></i>
+                        Reload
+                    </a>
+                </div>
+            </div>
+            <div class="card-body card-body-card table-responsive ">
+                <div id="viewModeloProyectoEtapaAccionAll">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+@section Scripts
+    {
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/datatablerowgroup/dataTables.rowGroup.js"></script>
+    <script>
+        //function adjustIframeHeight() {
+        //    var $body = $('body'),
+        //        $iframe = $body.data('iframe.fv');
+        //    if ($iframe) {
+        //        // Adjust the height of iframe
+        //        $iframe.height($body.height());
+        //    }
+        //}
+
+        $(document).ready(function() {
+
+            var form = $("#profileForm").steps({
+                headerTag: "h3",
+                bodyTag: "section",
+                //transitionEffect: "slideLeft",
+                //autoFocus: true,
+                enableFinishButton: false,
+                // Disables the next and previous buttons (optional)
+                enablePagination: false,
+                // Enables all steps from the begining
+                enableAllSteps: true,
+                // Removes the number from the title
+                titleTemplate: "#title#",
+                cssClass: "tabcontrol",
+                //onStepChanging: function(event, currentIndex, newIndex) {
+                //    //// Allways allow previous action even if the current form is not valid!
+                //    //if (currentIndex > newIndex) {
+                //    //    return true;
+                //    //}
+
+                //    //// Forbid next action on "Warning" step if the user is to young
+                //    //if (newIndex === 3 && Number($("#age-2").val()) < 18) {
+                //    //    return false;
+                //    //}
+
+                //    //// Needed in some cases if the user went back (clean up)
+                //    //if (currentIndex < newIndex) {
+                //    //    // To remove error styles
+                //    //    form.find(".body:eq(" + newIndex + ") label.error").remove();
+                //    //    form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+                //    //}
+
+                //    //form.validate().settings.ignore = ":disabled,:hidden";
+                //    //return form.valid();
+                //    //alert('1');
+                //},
+                onStepChanged: function(event, currentIndex, priorIndex) {
+                    //// Used to skip the "Warning" step if the user is old enough.
+                    //if (currentIndex === 2 && Number($("#age-2").val()) >= 18) {
+                    //    form.steps("next");
+                    //}
+
+                    //// Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+                    //if (currentIndex === 2 && priorIndex === 3) {
+                    //    form.steps("previous");
+                    //}
+                    //alert('2');
+
+                },
+                onFinishing: function(event, currentIndex) {
+                    //form.validate().settings.ignore = ":disabled";
+                    //return form.valid();
+                    alert('onFinishing');
+                },
+                onFinished: function(event, currentIndex) {
+                    alert("Submitted!");
+                }
+            });
+
+            loadEtapaData();
+            loadAccionOperativaData();
+            loadModeloProyectoData();
+            loadModeloProyectoEtapaAccionData();
+
+        });
+
+
+
+
+        function loadAccionOperativaData() {
+            $('#viewAccionOperativaAll').load('/Maestro/ModeloProyectoEtapaAccion/LoadAccionOperativaAll');
+        }
+
+        function loadEtapaData() {
+            $('#viewEtapaAll').load('/Maestro/ModeloProyectoEtapaAccion/LoadEtapaAll');
+        }
+
+        function loadModeloProyectoData() {
+            $('#viewModeloProyectoAll').load('/Maestro/ModeloProyectoEtapaAccion/LoadModeloProyectoAll');
+        }
+
+        function loadModeloProyectoEtapaAccionData() {
+            $('#viewModeloProyectoEtapaAccionAll').load('/Maestro/ModeloProyectoEtapaAccion/LoadModeloProyectoEtapaAccionAll?idmp=' + $("#IdModeloProyectohelp").val() + '&idetapa=' + $("#IdEtapahelp").val());
+        }
+
+        function CargarTimeOutAO() {
+            setTimeout(function() {
+                loadAccionOperativaData();
+            }, 1000);
+        }
+
+        function CargarTimeOutEtapa() {
+            setTimeout(function() {
+                loadEtapaData();
+            }, 1000);
+        }
+
+        function CargarTimeOutMP() {
+            setTimeout(function() {
+                loadModeloProyectoData();
+            }, 1000);
+        }
+
+        function CargarTimeOutMPEA() {
+            setTimeout(function() {
+                loadModeloProyectoEtapaAccionData();
+            }, 1000);
+        }
+
+
+        function SeleccionList() {
+            var selected = $('#IdAccionOperativa').select2("data");
+            var valores = "";
+            for (var i = 0; i <= selected.length - 1; i++) {
+                if (valores !== "") {
+                    valores += ",";
+                }
+                valores += selected[i].id;
+            }
+
+            $("#codigosao").val(valores);
+            // $("#IdListIdAccionOperativa").text("valores");
+            //$('#IdListIdAccionOperativa').prop({ 'value': valores });
+        }
+
+
+    </script>
+}

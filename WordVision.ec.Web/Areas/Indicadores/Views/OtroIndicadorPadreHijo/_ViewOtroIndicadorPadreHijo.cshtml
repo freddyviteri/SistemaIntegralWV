@@ -1,0 +1,33 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Indicadores.Models.OtroIndicadorPadreHijoViewModel>
+
+
+<div class="card">
+    <div class="col-sm-12 card-button-padding">
+        <a onclick="jQueryModalGet('/Indicadores/OtroIndicadorPadreHijo/OnGetCreateOrEdit','Crear Relación Otros Indicadores')" class="btn bg-success">
+            <i class="fa fa-plus-square"></i> Create
+        </a>
+
+        <a id="reloadOtroIndicadorPadreHijo" onclick="loadDataOtrosIndicadoresPadreHijo(false)" class="btn btn-primary text-white">
+            <i class="fa fas fa-bolt"></i>
+            Reload
+        </a>
+    </div>
+</div>
+<div id="viewAllOtroIndicadorPadreHijo" class="card-body card-body-card table-responsive">
+</div>
+
+<script>
+
+     $(document).ready(function () {
+          loadDataOtrosIndicadoresPadreHijo(false);
+     });
+     function loadDataOtrosIndicadoresPadreHijo(timeout) {
+         if(timeout){
+             setTimeout(function() {
+                 $('#viewAllOtroIndicadorPadreHijo').load('/Indicadores/OtroIndicadorPadreHijo/LoadAll');
+            }, 1000);
+         }else{
+             $('#viewAllOtroIndicadorPadreHijo').load('/Indicadores/OtroIndicadorPadreHijo/LoadAll');
+         }
+    }
+</script>

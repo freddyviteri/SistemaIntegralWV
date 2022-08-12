@@ -71,7 +71,7 @@ namespace WordVision.ec.Domain.Entities.Indicadores
 
         public int IdEtapaModeloProyecto { get; set; }
         [ForeignKey("IdEtapaModeloProyecto")]
-        public EtapaModeloProyecto EtapaModeloProyecto { get; set; }
+        public Etapa EtapaModeloProyecto { get; set; }
 
         public int IdAccionOperativa { get; set; }
         [ForeignKey("IdAccionOperativa")]

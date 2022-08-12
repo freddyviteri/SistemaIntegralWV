@@ -1,0 +1,83 @@
+﻿@model IEnumerable<WordVision.ec.Web.Areas.Maestro.Models.MarcoLogicoViewModel>
+
+<table id="marcoLogicoTable" class="table table-striped" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                LogFrame
+            </th>
+            <th>
+                Sumary/Objetives
+            </th>
+            <th>
+                Indicador
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr  id="@item.Id">
+            <td>
+                @item.LogFrame.OutCome @item.LogFrame.OutPut @item.LogFrame.Activity
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogFrame.SumaryObjetives)
+            </td>
+            <td>
+                <p>@Html.DisplayFor(modelItem => item.IndicadorML.Codigo) - @Html.DisplayFor(modelItem => item.IndicadorML.Descripcion)</p>
+                
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>*@
+            <td>
+                <div class="btn-group">
+                    <button onclick="jQueryModalGet('/Maestro/MarcoLogico/OnGetCreateOrEdit?id=@item.Id','Editar Marco Lógico')" class="btn btn-warning btn-xp mr-1" type="button"><i class="fas fa-pencil-alt"></i></button> 
+                    <button type="button" onclick="EliminaFila(@item.Id)" class="btn btn-danger btn-xp"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("#marcoLogicoTable").DataTable(
+        {
+            columnDefs: [ {
+                "targets": -1,
+                "orderable": false
+                } ],
+            language: {
+                "url": "../lib/datatables/language/Spanish.json"
+            },
+            }
+        );
+    });
+
+
+    function EliminaFila(id) {
+
+        var GestionViewModel = {
+            id: id
+        };
+
+         $.ajax({
+            type: "delete",
+            url:'@Url.Action("OnPostDelete", "MarcoLogico", new { area = "maestro" })',
+             data: GestionViewModel,
+            datatype: "json",
+            cache: false,
+            success: function (data) {
+                if(data.isValid)
+                    $("#" + id).remove();
+
+            },
+            error: function(xhr) {
+
+            }
+        });
+    }
+</script>

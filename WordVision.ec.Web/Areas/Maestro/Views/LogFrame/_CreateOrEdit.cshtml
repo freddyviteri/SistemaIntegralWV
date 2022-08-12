@@ -2,13 +2,13 @@
 
 <form id="create-form" method="post" asp-controller="LogFrame" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input hidden="hidden" asp-for="Id"/>
+    <input hidden="hidden" asp-for="Id" />
     <div class="row">
         <div class="col-md-6">
             <div class="form-group grupoSeleccion">
-                <label asp-for="IdProyectoTecnico" class="control-label">Proyecto Técnico</label>
-                @Html.DropDownList("IdProyectoTecnico", (IEnumerable<SelectListItem>)Model.ProyectoTecnicoList, htmlAttributes: new { @class = "form-control seleccionBusqueda", @style = "width:100%;" })
-                <span asp-validation-for="IdRubro" class="text-danger"></span>
+                <label asp-for="IdProgramaTecnico" class="control-label">Programa Técnico</label>
+                @Html.DropDownList("IdProgramaTecnico", (IEnumerable<SelectListItem>)Model.ProgramaTecnicoList, htmlAttributes: new { @class = "form-control seleccionBusqueda", @style = "width:100%;" })
+                <span asp-validation-for="IdProgramaTecnico" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="OutCome" class="control-label"></label>
@@ -25,10 +25,15 @@
                 <input asp-for="Activity" class="form-control" />
                 <span asp-validation-for="Activity" class="text-danger"></span>
             </div>
-           <div class="form-group">
+            <div class="form-group">
                 <label asp-for="IdNivel" class="control-label">Nivel</label>
                 @Html.DropDownList("IdNivel", (IEnumerable<SelectListItem>)Model.NivelList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
                 <span asp-validation-for="IdNivel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdModeloProyecto" class="control-label">Modelo Proyecto</label>
+                @Html.DropDownList("IdModeloProyecto", (IEnumerable<SelectListItem>)Model.ModeloProyectoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                <span asp-validation-for="IdModeloProyecto" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SumaryObjetives" class="control-label">Sumary/Objetives</label>
@@ -37,37 +42,12 @@
             </div>
         </div>
         <div class="col-md-6">
-           @* <div class="overflow-auto" style="max-height:500px" id="containerIndicadores">
-                <ul class="list-group" role="group" aria-labelledby="SeletDistributionListLabel">
-                    <p><label class="control-label">Indicadores</label></p>
-                    @for (var i = 0; i < Model.LogFrameIndicadores.Count; i++)
-                    {
-                        <li class="list-group-item">
-                            <input type="checkbox" asp-for="@Model.LogFrameIndicadores[i].Selected"  />
-                            <label asp-for="@Model.LogFrameIndicadores[i].Selected">
-                                @Model.LogFrameIndicadores[i].CodigoIndicador -
-                                @Model.LogFrameIndicadores[i].DescripcionIndicador
-                                </label>
-                            <input type="hidden" asp-for="@Model.LogFrameIndicadores[i].CodigoIndicador" />
-                            <input type="hidden" asp-for="@Model.LogFrameIndicadores[i].IdIndicadorPR" />
-                            <input type="hidden" asp-for="@Model.LogFrameIndicadores[i].IdLogFrame" />
-                            <input type="hidden" asp-for="@Model.LogFrameIndicadores[i].DescripcionIndicador" />   
-
-                        </li>
-                    }
-                </ul>
-            </div>*@
-            @*<div class="form-group">
-                <label asp-for="IdIndicadorPR" class="control-label">Indicador</label>
-                @Html.DropDownList("IdIndicadorPR", (IEnumerable<SelectListItem>)Model.IndicadorPRList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
-                <span asp-validation-for="IdIndicadorPR" class="text-danger"></span>
-            </div>*@
             <div id="containerActividad">
                 <div class="form-group">
-                <label asp-for="Cobertura" class="control-label">Cobertura</label>
-                <input asp-for="Cobertura" class="form-control" />
-                <span asp-validation-for="Cobertura" class="text-danger"></span>
-            </div>
+                    <label asp-for="Cobertura" class="control-label">Cobertura</label>
+                    <input asp-for="Cobertura" class="form-control" />
+                    <span asp-validation-for="Cobertura" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <label asp-for="IdTipoActividad" class="control-label">TipoActividad</label>
                     @Html.DropDownList("IdTipoActividad", (IEnumerable<SelectListItem>)Model.TipoActividadList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
@@ -79,14 +59,8 @@
                     @Html.DropDownList("IdSectorProgramatico", (IEnumerable<SelectListItem>)Model.SectorProgramaticoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
                     <span asp-validation-for="IdSectorProgramatico" class="text-danger"></span>
                 </div>
-
-                <div class="form-group">
-                    <label asp-for="IdRubro" class="control-label">Rubros</label>
-                    @Html.DropDownList("IdRubro", (IEnumerable<SelectListItem>)Model.RubroList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
-                    <span asp-validation-for="IdRubro" class="text-danger"></span>
-                </div>
             </div>
-            
+
 
             @if (Model.Id != 0)
             {
@@ -115,16 +89,16 @@
 
             let nivel = $(this).val();
             MostrarContainers(nivel);
-          
+
         });
 
         MostrarContainers($("#IdNivel option:selected").val());
 
-        $('.seleccionBusqueda').select2();
-      
+       // $('.seleccionBusqueda').select2();
+
     });
 
-     function MostrarContainers(nivel) 
+     function MostrarContainers(nivel)
         {
             $('#containerActividad').hide();
             //$('#containerIndicadores').hide();

@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Features.Maestro.Catalogos;
 using WordVision.ec.Application.Features.Maestro.EtapaModeloProyecto;
-using WordVision.ec.Application.Features.Maestro.IndicadorPR;
 using WordVision.ec.Application.Features.Maestro.LogFrame;
-using WordVision.ec.Application.Features.Maestro.OtroIndicador;
-using WordVision.ec.Application.Features.Maestro.ProgramaArea;
-using WordVision.ec.Application.Features.Maestro.ProyectoTecnico;
 
 namespace WordVision.ec.Application.Features.Indicadores.DipInsumo
 {
@@ -60,7 +56,7 @@ namespace WordVision.ec.Application.Features.Indicadores.DipInsumo
 
         public int IdEtapaModeloProyecto { get; set; }
 
-        public EtapaModeloProyectoResponse EtapaModeloProyecto { get; set; }
+        public EtapaResponse EtapaModeloProyecto { get; set; }
 
         public int IdAccionOperativa { get; set; }
 

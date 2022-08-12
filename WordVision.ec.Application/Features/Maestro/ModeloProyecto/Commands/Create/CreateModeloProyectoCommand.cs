@@ -34,10 +34,6 @@ namespace WordVision.ec.Application.Features.Maestro.ModeloProyecto.Commands.Cre
         {
             var modeloProyecto = _mapper.Map<Domain.Entities.Maestro.ModeloProyecto>(request);
 
-            // Se valida que no se repita el código y la etapa
-            var listaValidacion = await ValidateInsert(modeloProyecto);
-            if (listaValidacion.Count > 0)
-                return Result<int>.Fail($"ModeloProyecto con Código: {request.Codigo} y Etapa: {listaValidacion[0].EtapaModeloProyecto.Etapa} ya existe.");
 
             await _repository.InsertAsync(modeloProyecto);
             await _unitOfWork.Commit(cancellationToken);
@@ -45,15 +41,6 @@ namespace WordVision.ec.Application.Features.Maestro.ModeloProyecto.Commands.Cre
             return Result<int>.Success(modeloProyecto.Id);
         }
 
-        private async Task<List<Domain.Entities.Maestro.ModeloProyecto>> ValidateInsert(Domain.Entities.Maestro.ModeloProyecto modeloProyecto)
-        {
-            modeloProyecto.Include = true;
-            var list = await _repository.GetListAsync(modeloProyecto);
-            if (list.Count == 0)
-                return new List<Domain.Entities.Maestro.ModeloProyecto>();
 
-            return list.FindAll(x => x.IdEtapaModeloProyecto == modeloProyecto.IdEtapaModeloProyecto);
-
-        }
     }
 }

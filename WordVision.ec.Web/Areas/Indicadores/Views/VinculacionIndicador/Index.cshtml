@@ -1,29 +1,32 @@
-﻿@model IEnumerable<WordVision.ec.Web.Areas.Indicadores.Models.VinculacionIndicadorViewModel>
+﻿
 
-<div class="card">
-    <div class="col-sm-12 card-button-padding">
-        <a onclick="jQueryModalGet('/Indicadores/VinculacionIndicador/OnGetCreateOrEdit','Crear Vinculación Indicadores')" class="btn bg-success">
-            <i class="fa fa-plus-square"></i> Create
-        </a>
-
-        <a id="reload" onclick="loadData()" class="btn btn-primary text-white">
-            <i class="fa fas fa-bolt"></i>
-            Reload
-        </a>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="vinculacionindicador-tab" data-toggle="tab" href="#vinculacionindicador" role="tab" aria-controls="vinculacionindicador" aria-selected="true">Vinculación Indicadores</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="otroindicadorpadrehijo-tab" data-toggle="tab" href="#otroindicadorpadrehijo" role="tab" aria-controls="otroindicadorpadrehijo" aria-selected="false">Relacionar Otros Indicadores</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="vinculacionindicador" role="tabpanel" aria-labelledby="vinculacionindicador-tab">
+        @await Html.PartialAsync("_ViewVinculacionIndicador.cshtml")
+    </div>
+    <div class="tab-pane fade" id="otroindicadorpadrehijo" role="tabpanel" aria-labelledby="otroindicadorpadrehijo-tab">
+        @await Html.PartialAsync("../OtroIndicadorPadreHijo/_ViewOtroIndicadorPadreHijo.cshtml")
     </div>
 </div>
-        <div id="viewAll" class="card-body card-body-card table-responsive">
-        </div>
-     
+
 @section Scripts
 {
-    <script src="~/js/site.js"></script>
-    <script>
-        $(document).ready(function () {
-                loadData();
-        });
-        function loadData() {
-            $('#viewAll').load('/Indicadores/VinculacionIndicador/LoadAll');
-        }
-    </script>
+<script src="~/js/site.js"></script>
+<script>
+    $(document).ready(function () {
+            loadData();
+    });
+    function loadData() {
+        $('#viewAll').load('/Indicadores/VinculacionIndicador/LoadAll');
+    }
+       
+</script>
 }
