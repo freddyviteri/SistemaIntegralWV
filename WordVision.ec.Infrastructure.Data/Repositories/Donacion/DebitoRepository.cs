@@ -118,7 +118,7 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Donacion
                     {
                         
                         var resultado1 = _repositoryDonante.Entities.Where(c => c.FormaPago == formaPago && c.Banco == 10 && fecha>= c.MesInicialDebito && c.EstadoDonante == 1
-                                        && (_repository.Entities.Where(d => d.Estado = 3)))
+                                       )
                                      .Select(a => new DebitoResponse
                                      {
                                          Estado = _repositoryDetalleCatalogo.Entities.Where(c => c.IdCatalogo == 64 && c.Secuencia == _repository.Entities.Where(d => d.FormaPago == formaPago && d.CodigoBanco == 10 && d.Anio == anio && d.Mes == mes && d.IdDonante == a.Id).FirstOrDefault().Estado.ToString()).FirstOrDefault().Nombre,
