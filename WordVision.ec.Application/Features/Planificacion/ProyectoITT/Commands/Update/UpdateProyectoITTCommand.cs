@@ -2,7 +2,6 @@
 using AutoMapper;
 using MediatR;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WordVision.ec.Application.Interfaces.Repositories.Planificacion;
@@ -31,7 +30,7 @@ namespace WordVision.ec.Application.Features.Planificacion.ProyectoITT.Commands.
 
         public async Task<Result<int>> Handle(UpdateProyectoITTCommand update, CancellationToken cancellationToken)
         {
-            var entity = await _repository.GetByIdAsync(update.Id, true);
+            var entity = await _repository.GetByIdAsync(update.Id);
 
             if (entity == null)
             {
@@ -39,27 +38,13 @@ namespace WordVision.ec.Application.Features.Planificacion.ProyectoITT.Commands.
             }
             else
             {
-                //entity.DetalleProyectoITTs = _mapper.Map<List<DetalleProyectoITT>>(update.DetalleProyectoITTs);
-                foreach (var item in update.DetalleProyectoITTs)
-                {
-                    var reg = entity.DetalleProyectoITTs
-                                                        .Where(x => x.Id == item.Id)
-                                                        .FirstOrDefault();
-                    reg.LineBase = item.LineBase;
-                    reg.MetaAF1 = item.MetaAF1;
-                    reg.MetaAF2 = item.MetaAF2;
-                    reg.MetaAF3 = item.MetaAF3;
-                    reg.MetaAF4 = item.MetaAF4;
-                    reg.MetaAF5 = item.MetaAF5;
-                    reg.MetaAF6 = item.MetaAF6;
-                }
+                entity.IdFaseProgramaArea = update.IdFaseProgramaArea;
+                entity.DetalleProyectoITTs = _mapper.Map<List<DetalleProyectoITT>>(update.DetalleProyectoITTs); ;
 
+                await _repository.UpdateAsync(entity);
+                await _unitOfWork.Commit(cancellationToken);
+                return Result<int>.Success(entity.Id);
             }
-
-            await _repository.UpdateAsync(entity);
-            await _unitOfWork.Commit(cancellationToken);
-            return Result<int>.Success(entity.Id);
-            //}
         }
     }
 }

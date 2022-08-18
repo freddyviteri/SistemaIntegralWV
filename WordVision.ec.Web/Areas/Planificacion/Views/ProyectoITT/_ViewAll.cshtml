@@ -1,7 +1,5 @@
 ﻿@model IEnumerable<WordVision.ec.Web.Areas.Planificacion.Models.ProyectoITTViewModel>
 
-    <script src="~/Pry/Areas/Planificacion/ViewAll.js"></script>
-
 <table id="idTable" class="table table-striped" width="100%" cellspacing="0">
     <thead>
         <tr>
@@ -9,12 +7,11 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             
-           
+            <th>
+                Proyecto Tecnico
+            </th>
            <th>
                 Programa Área
-            </th>
-             <th>
-                Proyecto Tecnico
             </th>
             <th>
                 Fecha Fase
@@ -28,20 +25,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
-          
             <td>
-                @Html.DisplayFor(modelItem => item.FaseProgramaArea.ProyectoTecnico.ProgramaArea.Descripcion)
+                @Html.DisplayFor(modelItem => item.FaseProgramaAreaViewModel.ProyectoTecnico.NombreProyecto)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FaseProgramaArea.ProyectoTecnico.NombreProyecto)
+                @Html.DisplayFor(modelItem => item.FaseProgramaAreaViewModel.ProgramaArea.Descripcion)
             </td>
             
             <td>
-                @Html.DisplayFor(modelItem => item.FaseProgramaArea.FechaInicio)
+                @Html.DisplayFor(modelItem => item.FaseProgramaAreaViewModel.FechaInicio)
             </td>
             <td>
                 <div class="btn-group">
-                    <a onclick="CargarEditarPoppup(@item.Id)" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                    @*onclick="jQueryModalGet('/Planificacion/ProyectoITT/OnGetCreateOrEdit?id=@item.Id','Editar ProyectoITT')"*@
+                    <a  class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
                     <a class="dropdown-item"><i class="fas fa-download"></i>  Descargar</a> 
                     <a class="dropdown-item"><i class="fas fa-remove"> Eliminar</i></a> 
                 </div>
@@ -50,3 +47,15 @@
 }
     </tbody>
 </table>
+
+<script>
+    $(document).ready(function () {
+        $("#idTable").DataTable({
+        "language": {
+                "url": "/lib/datatables/language/Spanish.json"
+            },            
+            responsive: true,          
+            "info": false
+        });
+    });
+</script>

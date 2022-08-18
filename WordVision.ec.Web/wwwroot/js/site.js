@@ -5,7 +5,7 @@
     });
 
     $('[data-toggle="tooltip"]').tooltip()
-
+    
 
     //$('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
 
@@ -31,7 +31,7 @@
         $('body').addClass('loaded');
     }, 200);
 
-
+   
     jQueryModalGet = (url, title) => {
         try {
             $.ajax({
@@ -64,9 +64,9 @@
                 contentType: false,
                 processData: false,
                 success: function (res) {
-                    $('#form-modal-hijo-' + numero + ' .modal-body').html(res.html);
-                    $('#form-modal-hijo-' + numero + ' .modal-title').html(title);
-                    $('#form-modal-hijo-' + numero + '').modal('show');
+                    $('#form-modal-hijo-'+numero+' .modal-body').html(res.html);
+                    $('#form-modal-hijo-' + numero +' .modal-title').html(title);
+                    $('#form-modal-hijo-' + numero +'').modal('show');
                     console.log(res);
                 },
                 error: function (err) {
@@ -135,8 +135,8 @@
                             }
                             return;
                         }
-
-                        var opcion = res.opcion ?? 0;
+                           
+                        var opcion = res.opcion??0;
                         switch (opcion) {
                             case 1:
                                 $(res.page).html(res.html);
@@ -164,7 +164,7 @@
                                 break;
                         }
 
-
+                       
                         try {
                             if (opcion === 0) {
                                 $('#viewAllD').html(res.html);
@@ -282,7 +282,7 @@
                     contentType: false,
                     processData: false,
                     success: function (res) {
-
+                        
                     },
                     error: function (err) {
                         console.log(err)
@@ -295,35 +295,6 @@
 
         //prevent default form submit event
         return false;
-    }
-
-
-    jQueryModalFullScreemGet = (url, title) => {
-        try {
-           
-            $.ajax({
-                type: 'GET',
-                url: url,
-                contentType: false,
-                processData: false,
-                success: function (res) {
-
-                    $('#divContent').preloader('remove');
-
-                    $('#form-modalFullScreem .modal-body').html(res.html);
-                    $('#form-modalFullScreem .modal-title').html(title);
-                    $('#form-modalFullScreem').modal('show');
-                    console.log(res);
-                },
-                error: function (err) {
-                    console.log(err)
-                }
-            })
-            //to prevent default form submit event
-            return false;
-        } catch (ex) {
-            console.log(ex)
-        }
     }
 });
 
@@ -551,8 +522,8 @@ function finishLoading(componente = "body") {
 //    $(elem).prev().find('a[data-toggle="tab"]').click();
 //}
 
-// Vigila la actividad del sistema.
-// --------------------------------
+    // Vigila la actividad del sistema.
+    // --------------------------------
 function VigilaActividad() {
 
     // Contador de tiempo en el que el usuario está inactivo.
@@ -572,7 +543,7 @@ function VigilaActividad() {
 
         if (segundosDesdeUltimaActividad > maximaInactividad) {
             alert("aaa");
-            location.href = '../Account/login';
+        location.href = '../Account/login';
         }
     }, 1000);
 
@@ -594,4 +565,3 @@ function VigilaActividad() {
         document.addEventListener(eventName, reseteaActividad, true);
     });
 }
-

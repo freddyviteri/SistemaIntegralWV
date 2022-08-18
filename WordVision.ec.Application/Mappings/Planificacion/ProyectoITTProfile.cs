@@ -15,8 +15,6 @@ namespace WordVision.ec.Application.Mappings.Planificacion
             CreateMap<ProyectoITTResponse, ProyectoITT>().ReverseMap();
             CreateMap<UpdateProyectoITTCommand, ProyectoITT>().ReverseMap();
             CreateMap<GetAllProyectoITTQuery, ProyectoITT>().ReverseMap();
-            CreateMap<DetalleProyectoITTResponse, DetalleProyectoITT>().ReverseMap();
-            CreateMap<DetalleProyectoITTGoulResponse, DetalleProyectoITTGoul>().ReverseMap();
         }
     }
 }

@@ -1,14 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
-using WordVision.ec.Domain.Entities.Indicadores;
 using WordVision.ec.Domain.Entities.Maestro;
 
 namespace WordVision.ec.Domain.Entities.Planificacion
 {
     public class DetalleProyectoITT : AuditableEntity
     {
-
         [StringLength(100)]
         public string LineBase { get; set; }
 
@@ -30,9 +33,9 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         [Required]
         public decimal MetaAF6 { get; set; }
 
-        public int IdMarcoLogicoAsignado { get; set; }
-        [ForeignKey("IdMarcoLogicoAsignado")]
-        public MarcoLogicoAsignado MarcoLogicoAsignado { get; set; }
+        public int IdLogFrame { get; set; }
+        [ForeignKey("IdLogFrame")]
+        public LogFrame LogFrame { get; set; }
 
         public int IdProyectoITT { get; set; }
         [ForeignKey("IdProyectoITT")]

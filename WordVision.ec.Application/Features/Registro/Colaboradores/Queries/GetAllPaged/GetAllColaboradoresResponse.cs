@@ -16,7 +16,5 @@
 
         public int? LugarTrabajo { get; set; }
         public int Estado { get; set; }
-
-        public string FullName { get => PrimerNombre + " " + SegundoNombre + " " + Apellidos; }
     }
 }

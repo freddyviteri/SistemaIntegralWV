@@ -6,23 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WordVision.ec.Domain.Contracts;
-using WordVision.ec.Domain.Entities.Indicadores;
 
 namespace WordVision.ec.Domain.Entities.Maestro
 {
     public class MarcoLogico : AuditableEntity
     {
-        public int IdLogFrame { get; set; }
-        [ForeignKey("IdLogFrame")]
-        public LogFrame LogFrame { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string Descripcion { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Responsable { get; set; }
+        [StringLength(2)]
+        public string Estado { get; set; }
 
-        public int IdIndicadorML { get; set; }
-        [ForeignKey("IdIndicadorML")]
-        public IndicadorML IndicadorML { get; set; }
-
-        public int IdEstado { get; set; }
-        [ForeignKey("IdEstado")]
-        public DetalleCatalogo Estado { get; set; }
+        public ICollection<IndicadorPR> Indicadores { get; set; }
 
     }
 }

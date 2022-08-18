@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using WordVision.ec.Application.Features.Registro.Colaboradores;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllPaged;
@@ -17,9 +16,6 @@ namespace WordVision.ec.Application.Mappings
             CreateMap<GetAllColaboradoresCachedResponse, Colaborador>()
                 .ReverseMap();
             CreateMap<GetAllColaboradoresResponse, Colaborador>().ReverseMap();
-            CreateMap<Colaborador, ColaboradorResponse>().ReverseMap();
-
-
         }
     }
 }

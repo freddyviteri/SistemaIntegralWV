@@ -40,7 +40,5 @@ namespace WordVision.ec.Domain.Entities.Maestro
         public int Estado { get; set; }
 
         public Catalogo Catalogos { get; set; }
-
-        public virtual ICollection<ModeloProyectoEtapaAccion> ModeloProyectoEtapaAcciones { get; set; }
     }
 }

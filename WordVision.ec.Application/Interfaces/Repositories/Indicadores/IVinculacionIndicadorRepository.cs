@@ -12,9 +12,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Indicadores
         Task<VinculacionIndicador> GetByIdAsync(int id, bool include = false);
         Task<List<VinculacionIndicador>> GetListAsync(VinculacionIndicador entity);
         Task<int> InsertAsync(VinculacionIndicador entity);
-        Task<List<VinculacionIndicador>> InsertRangeAsync(List<VinculacionIndicador> entities);
-
         Task UpdateAsync(VinculacionIndicador entity);
-       // Task DeleteDetalleVinculacionIndicadorAsync(List<DetalleVinculacionIndicador> list);
+        Task DeleteDetalleVinculacionIndicadorAsync(List<DetalleVinculacionIndicador> list);
     }
 }

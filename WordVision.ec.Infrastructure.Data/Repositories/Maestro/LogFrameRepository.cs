@@ -13,11 +13,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
     public class LogFrameRepository : ILogFrameRepository
     {
         private readonly IRepositoryAsync<LogFrame> _repository;
-        private readonly IRepositoryAsync<MarcoLogico> _repositoryLogIndicador;
-
-
+        private readonly IRepositoryAsync<LogFrameIndicadorPR> _repositoryLogIndicador;
         public LogFrameRepository(IRepositoryAsync<LogFrame> repository,
-            IRepositoryAsync<MarcoLogico> repositoryLogIndicador)
+            IRepositoryAsync<LogFrameIndicadorPR> repositoryLogIndicador)
         {
             _repository = repository;
             _repositoryLogIndicador = repositoryLogIndicador;
@@ -26,6 +24,10 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
         public async Task<LogFrame> GetByIdAsync(int id, bool include = false)
         {
             IQueryable<LogFrame> list = _repository.Entities.Where(p => p.Id == id);
+            //if (include)
+            //{
+            //    list = list.Include(p => p.LogFrameIndicadores);
+            //}
             return await list.FirstOrDefaultAsync();
         }
 
@@ -33,30 +35,13 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
         {
             IQueryable<LogFrame> list = _repository.Entities;
 
-            if (logFrame.IdProgramaTecnico != null)
-            {
-                if (logFrame.IdProgramaTecnico > 0)
-                {
-                    list.Where(x => x.IdProgramaTecnico == logFrame.IdProgramaTecnico);
-                }
-            }
-
-            if (logFrame?.IdNivel != null)
-            {
-                if (logFrame.IdNivel > 0)
-                {
-                    list.Where(x => x.IdProgramaTecnico == logFrame.IdProgramaTecnico);
-                }
-            }
-
             if (logFrame.Include)
             {
-                list = list.Include(p => p.Nivel).Include(r => r.ModeloProyecto)
-                    .Include(r => r.TipoActividad).Include(r => r.ProgramaTecnico)
-                    .Include(r => r.SectorProgramatico)
-                    .Include(e => e.Estado)
-                    .Include(e => e.ProgramaTecnico);
-
+                list = list.Include(p => p.Nivel).Include(r => r.Rubro)
+                    .Include(r => r.TipoActividad).Include(r => r.ProyectoTecnico)
+                    .Include(r => r.SectorProgramatico)//.Include(r => r.LogFrameIndicadores)
+                    //.ThenInclude(i=> i.IndicadorPR)
+                    .Include(e => e.Estado);
             }
 
             return await list.ToListAsync();
@@ -73,28 +58,15 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Maestro
             await _repository.UpdateAsync(logFrame);
         }
 
-        public async Task DeleteMarcoLogicoAsync(List<MarcoLogico> list)
+        public async Task DeleteLogFrameIndicadorPRAsync(List<LogFrameIndicadorPR> list)
         {
-            foreach (var item in list)
-                await _repositoryLogIndicador.DeleteAsync(item);
+            foreach(var item in list)
+            await _repositoryLogIndicador.DeleteAsync(item);
         }
 
         public async Task DeleteAsync(LogFrame logFrame)
         {
             await _repository.DeleteAsync(logFrame);
-        }
-
-        public async Task<List<LogFrame>> ListaLogFrameFromNivel(int idprogramaatecnico, int[] ids)
-        {
-            var query = from item in _repository.Entities
-                        where ids.Contains(item.IdNivel) && item.IdProgramaTecnico == idprogramaatecnico
-                        select item;
-            var res = await query.Include(x => x.Nivel)
-                                .Include(x => x.TipoActividad)
-                                .Include(x => x.SectorProgramatico)
-                                .Include(x => x.ModeloProyecto)
-                                .ToListAsync();
-            return res;
         }
     }
 }

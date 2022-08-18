@@ -1,0 +1,102 @@
+﻿@model List<WordVision.ec.Web.Areas.Indicadores.Models.ProyectoTecnicoPorProgramaAreaViewModel>
+
+    <table id="logTable" class="table table-striped mt-5" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>
+                    Marco Lógico (Indicadores R,P y  A)
+                </th>
+                <th>
+                    PA
+                </th>
+                <th>
+                    Responsable
+                </th>
+                <th>
+                    Poblacion
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @if (item.Nuevo)
+                        {
+                        @Html.CheckBoxFor(modelItem => item.Asignado , new { @class = "myclass" , data_lfprid=item.LogFrameIndicadorPR.Id, data_idpt=item.LogFrameIndicadorPR.LogFrame.IdProyectoTecnico??0})
+                    }else{
+                        @if (item.Asignado)
+                        {
+                            <p>X</p>
+                        }
+                    }
+                </td>
+                    <td>
+                        Nombre Responsable
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LogFrameIndicadorPR.IndicadorPR.Poblacion)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+@if (ViewBag.BotonHabilitado == true)
+{
+    <div class="form-group justify-content-between group-button-modal">
+        <button type="submit" class="btn btn-success" onclick="createRecords()">Guardar</button>
+    </div>
+}
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#logTable").DataTable();
+    });
+
+    function createRecords(){
+        var confirmacion = confirm("¿Desea registrar la información?");
+
+        if(!confirmacion) return;
+
+        var items = $('.myclass[data-lfprid]');
+        var proyectoTecnicoPorProgramaAreaViewModel = items.map(function(k,v){
+        return {
+            Id : null,
+            IdLogFrameIndicadorPR:$(this).data('lfprid'),
+            Asignado : $(this).is(':checked'),
+            Nuevo : false
+            }
+        }).get();
+
+        $.post('@Url.Action("OnPostCreate", "ProyectoTecnicoPorProgramaArea")', {'proyectoTecnicoPorProgramaAreaViewModel' : proyectoTecnicoPorProgramaAreaViewModel},
+            function (result) {
+               GetLF2();
+         });
+     }
+
+      function GetLF2() {
+        var idProyectoTecnico =$('.myclass[data-lfprid]').data('idpt');
+
+        $.ajax({
+            url: '@Url.Action("SearchLogFrameIndicadoresPR", "ProyectoTecnicoPorProgramaArea")',
+            dataType: "html",
+            data: {'idProyecto': idProyectoTecnico},
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $('#listaIndicadores').html(response);
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        });
+    }
+</script>

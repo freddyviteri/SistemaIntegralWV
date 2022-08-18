@@ -16,7 +16,9 @@ namespace WordVision.ec.Web.Areas.Maestro.Validators
             .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
             .NotNull().WithMessage("{PropertyName} no puede estar vacío.");
 
-
+            RuleFor(p => p.IdEtapaModeloProyecto)
+            .NotEmpty().WithMessage("{PropertyName} es obligatorio.")
+            .NotNull();
         }
 
     }

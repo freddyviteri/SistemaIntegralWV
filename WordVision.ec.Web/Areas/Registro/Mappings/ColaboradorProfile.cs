@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using WordVision.ec.Application.Features.Registro.Colaboradores;
+
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Create;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Commands.Update;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllCached;
-using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetAllPaged;
 using WordVision.ec.Application.Features.Registro.Colaboradores.Queries.GetById;
 using WordVision.ec.Web.Areas.Registro.Models;
 
@@ -13,7 +12,6 @@ namespace WordVision.ec.Web.Areas.Registro.Mappings
     {
         public ColaboradorProfile()
         {
-            CreateMap<GetAllColaboradoresResponse, ColaboradorViewModel>().ReverseMap();
             CreateMap<GetAllColaboradoresCachedResponse, ColaboradorViewModel>()
                    .ForMember(d => d.Nombres, n => n.MapFrom(x => string.Format("{0} {1} {2} {3}", x.Apellidos, x.ApellidoMaterno, x.PrimerNombre, x.SegundoNombre)))
                    .ReverseMap();
@@ -21,8 +19,6 @@ namespace WordVision.ec.Web.Areas.Registro.Mappings
                    .ReverseMap();
             CreateMap<CreateColaboradorCommand, ColaboradorViewModel>().ReverseMap();
             CreateMap<UpdateColaboradorCommand, ColaboradorViewModel>().ReverseMap();
-            CreateMap<ColaboradorViewModel, ColaboradorResponse>().ReverseMap();
-
         }
     }
 }

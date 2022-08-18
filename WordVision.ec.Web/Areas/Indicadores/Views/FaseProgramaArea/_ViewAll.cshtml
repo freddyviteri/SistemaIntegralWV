@@ -70,13 +70,13 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProyectoTecnico.ProgramaArea.Descripcion)
+                @Html.DisplayFor(modelItem => item.ProgramaArea.Descripcion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProyectoTecnico.NombreProyecto)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProyectoTecnico.ProgramaTecnico.TipoProyecto.Nombre)
+                @Html.DisplayFor(modelItem => item.ProyectoTecnico.TipoProyecto.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProyectoTecnico.Financiamiento.Nombre)
@@ -126,7 +126,7 @@
             </td>
             <td>
                 <div class="btn-group">
-                    <a onclick="jQueryModalGet('/Indicadores/FaseProgramaArea/OnGetCreateOrEdit?id=@item.Id','Editar Fase Programa Área')" class="btn btn-warning btn-xp mr-1"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                    <a onclick="jQueryModalGet('/Indicadores/FaseProgramaArea/OnGetCreateOrEdit?id=@item.Id','Editar Fase Programa Área')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
                 </div>
             </td>
         </tr>
@@ -136,12 +136,6 @@
 
 <script>
     $(document).ready(function () {
-        $("#faseProgramaAreaTable").DataTable({
-            "language": {
-                "url": "/lib/datatables/language/Spanish.json"
-            },            
-            responsive: true,          
-            "info": false
-        });
+        $("#faseProgramaAreaTable").DataTable();
     });
 </script>

@@ -48,11 +48,11 @@ html, body {
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
-}
 
+}
 img {
-    /*  opacity: 0.5;*/
-    align-items: center;
+  /*  opacity: 0.5;*/
+    align-items:center;
 }
 
 .main {
@@ -69,7 +69,7 @@ img {
     /* border-bottom: 1px solid #ff6b00;*/
     color: white;
     font-size: 20px;
-    /* padding: 0.4em;*/
+   /* padding: 0.4em;*/
     padding: 8px 10px 8px 10px !important;
     height: 45px;
     /*  border-radius: 3px 3px 3px 3px;
@@ -78,6 +78,7 @@ img {
 
 .card-header {
     background-color: #F9F7F9;
+ 
     /* border-bottom: 1px solid #ff6b00;*/
 }
 
@@ -110,7 +111,6 @@ img {
     font-weight: normal !important;
     padding: 0px 0px 2px 1px !important;
 }
-
 .texto-pregunta-bold {
     font-size: inherit !important;
     padding: 0px 0px 0px 1px !important;
@@ -131,7 +131,7 @@ img {
 }
 
 .card-body-card {
-    padding: 0.05rem !important;
+     padding: 0.05rem !important;
 }
 
 /*label {
@@ -158,7 +158,7 @@ form input, form textarea {
     display: inline !important;
 }
 
-input[type="checkbox"] {
+input[type="checkbox"]{
     /*-ms-transform: scale(1.5);*/ /* IE 9 */
     /*-webkit-transform: scale(1.5);*/ /* Chrome, Safari, Opera */
     /*transform: scale(1.5);
@@ -176,6 +176,7 @@ input[type="checkbox"] {
     background-clip: content-box;
     border: 2px solid #FF8833;
     background-color: #e7e6e7;
+   
 }
 
     input[type="checkbox"]:checked {
@@ -210,10 +211,9 @@ input[type="radio"] {
 /* optional styles, I'm using this for centering radiobuttons */
 .flex {
     display: flex;
-    /* align-items: center;*/
+   /* align-items: center;*/
     padding: 30px 20px;
 }
-
 .flexReport {
     display: flex;
     /* align-items: center;*/
@@ -232,7 +232,7 @@ input[type="radio"] {
     padding: 2px 30px 2px 2px;
     border: none;
     color: black;
-    background: transparent;
+   background: transparent ;
 }
 
 #navigation /*> ul > li >*/ a.seleccionado {
@@ -298,7 +298,6 @@ input[type="radio"] {
     text-align: center;
     font-size: 25px;
 }
-
     .btn-redondo:hover {
         color: white;
         border: 2px solid #fff;
@@ -306,11 +305,10 @@ input[type="radio"] {
     }
 
 .btn-active {
-    color: white;
-    border: 2px solid #fff;
-    background-color: #2ED4E0;
-}
-
+        color: white;
+        border: 2px solid #fff;
+        background-color: #2ED4E0;
+    }
 .btn-disabled {
     border: 2px solid #e0e0e0;
     background-color: #fff;
@@ -367,11 +365,9 @@ input[type="radio"] {
 .stepactive6 button {
     margin-left: 29% !important;
 }
-
 .stepactive7 button {
     float: right !important;
 }
-
 .next-step:hover, .next-step, .prev-step:hover, .prev-step {
     position: relative;
     background-color: #2ED4E0;
@@ -503,7 +499,7 @@ span.round-tab:hover {
     position: relative;
 }
 
-    /*.btn-redondo[data-title] {
+/*.btn-redondo[data-title] {
     font-size: 30px;*/ /*optional styling*/
 
     /*position: relative;*/
@@ -585,18 +581,18 @@ span.round-tab:hover {
     border-collapse: collapse;
 }
 
-    .hoverTable td {
-        padding: 7px;
-        /* border: #e0e0e0 1px solid;*/
+.hoverTable td {
+    padding: 7px;
+   /* border: #e0e0e0 1px solid;*/
+}
+/* Define the default color for all the table rows */
+.hoverTable tr {
+  /*  background: #b8d1f3;*/
+}
+    /* Define the hover highlight color for the table row */
+    .hoverTable tr:hover {
+        background-color: blue;
     }
-    /* Define the default color for all the table rows */
-    .hoverTable tr {
-        /*  background: #b8d1f3;*/
-    }
-        /* Define the hover highlight color for the table row */
-        .hoverTable tr:hover {
-            background-color: blue;
-        }
 
 
 .modal-header {
@@ -618,7 +614,7 @@ thead {
     vertical-align: middle;
     border-color: red !important;
     background-color: #ffa666 !important;
-    color: white !important;
+    color:white !important;
 }
 
 /*td, th {
@@ -629,7 +625,7 @@ thead {
 
 body:not(.nohover) tbody tr:hover {
     background-color: #ffe1cc;
-    cursor: pointer;
+  cursor: pointer;
 }
 
 /*td:hover::after,
@@ -742,7 +738,7 @@ nav > .nav.nav-tabs {
 nav > div a.nav-item.nav-link,
 nav > div a.nav-item.nav-link.active {
     border: none;
-    /* padding: 18px 25px;*/
+   /* padding: 18px 25px;*/
     color: #fff;
     background: #006661;
     border-radius: 0;
@@ -784,11 +780,14 @@ nav > div a.nav-item.nav-link:focus {
 
 .acciones-td {
     width: 10%;
-    text-align: right;
+ 
+    text-align:right;
 }
 
-.header-button {
+.header-button{
+   
     padding: 20px 20px 0px !important;
+  
 }
 
 .titulopopup {
@@ -831,7 +830,6 @@ nav > div a.nav-item.nav-link:focus {
     cursor: pointer;
     border-radius: 0px !important;
 }
-
 .datepicker table tr td, .datepicker table tr th {
     text-align: center;
     width: 30px;
@@ -841,7 +839,7 @@ nav > div a.nav-item.nav-link:focus {
 }
 
 .color-estrella {
-    color: gold;
+    color:gold;
 }
 
 
@@ -942,6 +940,7 @@ div.upload input[type="file"] {
 
 .form-control-texto {
     padding: 5px 5px 5px 5px !important;
+    
 }
 
 .inputdisabled {
@@ -951,17 +950,16 @@ div.upload input[type="file"] {
     cursor: not-allowed;
     pointer-events: none;
 }
-
 .containerobjetivo {
-    padding: 0px 20px 20px 20px !important;
+    padding: 0px 20px 20px 20px !important ;
 }
 
 .semaforoverde {
-    background-color: #46bb95 !important;
+    background-color: #46bb95!important;
 }
 
 .card-button-padding {
-    padding: 20px !important;
+    padding: 20px!important;
 }
 
 .group-button-modal {
@@ -989,7 +987,6 @@ div.upload input[type="file"] {
     border-color: #1cc88a !important;
     border-radius: 0.25rem !important;
 }
-
 .buttons-pdf {
     color: #fff !important;
     background-color: #1cc88a !important;
@@ -997,42 +994,7 @@ div.upload input[type="file"] {
     border-radius: 0.25rem !important;
 }
 
-.file-caption-name {
+.file-caption-name{
     background-color: transparent;
     height: 38px !important;
 }
-
-
-/*
-    cjcm 202208033
-Full screen Modal 
-*/
-
-
-@media (min-width: 1200px) {
-    .fullscreen-modal .modal-dialog {
-        max-width: 100% !important;
-        width: 100%;
-        margin: 0rem !important;
-        margin-right: auto !important;
-        margin-left: auto !important;
-    }
-}
-
-@media (min-width: 1200px) {
-    .fullscreen-modal .modal-content {
-        margin: auto;
-        display: block;
-        width: 100%;
-        max-width: 100% !important;
-    }
-}
-
-
-
-
-/*
-Fin Full screen Modal 
-*/
-
-

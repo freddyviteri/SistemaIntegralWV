@@ -18,22 +18,12 @@ namespace WordVision.ec.Web.Common.Constants
         public static int IdCatalogoGrupoEtario = 46;
 
         public static string FieldProgramaArea = "IdProgramaArea";
-        public static string FieldProgramaTecnico = "IdProgramaTecnico";
-        public static string FieldColaborador = "IdColaborador";
-        public static string FieldResponsable = "IdResponsable";
-        public static string FieldSupervisor = "IdSupervisor";
-
         public static string FieldProyectoTecnico = "IdProyectoTecnico";
         public static string FieldEtapaModeloProyecto = "IdEtapaModeloProyecto";
         public static string FieldActorParticipante = "IdActorParticipante";
-        public static string FieldIndicadorML = "IdIndicadorML";
-        public static string FieldMarcoLogico = "IdMarcoLogico";
-
+        public static string FieldIndicadorPR = "IdIndicadorPR";
         public static string FieldOtroIndicador = "IdOtroIndicador";
-        public static string FieldOtroIndicadorPadre = "IdPadre";
-        public static string FieldOtroIndicadorHijo = "IdHijo";
         public static string FieldLogFrame = "IdLogFrame";
-        public static string FieldModeloProyecto = "IdModeloProyecto";
 
         public static string FieldAccionOperativa = "IdAccionOperativa";
         public static int IdCatalogoAccionOperativa = 47;
@@ -49,8 +39,6 @@ namespace WordVision.ec.Web.Common.Constants
 
         public static string FieldNivel = "IdNivel";
         public static int IdCatalogoNivel = 51;
-        /*cjcm202207270955*/
-        public static int IdCatalogoNivelGoul = 4333;
         public static int IdCatalogoNivelOutcome = 4334;
         public static int IdCatalogoNivelOutput = 4335;
         public static int IdCatalogoNivelActivity = 4336;
@@ -89,15 +77,8 @@ namespace WordVision.ec.Web.Common.Constants
         public static int IdCatalogoTipoActividad = 62;
 
         public static int EstadoActivo = 1;
-        public static string EstadoActivoString = "Activo";
-
         public static int EstadoInactivo = 0;
         public static int IdDetalleCatalogoEstadoActivo = 1;
         public static int IdDetalleCatalogoEstadoInactivo = 3;
-
-        public static string FieldIdModeloProyecto = "IdModeloProyecto";
-        public static string FieldIdEtapa = "IdEtapa";
-        public static string FieldIdAccionOperativa = "IdAccionOperativa";
-
     }
 }

@@ -12,7 +12,6 @@ using WordVision.ec.Application.Features.Indicadores.FaseProgramaArea.Queries.Ge
 using WordVision.ec.Application.Features.Indicadores.FaseProgramaArea.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.Catalogos.Queries.GetById;
 using WordVision.ec.Application.Features.Maestro.ProgramaArea.Queries.GetAll;
-using WordVision.ec.Application.Features.Maestro.ProyectoTecnico;
 using WordVision.ec.Application.Features.Maestro.ProyectoTecnico.Queries.GetAll;
 using WordVision.ec.Web.Abstractions;
 using WordVision.ec.Web.Areas.Indicadores.Models;
@@ -43,15 +42,15 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
         {
             List<FaseProgramaAreaViewModel> viewModels = new List<FaseProgramaAreaViewModel>();
             var response = await _mediator.Send(new GetAllFaseProgramaAreaQuery { Include = true });
-
             List<FaseProgramaAreaResponse> faprresponse = new List<FaseProgramaAreaResponse>();
             if (response.Succeeded)
             {
                 faprresponse = response.Data;
+                // viewModels = _mapper.Map<List<FaseProgramaAreaViewModel>>(faprresponse);
             }
 
             var OLista = new ObservableCollection<FaseProgramaAreaViewModel>(
-                faprresponse.Select(m => _mapper.Map<FaseProgramaAreaViewModel>(m)).ToList());
+            faprresponse.Select(m => _mapper.Map<FaseProgramaAreaViewModel>(m)).ToList());
 
             viewModels = OLista.ToList();
             return PartialView("_ViewAll", viewModels);
@@ -81,22 +80,6 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
                     {
                         entidadViewModel = _mapper.Map<FaseProgramaAreaViewModel>(response.Data);
                         await SetDropDownList(entidadViewModel);
-                        entidadViewModel.IdProgramaArea = entidadViewModel.ProyectoTecnico.ProgramaArea.Id;
-
-
-                        var responseprytec = await _mediator.Send(new GetAllProyectoTecnicoQuery() { Include = true });
-                        var listhelp = ((List<ProyectoTecnicoResponse>)(responseprytec.Data)).Where(x => x.IdProgramaArea == entidadViewModel.IdProgramaArea);
-
-                        List<ProyectoTecnicoViewModel> proyectos = _mapper.Map<List<ProyectoTecnicoViewModel>>(listhelp); ;
-                        entidadViewModel.ProyectoTecnicoList = _commonMethods.SetGenericCatalog(proyectos, CatalogoConstant.FieldProyectoTecnico, true);
-                        //entidadViewModel.ProyectoTecnicoList = listhelp
-                        //    .Select(x => new
-                        //    {
-                        //        id = x.Id,
-                        //        nombreproyecto = x.NombreProyecto,
-                        //        idpa = x.ProgramaArea.Id
-                        //    }).ToList();
-
                         return new JsonResult(new { isValid = true, html = await _viewRenderer.RenderViewToStringAsync("_CreateOrEdit", entidadViewModel) });
                     }
                     return new JsonResult(new
@@ -112,22 +95,14 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> OnPostCreateOrEdit(FaseProgramaAreaViewModel viewmodel)
+        public async Task<JsonResult> OnPostCreateOrEdit(FaseProgramaAreaViewModel FaseProgramaAreaViewModel)
         {
             _commonMethods.SetProperties(_notify, _logger);
             if (ModelState.IsValid)
             {
-                if (viewmodel.Id == 0)
+                if (FaseProgramaAreaViewModel.Id == 0)
                 {
-                    var resvalidate = await _mediator.Send(new GetAllFaseProgramaAreaQuery { Include = false, IdProyectoTecnico = viewmodel.IdProyectoTecnico, IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo });
-                    if (resvalidate.Succeeded)
-                    {
-                        _notify.Information($"FaseProgramaArea con ID {resvalidate.Data.FirstOrDefault().ToString()} ya fue Creado.");
-                        return _commonMethods.SaveError("Fase de programa de area existente");
-                    }
-
-
-                    var createEntidadCommand = _mapper.Map<CreateFaseProgramaAreaCommand>(viewmodel);
+                    var createEntidadCommand = _mapper.Map<CreateFaseProgramaAreaCommand>(FaseProgramaAreaViewModel);
                     createEntidadCommand.IdEstado = CatalogoConstant.IdDetalleCatalogoEstadoActivo;
                     var result = await _mediator.Send(createEntidadCommand);
                     if (result.Succeeded)
@@ -136,7 +111,7 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
                 }
                 else
                 {
-                    var updateEntidadCommand = _mapper.Map<UpdateFaseProgramaAreaCommand>(viewmodel);
+                    var updateEntidadCommand = _mapper.Map<UpdateFaseProgramaAreaCommand>(FaseProgramaAreaViewModel);
                     var result = await _mediator.Send(updateEntidadCommand);
                     if (result.Succeeded) _notify.Information($"FaseProgramaArea con ID {result.Data} Actualizado.");
                     else return _commonMethods.SaveError(result.Message);
@@ -168,13 +143,12 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
             var fase = await _mediator.Send(new GetListByIdDetalleQuery() { Id = CatalogoConstant.IdCatalogoFaseProyecto });
             var programaAreas = await _mediator.Send(new GetAllProgramaAreaQuery());
 
+            var proyectoTecnicos = await _mediator.Send(new GetAllProyectoTecnicoQuery());
 
             List<GetListByIdDetalleResponse> estados = estado.Data;
             List<GetListByIdDetalleResponse> fases = fase.Data;
-
             List<ProgramaAreaViewModel> programas = _mapper.Map<List<ProgramaAreaViewModel>>(programaAreas.Data);
-
-            List<ProyectoTecnicoViewModel> proyectos = new List<ProyectoTecnicoViewModel>(); //_mapper.Map<List<ProyectoTecnicoViewModel>>(proyectoTecnicos.Data);
+            List<ProyectoTecnicoViewModel> proyectos = _mapper.Map<List<ProyectoTecnicoViewModel>>(proyectoTecnicos.Data);
 
             if (isNew)
             {
@@ -186,24 +160,8 @@ namespace WordVision.ec.Web.Areas.Indicadores.Controllers
 
             entidadViewModel.EstadoList = _commonMethods.SetGenericCatalog(estados, CatalogoConstant.FieldEstado);
             entidadViewModel.FaseProyectoList = _commonMethods.SetGenericCatalog(fases, CatalogoConstant.FieldFaseProyecto);
-            entidadViewModel.ProgramaAreaList = _commonMethods.SetGenericCatalog(programas, CatalogoConstant.FieldProgramaArea, true);
-            entidadViewModel.ProyectoTecnicoList = _commonMethods.SetGenericCatalog(proyectos, CatalogoConstant.FieldProyectoTecnico, true);
+            entidadViewModel.ProgramaAreaList = _commonMethods.SetGenericCatalog(programas, CatalogoConstant.FieldProgramaArea);
+            entidadViewModel.ProyectoTecnicoList = _commonMethods.SetGenericCatalog(proyectos, CatalogoConstant.FieldProyectoTecnico);
         }
-
-        public async Task<JsonResult> Cargarcombos()
-        {
-            var response = await _mediator.Send(new GetAllProyectoTecnicoQuery() { Include = true });
-
-            var listadistinct = ((List<ProyectoTecnicoResponse>)(response.Data))
-                .Select(x => new
-                {
-                    id = x.Id,
-                    nombreproyecto = x.NombreProyecto,
-                    idpa = x.ProgramaArea.Id
-                }).ToList();
-
-            return Json(listadistinct);
-        }
-
     }
 }

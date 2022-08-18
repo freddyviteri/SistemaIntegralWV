@@ -1,20 +1,25 @@
 ﻿using WordVision.ec.Application.Features.Extensions;
 using WordVision.ec.Application.Features.Maestro.Catalogos;
-using WordVision.ec.Application.Features.Maestro.ProgramaArea;
-using WordVision.ec.Application.Features.Maestro.ProgramaTecnico;
 
 namespace WordVision.ec.Application.Features.Maestro.ProyectoTecnico
 {
-    public class ProyectoTecnicoResponse : Domain.Entities.Maestro.ProyectoTecnico, IGenericResponse
+    public class ProyectoTecnicoResponse : GenericResponse
     {
-        public new ProgramaAreaResponse ProgramaArea { get; set; }
+        public int Id { get; set; }
+        public string Codigo { get; set; }
 
-        public new ProgramaTecnicoResponse ProgramaTecnico { get; set; }
-        public new DetalleCatalogoResponse Ubicacion { get; set; }
+        public string NombreProyecto { get; set; }
 
-        public new DetalleCatalogoResponse Financiamiento { get; set; }
+        public int IdUbicacion { get; set; }
+        public DetalleCatalogoResponse Ubicacion { get; set; }
 
-        public new DetalleCatalogoResponse Estado { get; set; }
-        public bool Include { get; set; }
+        public int IdFinanciamiento { get; set; }
+        public DetalleCatalogoResponse Financiamiento { get; set; }
+
+        public int IdTipoProyecto { get; set; }
+        public DetalleCatalogoResponse TipoProyecto { get; set; }
+
+        public int IdEstado { get; set; }
+        public DetalleCatalogoResponse Estado { get; set; }
     }
 }

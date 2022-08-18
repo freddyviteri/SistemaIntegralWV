@@ -7,10 +7,16 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                Marco Lógico
+                @Html.DisplayNameFor(model => model.Riesgos)
             </th>
             <th>
-                Otro Indicador
+                Plan Nacional Desarrollo
+            </th>
+            <th>
+                IndicadorPR
+            </th>
+            <th>
+                Otros Indicadores
             </th>
             <th>
                 Estado
@@ -19,29 +25,43 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MarcoLogico.IndicadorML.Descripcion)
-                </td>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Riesgos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlanNacionalDesarrollo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IndicadorPR.Descripcion)
+            </td>
+            <td>
+                    @{
+                        foreach(var ind in item.DetalleVinculacionIndicadores)
+                        {
+                            <label class="control-label">
+                                @ind.OtroIndicador.Codigo - @ind.OtroIndicador.Descripcion 
+                            </label>
+                            <hr />
+                        }
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.OtroIndicador.Descripcion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado.Nombre)
-                </td>
-                <td>
-                    <div class="btn-group">
-                        <a onclick="jQueryModalGet('/Indicadores/VinculacionIndicador/OnGetCreateOrEdit?id=@item.Id','Editar Vinculación Indicadores')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a>
-                    </div>
-                </td>
-            </tr>
-        }
+                }
+                @*@Html.DisplayFor(modelItem => item.OtroIndicador.Descripcion)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a onclick="jQueryModalGet('/Indicadores/VinculacionIndicador/OnGetCreateOrEdit?id=@item.Id','Editar Vinculación Indicadores')" class="dropdown-item"><i class="fas fa-pencil-alt"></i>  Edit</a> 
+                </div>
+            </td>
+        </tr>
+}
     </tbody>
 </table>
 

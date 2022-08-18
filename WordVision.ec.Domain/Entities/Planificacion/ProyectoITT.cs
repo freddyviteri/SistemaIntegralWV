@@ -11,7 +11,12 @@ namespace WordVision.ec.Domain.Entities.Planificacion
         public int IdFaseProgramaArea { get; set; }
         [ForeignKey("IdFaseProgramaArea")]
         public FaseProgramaArea FaseProgramaArea { get; set; }
+
+        public int IdLogFrameOutCome { get; set; }
+        [ForeignKey("IdLogFrameOutCome")]
+        public LogFrame LogFrameOutCome { get; set; }
+
+
         public virtual ICollection<DetalleProyectoITT> DetalleProyectoITTs { get; set; }
-        public virtual ICollection<DetalleProyectoITTGoul> DetalleProyectoITTGouls { get; set; }
     }
 }

@@ -42,10 +42,13 @@ namespace WordVision.ec.Application.Features.Maestro.ModeloProyecto.Commands.Upd
             {
                 // Se valida que la actualización no seleccione una etapa o acción operativa que ya existe
                 update.Include = true;
+                var listaValCE = await ValidateInsert(_mapper.Map<Domain.Entities.Maestro.ModeloProyecto>(update));
+                if (listaValCE.Count > 0)
+                    return Result<int>.Fail($"ModeloProyecto con Código: {update.Codigo} y Etapa: {listaValCE[0].EtapaModeloProyecto.Etapa} ya existe.");
 
                 modeloProyecto.Descripcion = update.Descripcion;
                 modeloProyecto.IdEstado = update.IdEstado;
-                modeloProyecto.Codigo = update.Codigo;
+                modeloProyecto.IdEtapaModeloProyecto = update.IdEtapaModeloProyecto;            
 
                 await _repository.UpdateAsync(modeloProyecto);
                 await _unitOfWork.Commit(cancellationToken);
@@ -54,6 +57,15 @@ namespace WordVision.ec.Application.Features.Maestro.ModeloProyecto.Commands.Upd
         }
 
 
+        private async Task<List<Domain.Entities.Maestro.ModeloProyecto>> ValidateInsert(Domain.Entities.Maestro.ModeloProyecto modeloProyecto)
+        {
+            modeloProyecto.Include = true;
+            var list = await _repository.GetListAsync(modeloProyecto);
+            if (list.Count == 0)
+                return new List<Domain.Entities.Maestro.ModeloProyecto>();
 
+            return list.FindAll(x => x.IdEtapaModeloProyecto == modeloProyecto.IdEtapaModeloProyecto && x.Id != modeloProyecto.Id);
+
+        }
     }
 }

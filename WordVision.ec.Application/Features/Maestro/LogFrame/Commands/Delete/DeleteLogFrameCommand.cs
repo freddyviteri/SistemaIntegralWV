@@ -16,10 +16,10 @@ namespace WordVision.ec.Application.Features.Maestro.LogFrame.Commands.Delete
         public class DeleteLogFrameCommandHandler : IRequestHandler<DeleteLogFrameCommand, Result<int>>
         {
             private readonly ILogFrameRepository _repository;
-            private readonly IMarcoLogicoRepository _repositoryLFI;
+            private readonly ILogFrameIndicadorPRRepository _repositoryLFI;
             private readonly IUnitOfWork _unitOfWork;
 
-            public DeleteLogFrameCommandHandler(ILogFrameRepository repository, IUnitOfWork unitOfWork, IMarcoLogicoRepository repositoryLFI)
+            public DeleteLogFrameCommandHandler(ILogFrameRepository repository, IUnitOfWork unitOfWork, ILogFrameIndicadorPRRepository repositoryLFI)
             {
                 _repository = repository;
                 _unitOfWork = unitOfWork;
@@ -47,7 +47,7 @@ namespace WordVision.ec.Application.Features.Maestro.LogFrame.Commands.Delete
             private async Task<bool> ValidateDelete(int idLogFrame)
             {
                 bool exist = false;
-                var list = await _repositoryLFI.GetListAsync(new Domain.Entities.Maestro.MarcoLogico());
+                var list = await _repositoryLFI.GetListAsync(new Domain.Entities.Maestro.LogFrameIndicadorPR());
                 var listFilter = list.FindAll(x => x.IdLogFrame == idLogFrame);
                 if (listFilter.Count > 0)
                     exist = true;

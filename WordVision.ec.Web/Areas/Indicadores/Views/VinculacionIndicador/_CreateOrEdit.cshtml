@@ -4,115 +4,88 @@
     <div class="col-md-12">
         <form id="create-form" method="post" asp-controller="VinculacionIndicador" asp-action="OnPostCreateOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryModalPost(this);" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input hidden="hidden" asp-for="Id" />
+            <input hidden="hidden" asp-for="Id"/>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group grupoSeleccion">
-                        <label asp-for="IdMarcoLogico" class="control-label">Marco Lógico</label>
-                        @Html.DropDownList("IdMarcoLogico", (IEnumerable<SelectListItem>)Model.MarcoLogicoList, htmlAttributes: new { @class = "form-control seleccionBusqueda", @style = "width:100%;" })
-                        <span asp-validation-for="IdMarcoLogico" class="text-danger"></span>
+                        <label asp-for="IdIndicadorPR" class="control-label">Indicador PR</label>
+                        @Html.DropDownList("IdIndicadorPR", (IEnumerable<SelectListItem>)Model.IndicadorPRList, htmlAttributes: new { @class = "form-control seleccionBusqueda", @style = "width:100%;" })
+                        <span asp-validation-for="IdIndicadorPR" class="text-danger"></span>
                     </div>
-                    @if (Model.Id == 0)
-                    {
-                        <div class="form-group grupoSeleccion">
-                            <label asp-for="IdTipoIndicador" class="control-label">Tipo Indicador</label>
-                            @Html.DropDownList("IdTipoIndicador", (IEnumerable<SelectListItem>)Model.TipoIndicadorList,"Todos" ,htmlAttributes: new { @class = "form-control ", @style = "width:100%;",@onchange="filterTipoIndicador()" })
-                            <span asp-validation-for="IdTipoIndicador" class="text-danger"></span>
-                        </div>
-                    }
-                    @if (Model.Id == 0)
-                    {
-                    <div class="form-group grupoSeleccion d-none">
-                        <label asp-for="IdOtrosIndicadores" class="control-label">Otro Indicador</label>
-                        @Html.DropDownList("IdOtrosIndicadores", (IEnumerable<SelectListItem>)Model.OtroIndicadorList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;", @multiple="multiple", @onchange="changeSelect()" })
-                        <span asp-validation-for="IdOtrosIndicadores" class="text-danger"></span>
-                    </div>                        
-                    }else{
-                                            <div class="form-group grupoSeleccion">
-                        <label asp-for="IdOtroIndicador" class="control-label">Otro Indicador</label>
-                        @Html.DropDownList("IdOtroIndicador", (IEnumerable<SelectListItem>)Model.OtroIndicadorList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;", @onchange="changeSelect()" })
-                        <span asp-validation-for="IdOtroIndicador" class="text-danger"></span>
-                    </div> 
-                    }
-
-
+                    <div class="form-group">
+                        <label asp-for="Riesgos" class="control-label"></label>
+                        <input asp-for="Riesgos" class="form-control" />
+                        <span asp-validation-for="Riesgos" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PlanNacionalDesarrollo" class="control-label">Plan Nacional Desarrollo</label>
+                        <input asp-for="PlanNacionalDesarrollo" class="form-control" />
+                        <span asp-validation-for="PlanNacionalDesarrollo" class="text-danger"></span>
+                    </div>
+                 @*   <div class="form-group">
+                        <label asp-for="CWB" class="control-label"></label>
+                        <input asp-for="CWB" class="form-control" />
+                        <span asp-validation-for="CWB" class="text-danger"></span>
+                    </div>*@
+                    
                     @if (Model.Id != 0)
                     {
                         <div class="form-group">
-                            <label asp-for="IdEstado" class="control-label">Estado</label>
+                                <label asp-for="IdEstado" class="control-label">Estado</label>
                             @Html.DropDownList("IdEstado", (IEnumerable<SelectListItem>)Model.EstadoList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
                             <span asp-validation-for="IdEstado" class="text-danger"></span>
                         </div>
                     }
                 </div>
-                @if (Model.Id == 0)
-                {
-                    <div class="col-md-6">
-                        <div class="overflow-auto" style="max-height:500px">
-                            <ul class="list-group" id="listaOtrosIndicadores" role="group" aria-labelledby="OtrosIndicadoresList">
-                                @foreach (var item in Model.OtrosIndicadores)
-                                {
-                                    <li class="list-group-item" data-tipoindicador="@item.TipoIndicador.Id">
-                                        <input type="checkbox" data-idotroindicador="@item.Id" onchange="updateSelect()" />
-                                        <label>@item.TipoIndicador.Nombre - @item.Descripcion</label>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
+                <div class="col-md-6">
+                    <div class="overflow-auto" style="max-height:500px">
+                        <ul class="list-group" id="DistributionListSelectIDLG" role="group" aria-labelledby="SeletDistributionListLabel">
+                            @for (var i = 0; i < Model.DetalleVinculacionIndicadores.Count; i++)
+                            {
+                                <li class="list-group-item">
+                                    <input type="checkbox" asp-for="@Model.DetalleVinculacionIndicadores[i].Selected"  />
+                                    <label>@Model.DetalleVinculacionIndicadores[i].OtroIndicador.TipoIndicador.Nombre - @Model.DetalleVinculacionIndicadores[i].OtroIndicador.Descripcion</label>
+                                    <input type="hidden" asp-for="@Model.DetalleVinculacionIndicadores[i].IdVinculacionIndicador" />
+                                    <input type="hidden" asp-for="@Model.DetalleVinculacionIndicadores[i].IdOtroIndicador" /> 
+
+                                </li>
+                            }
+                        </ul>
                     </div>
-                }
+                    <div class="form-group">
+                       @* <ul>
+                            @for (var i = 0; i < Model.OtrosIndicadores.Count; i++)
+                            {
+                                <li>       
+                                    <input type="checkbox" asp-for="@Model.OtrosIndicadores[i].Selected"  />
+                                    <label asp-for="@Model.OtrosIndicadores[i].Selected">@Model.OtrosIndicadores[i].Descripcion</label>
+                                    <input type="hidden" asp-for="@Model.OtrosIndicadores[i].Id" />
+                                    <input type="hidden" asp-for="@Model.OtrosIndicadores[i].Descripcion" />                
+                                </li>
+                            }
+                        </ul>*@
+                        @*<label asp-for="IdOtroIndicador" class="control-label">Otro Indicador</label>
+                        @Html.DropDownList("IdOtroIndicador", (IEnumerable<SelectListItem>)Model.OtroIndicadorList, htmlAttributes: new { @class = "form-control ", @style = "width:100%;" })
+                        <span asp-validation-for="IdOtroIndicador" class="text-danger"></span>*@
+                    </div>
+                </div>
             </div>
+            
+            
+            
             <br />
             <div class="form-group justify-content-between group-button-modal">
-                <button type="submit" class="btn btn-success d-none" id="btnGuardarVI">Guardar</button>
-                <button type="button" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="submit" class="btn btn-default close-button" data-dismiss="modal">Cancelar</button>
             </div>
         </form>
     </div>
 </div>
 
-@if (Model.Id != 0)
-{
-    <script>
-        $('#IdOtroIndicador').val(@Model.IdOtroIndicador);
-            $('#btnGuardarVI').removeClass('d-none');
-
-    </script>
-
-}
-
 <script type="text/javascript" language=javascript>
-
     $.validator.unobtrusive.parse(document);
 
     $('#create-form').disableAutoFill();
 
     $('.seleccionBusqueda').select2();
-
-    function filterTipoIndicador(){
-        var idTipoIndicador= $('#IdTipoIndicador').val();
-            $('#listaOtrosIndicadores li').removeClass('d-none');
-
-        if(idTipoIndicador) $('#listaOtrosIndicadores li[data-tipoindicador!="'+idTipoIndicador+'"]').addClass('d-none');
-
-    }
-
-    function updateSelect(){
-        var valores = $('input:checkbox:checked').map(function() {
-            return $(this).data('idotroindicador');
-        }).get()
-        $('#IdOtrosIndicadores').val(valores);
-        $('#IdOtrosIndicadores').trigger('change');
-
-    }
-
-    function changeSelect(){
-        var valor = $('#IdOtrosIndicadores').val();
-
-        if(valor.length){
-            $('#btnGuardarVI').removeClass('d-none');
-        }else{
-            $('#btnGuardarVI').addClass('d-none');
-        }
-    }
 </script>

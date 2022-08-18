@@ -87,28 +87,23 @@ namespace WordVision.ec.Infrastructure.Data.Extensions
             services.AddTransient<ICatalogoCacheRepository, CatalogoCacheRepository>();
             services.AddScoped<IRCNinoPatrocinadoRepository, RCNinoPatrocinadoRepository>();
             services.AddScoped<IProgramaAreaRepository, ProgramaAreaRepository>();
-            services.AddScoped<IProgramaTecnicoRepository, ProgramaTecnicoRepository>();
             services.AddScoped<IProyectoTecnicoRepository, ProyectoTecnicoRepository>();
             services.AddScoped<IModeloProyectoRepository, ModeloProyectoRepository>();
             services.AddScoped<ILogFrameRepository, LogFrameRepository>();
-            services.AddScoped<IEtapaRepository, EtapaRepository>();
-            services.AddScoped<IAccionOperativaRepository, AccionOperativaRepository>();
-            services.AddScoped<IModeloProyectoRepository, ModeloProyectoRepository>();
-            services.AddScoped<IModeloProyectoEtapaAccionRepository, ModeloProyectoEtapaAccionRepository>();
+            services.AddScoped<IEtapaModeloProyectoRepository, EtapaModeloProyectoRepository>();
             //services.AddScoped<IProyectoTecnicoRepository, ProyectoTecnicoRepository>();
             services.AddScoped<IActorParticipanteRepository, ActorParticipanteRepository>();
-            services.AddScoped<IIndicadorMLRepository, IndicadorMLRepository>();
+            services.AddScoped<IIndicadorPRRepository, IndicadorPRRepository>();
             services.AddScoped<IOtroIndicadorRepository, OtroIndicadorRepository>();
             services.AddScoped<IPresupuestoProyectoRepository, PresupuestoProyectoRepository>();
             services.AddScoped<IVinculacionIndicadorRepository, VinculacionIndicadorRepository>();
-            services.AddScoped<IOtroIndicadorPadreHijoRepository, OtroIndicadorPadreHijoRepository>();
             services.AddScoped<IFaseProgramaAreaRepository, FaseProgramaAreaRepository>();
             services.AddScoped<IProyectoITTDIPRepository, ProyectoITTDIPRepository>();
             services.AddScoped<IProyectoITTRepository, ProyectoITTRepository>();
             services.AddScoped<IDipInsumoRepository, DipInsumoRepository>();
             services.AddScoped<IEstadoPorAnioFiscalRepository, EstadoPorAnioFiscalRepository>();
-            services.AddScoped<IMarcoLogicoAsignadoRepository, MarcoLogicoAsignadoaRepository>();
-            services.AddScoped<IMarcoLogicoRepository, MarcoLogicoRepository>();
+			services.AddScoped<IProyectoTecnicoPorProgramaAreaRepository, ProyectoTecnicoPorProgramaAreaRepository>();																										  
+            services.AddScoped<ILogFrameIndicadorPRRepository, LogFrameIndicadorPRRepository>();
 
 
             services.AddTransient<IObjetivoEstrategicoCacheRepository, ObjetivoEstrategicoCacheRepository>();

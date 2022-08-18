@@ -1,0 +1,71 @@
+﻿@model WordVision.ec.Web.Areas.Indicadores.Models.ProyectoTecnicoPorProgramaAreaViewModel
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="IdProgramaArea" class="control-label">Programa de Área</label>
+            @Html.DropDownList("IdProgramaArea", (IEnumerable<SelectListItem>)ViewBag.ProgramasAreasSelect,"Seleccione un programa de área", htmlAttributes: new { @class = "form-control ", @style = "width:100%;", @onchange="GetPT()" })
+            <span for="IdProgramaArea" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="form-group" id="partialPT">
+        </div>
+    </div>
+
+</div>
+
+
+<br />
+<div class="form-group justify-content-between group-button-modal mb-5">
+    <button type="submit" class="btn btn-success" onclick="GetLF()">Buscar</button>
+</div>
+
+<div id="listaIndicadores">
+</div>
+
+
+
+@section Scripts
+{
+<script src="~/js/site.js"></script>
+<script>
+    function GetPT() {
+        var idProgramaArea = document.getElementById("IdProgramaArea").value;
+
+        $.ajax({
+            url: '@Url.Action("SearchProyectoTecnico", "ProyectoTecnicoPorProgramaArea")',
+            dataType: "html",
+            data: {'idPrograma': idProgramaArea},
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $('#partialPT').html(response);
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        });
+    }
+
+    function GetLF() {
+        var idProyectoTecnico = document.getElementById("IdProyectoTecnico").value;
+
+        $.ajax({
+            url: '@Url.Action("SearchLogFrameIndicadoresPR", "ProyectoTecnicoPorProgramaArea")',
+            dataType: "html",
+            data: {'idProyecto': idProyectoTecnico},
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $('#listaIndicadores').html(response);
+            },
+            error: function (err) {
+                alert(err.responseText);
+            }
+        });
+    }
+</script>
+}
+

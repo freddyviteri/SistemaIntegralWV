@@ -11,9 +11,12 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Indicadores
     public class VinculacionIndicadorRepository : IVinculacionIndicadorRepository
     {
         private readonly IRepositoryAsync<VinculacionIndicador> _repository;
-        public VinculacionIndicadorRepository(IRepositoryAsync<VinculacionIndicador> repository)
+        private readonly IRepositoryAsync<DetalleVinculacionIndicador> _detalleRepository;
+        public VinculacionIndicadorRepository(IRepositoryAsync<VinculacionIndicador> repository,
+               IRepositoryAsync<DetalleVinculacionIndicador> detalleRepository)
         {
             _repository = repository;
+            _detalleRepository = detalleRepository;
         }
 
         public async Task<VinculacionIndicador> GetByIdAsync(int id, bool include = false)
@@ -21,11 +24,9 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Indicadores
             IQueryable<VinculacionIndicador> list = _repository.Entities.Where(p => p.Id == id);
             if (include)
             {
-                list = list.
-                    Include(o => o.OtroIndicador).
-                    Include(m => m.MarcoLogico).ThenInclude(i => i.IndicadorML).
-                    Include(m => m.MarcoLogico).ThenInclude(i => i.LogFrame).
-                    Include(e => e.Estado);
+                list = list.Include(d => d.DetalleVinculacionIndicadores).
+                    ThenInclude(t => t.OtroIndicador.TipoIndicador).
+                    Include(i => i.IndicadorPR);
             }
 
             return await list.FirstOrDefaultAsync();
@@ -35,26 +36,15 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Indicadores
         {
             IQueryable<VinculacionIndicador> list = _repository.Entities;
 
-            if (entity?.IdMarcoLogico != null)
-            {
-                if (entity?.IdMarcoLogico > 0)
-                {
-                    list.Where(x => x.IdMarcoLogico == entity.IdMarcoLogico);
-                }
-            }
-
             if (entity.Include)
             {
-                list = list.
-                    Include(o => o.OtroIndicador).ThenInclude(x => x.TipoIndicador).
-                    Include(m => m.MarcoLogico).ThenInclude(i => i.IndicadorML).
-                    Include(m => m.MarcoLogico).ThenInclude(i => i.LogFrame).
-                    Include(e => e.Estado);
+                list = list.Include(d => d.DetalleVinculacionIndicadores).
+                    ThenInclude(t => t.OtroIndicador.TipoIndicador).
+                    Include(i => i.IndicadorPR).Include(e=> e.Estado);
             }
 
             return await list.ToListAsync();
         }
-
 
         public async Task<int> InsertAsync(VinculacionIndicador entity)
         {
@@ -62,15 +52,15 @@ namespace WordVision.ec.Infrastructure.Data.Repositories.Indicadores
             return entity.Id;
         }
 
-        public async Task<List<VinculacionIndicador>> InsertRangeAsync(List<VinculacionIndicador> entities)
-        {
-            await _repository.AddRangeAsync(entities);
-            return entities;
-        }
-
         public async Task UpdateAsync(VinculacionIndicador entity)
         {
             await _repository.UpdateAsync(entity);
+        }
+
+        public async Task DeleteDetalleVinculacionIndicadorAsync(List<DetalleVinculacionIndicador> list)
+        {
+            foreach (var item in list)
+                await _detalleRepository.DeleteAsync(item);
         }
     }
 }

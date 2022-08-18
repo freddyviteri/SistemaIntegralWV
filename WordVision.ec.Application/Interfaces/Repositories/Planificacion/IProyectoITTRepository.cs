@@ -9,7 +9,7 @@ namespace WordVision.ec.Application.Interfaces.Repositories.Planificacion
 {
     public interface IProyectoITTRepository
     {
-        Task<ProyectoITT> GetByIdAsync(int id, bool include = true);
+        Task<ProyectoITT> GetByIdAsync(int id);
         Task<List<ProyectoITT>> GetListAsync(ProyectoITT entity);
         Task<int> InsertAsync(ProyectoITT entity);
         Task UpdateAsync(ProyectoITT entity);

@@ -40,9 +40,15 @@ namespace WordVision.ec.Application.Features.Indicadores.VinculacionIndicador.Co
             }
             else
             {
+                await _repository.DeleteDetalleVinculacionIndicadorAsync(entity.DetalleVinculacionIndicadores);
+                var detalle = update.DetalleVinculacionIndicadores.Where(l => l.Selected).ToList();
+                entity.DetalleVinculacionIndicadores = _mapper.Map<List<DetalleVinculacionIndicador>>(detalle);
+                entity.Riesgos = update.Riesgos;
+                entity.PlanNacionalDesarrollo = update.PlanNacionalDesarrollo;
+                entity.IdIndicadorPR = update.IdIndicadorPR;
+                //entity.IdOtroIndicador = update.IdOtroIndicador;
+
                 entity.IdEstado = update.IdEstado;
-                entity.IdMarcoLogico = update.IdMarcoLogico;
-                entity.IdOtroIndicador = update.IdOtroIndicador;
 
                 await _repository.UpdateAsync(entity);
                 await _unitOfWork.Commit(cancellationToken);
